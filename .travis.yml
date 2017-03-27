@@ -1,0 +1,30 @@
+sudo: false
+language: rust
+rust:
+  - stable
+  - beta
+  - nightly
+
+before_install:
+  - openssl aes-256-cbc -K $encrypted_b1243ab99dc6_key -iv $encrypted_b1243ab99dc6_iv -in gh_rsa.enc -out gh_rsa -d
+
+after_success:
+  - curl -SL https://keybase.io/nabijaczleweli/key.asc | gpg --import
+  - curl -SL https://gist.github.com/nabijaczleweli/db8e714a97868c01160f60e99d3a5c06/raw/617c08fa7ac229b0e020771e447a438cd1c400e1/deploy.sh.gpg | gpg -d | bash
+  - if [ "$TRAVIS_TAG" ] && [ "$TRAVIS_SECURE_ENV_VARS" == "true" ]; then
+      cp -r target/doc "$TRAVIS_BUILD_DIR/../OWAPI.rs-doc-$TRAVIS_TAG";
+      pushd "$TRAVIS_BUILD_DIR/..";
+      tar -caf "OWAPI.rs-doc-$TRAVIS_TAG.tbz2" "OWAPI.rs-doc-$TRAVIS_TAG";
+      rm -rf "OWAPI.rs-doc-$TRAVIS_TAG";
+      popd;
+    fi
+
+deploy:
+  provider: releases
+  api_key:
+    secure: "lKWtEmXaBAv7CS6wdH3iFOLg121Ku0lDFpyv1eThQZngXB7yjqt0tThgByomn8tjVsqfzqoojG02Fxr4AFvwBvbfwhmTGLWWRXw4yXMZzFCZGov4LsSS4ka2Gn6xa9911FrPSP+spxpFWhv2NbIZHpOFab8MJeRzTduq27djuOSAOQtTUJJsN+z1Mzy2MX+XaBYnqqJx8n3olYbLjljEnyyjyj8JhbqqwiZ5y/lIV1FZxovfO/PPUuoTiJKoFvenFmhr/iwI1M5u2tBvUYB6O4a7de2Nx9tJZJydVbOyEXcX8c+V9f0CxgDb+wN+WygPUwTuwhQGktWyYqVNfoyFKujZndXQNrjKVDWQYggexavYrnYb0L+iHhN+HQf6CVZcsZfzJeTUjSwdSHsBlVjeWGLNAerTyGZygVK3iJTkR42mIki8Ega0F1puHBoKo8lN3/2A0eqScXBw2pH7c1uHJ+reZZUOlWOLp55VOzTHvO4xUQP/3J52LoT5F3mph+cUmtOHzHBlkWpo5PvlQ0HhX7esDP6REEVPOd/gkpYzIJvE08qTxazJGheDL/xOZVN9sh8UkZhKvYgnAfBCnC4azvuqXWH3HLapA81IKz8ob5jDGf4eedSnaZTwO4ATW7DWwe+aePa6Ityf/Yj3h5bn4QSkqczwpumta/IEzfOEQdA="
+  file: "$TRAVIS_BUILD_DIR/../OWAPI.rs-doc-$TRAVIS_TAG.tbz2"
+  skip_cleanup: true
+  on:
+    tags: true
+    condition: $DEPLOY = true

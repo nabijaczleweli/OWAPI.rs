@@ -1,0 +1,13 @@
+[package]
+name = "owapi"
+description = "Overwatch JSON API bindings for Rust"
+documentation = "https://cdn.rawgit.com/nabijaczleweli/OWAPI.rs/doc/owapi/index.html"
+repository = "https://github.com/nabijaczleweli/OWAPI.rs"
+readme = "README.md"
+keywords = ["game", "overwatch", "api"]
+categories = ["api-bindings"]
+license = "MIT"
+# Remember to also update in appveyor.yml
+version = "0.1.0"
+authors = ["nabijaczleweli <nabijaczleweli@gmail.com>"]
+exclude = ["*.enc"]
