@@ -27,6 +27,16 @@
 		},
 		{
 			"follow_symlinks": true,
+			"name": "Tests",
+			"path": "tests"
+		},
+		{
+			"follow_symlinks": true,
+			"name": "Test data",
+			"path": "test_data"
+		},
+		{
+			"follow_symlinks": true,
 			"name": "Build scripts",
 			"path": ".",
 			"file_include_patterns": ["Cargo.*", "*.yml"],

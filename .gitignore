@@ -13,3 +13,7 @@
 !src/**
 !ext
 !ext/**
+!tests
+!tests/**
+!test_data
+!test_data/**

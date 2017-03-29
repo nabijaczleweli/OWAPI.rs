@@ -11,3 +11,9 @@ license = "MIT"
 version = "0.1.0"
 authors = ["nabijaczleweli <nabijaczleweli@gmail.com>"]
 exclude = ["*.enc"]
+
+
+[dependencies]
+serde_derive = "0.9"
+serde_json = "0.9"
+serde = "0.9"
