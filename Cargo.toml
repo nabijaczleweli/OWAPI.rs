@@ -16,4 +16,5 @@ exclude = ["*.enc"]
 [dependencies]
 serde_derive = "0.9"
 serde_json = "0.9"
+reqwest = "0.5"
 serde = "0.9"

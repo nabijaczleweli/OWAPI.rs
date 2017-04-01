@@ -7,6 +7,24 @@ pub mod blob;
 pub mod stats;
 pub mod achievements;
 
+use reqwest;
+use self::super::Error;
+use serde_json::from_reader;
+
+
+/// Download full information about the specified player.
+///
+/// # Examples
+///
+/// ```
+/// # use owapi::v3::acquire;
+/// println!("nabijaczleweli has played {} hours of Zenyatta in competitive",
+///          acquire("наб-2170").unwrap().eu.heroes.unwrap().playtime.competitive.zenyatta);
+/// ```
+pub fn acquire(player: &str) -> Result<self::blob::FullData, Error> {
+    Ok(try!(from_reader(try!(reqwest::get(&format!("https://owapi.net/api/v3/u/{}/blob", player))))))
+}
+
 
 /// Time dedicated to playing each hero.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
