@@ -1,16 +1,17 @@
 use owapi::v3::achievements::{Achievements, DefenseAchievements, OffenseAchievements, SupportAchievements, GeneralAchievements, TankAchievements,
-                              MapsAchievements};
+                              MapsAchievements, SpecialAchievements};
 use serde_json::from_str;
 
 
 /// Solen from
 /// https://github.com/SunDwarf/OWAPI/blob/bf731c489ba18abceb281d753c72d14d75b07ad2/api.md#get-apiv3ubattletagachievements
-static TEST_ACHIEVEMENTS: &'static str = include_str!("../../test_data/achievements.json");
+static TEST_ACHIEVEMENTS_OFFICIAL: &'static str = include_str!("../../test_data/achievements_official.json");
+static TEST_ACHIEVEMENTS_REAL: &'static str = include_str!("../../test_data/achievements_real.json");
 
 
 #[test]
-fn deserialisation() {
-    assert_eq!(from_str::<Achievements>(TEST_ACHIEVEMENTS).unwrap(),
+fn deserialisation_official() {
+    assert_eq!(from_str::<Achievements>(TEST_ACHIEVEMENTS_OFFICIAL).unwrap(),
                Achievements {
                    defense: DefenseAchievements {
                        ice_blocked: true,
@@ -27,6 +28,8 @@ fn deserialisation() {
                        smooth_as_silk: true,
                    },
                    offense: OffenseAchievements {
+                       hack_the_planet: false,
+                       power_outage: false,
                        whoa_there: true,
                        die_die_die_die: false,
                        its_high_noon: false,
@@ -66,6 +69,8 @@ fn deserialisation() {
                        the_friend_zone: true,
                    },
                    tank: TankAchievements {
+                       halt_state: false,
+                       overclocked: false,
                        i_am_your_shield: true,
                        mine_sweeper: false,
                        storm_earth_and_fire: false,
@@ -85,5 +90,102 @@ fn deserialisation() {
                        escort_duty: true,
                        double_cap: true,
                    },
+                   special: None,
+               });
+}
+
+#[test]
+fn deserialisation_real() {
+    assert_eq!(from_str::<Achievements>(TEST_ACHIEVEMENTS_REAL).unwrap(),
+               Achievements {
+                   defense: DefenseAchievements {
+                       did_that_sting: false,
+                       raid_wipe: true,
+                       the_dragon_is_sated: true,
+                       smooth_as_silk: false,
+                       mine_like_a_steel_trap: true,
+                       roadkill: true,
+                       cold_snap: true,
+                       ice_blocked: true,
+                       charge: false,
+                       triple_threat: false,
+                       armor_up: true,
+                       simple_geometry: true,
+                   },
+                   offense: OffenseAchievements {
+                       die_die_die_die: true,
+                       rocket_man: true,
+                       slice_and_dice: true,
+                       death_from_above: true,
+                       hack_the_planet: false,
+                       clearing_the_area: true,
+                       power_outage: false,
+                       target_rich_environment: true,
+                       its_high_noon: true,
+                       their_own_worst_enemy: true,
+                       whoa_there: true,
+                       total_recall: true,
+                       waste_not_want_not: false,
+                       special_delivery: true,
+                   },
+                   support: SupportAchievements {
+                       the_car_wash: true,
+                       naptime: true,
+                       rapid_discord: false,
+                       enabler: false,
+                       huge_rez: true,
+                       supersonic: true,
+                       the_floor_is_lava: false,
+                       huge_success: false,
+                       the_iris_embraces_you: true,
+                       group_health_plan: true,
+                   },
+                   general: GeneralAchievements {
+                       decorated: true,
+                       centenary: true,
+                       level_50: true,
+                       decked_out: false,
+                       blackjack: true,
+                       the_path_is_closed: true,
+                       survival_expert: true,
+                       undying: true,
+                       level_25: true,
+                       the_friend_zone: true,
+                       level_10: true,
+                   },
+                   tank: TankAchievements {
+                       the_power_of_attraction: false,
+                       game_over: true,
+                       i_am_your_shield: false,
+                       anger_management: true,
+                       overclocked: false,
+                       hog_wild: true,
+                       mine_sweeper: false,
+                       giving_you_the_hook: true,
+                       shot_down: true,
+                       halt_state: false,
+                       storm_earth_and_fire: false,
+                       power_overwhelming: false,
+                   },
+                   maps: MapsAchievements {
+                       lockdown: true,
+                       shutout: true,
+                       double_cap: true,
+                       world_traveler: true,
+                       cant_touch_this: true,
+                       escort_duty: true,
+                   },
+                   special: Some(SpecialAchievements {
+                       survived_the_night: false,
+                       flagbearer: false,
+                       cleanup_duty: false,
+                       not_a_scratch: false,
+                       four_they_were: false,
+                       whap: false,
+                       cool_as_ice: false,
+                       ambush: false,
+                       snowed_in: true,
+                       held_the_door: false,
+                   }),
                });
 }

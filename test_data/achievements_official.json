@@ -14,6 +14,8 @@
         "smooth_as_silk": true
     },
     "offense": {
+        "hack_the_planet": false,
+        "power_outage": false,
         "whoa_there": true,
         "die_die_die_die": false,
         "its_high_noon": false,
@@ -53,6 +55,8 @@
         "the_friend_zone": true
     },
     "tank": {
+        "overclocked": false,
+        "halt_state": false,
         "i_am_your_shield": true,
         "mine_sweeper": false,
         "storm_earth_and_fire": false,

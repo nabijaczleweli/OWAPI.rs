@@ -1,75 +1,57 @@
+//! Statistics data structures.
+//!
+//! These stats include overall statistics, like winrate, level, SR,
+//! average statistics, like healing, and all-game statistics, like kills per life.
+
+
+use serde_json::Value as JsonValue;
+use std::collections::BTreeMap;
+
+
+/// All user statistics.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Statistics {
+    /// Overall statistics, incl. winrate, game count, prestige, level, etc.
     pub overall_stats: OverallStats,
-    pub game_stats: GameStats,
-    pub average_stats: AverageStats,
+    /// Statistics over all games.
+    ///
+    /// This is just a map due to being a bloody inconsistent mess.
+    pub game_stats: BTreeMap<String, JsonValue>,
+    /// Blizzard-calculated average per-game statistics.
+    ///
+    /// This is just a map due to being a bloody inconsistent mess.
+    pub average_stats: BTreeMap<String, JsonValue>,
+    /// Whether these statistics are for quickplay or competitive.
     pub competitive: bool,
 }
 
+/// Overall statistics.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct OverallStats {
-    pub win_rate: u64,
+    /// % of games won.
+    pub win_rate: f64,
+    /// User's level, excl. prestige ("stars")
+    ///
+    /// The user's numerical level can be calculated using the `(prestige * 100) + level` formula.
     pub level: u64,
+    /// User's prestige ("stars")
+    ///
+    /// The user's numerical level can be calculated using the `(prestige * 100) + level` formula.
     pub prestige: u64,
+    /// URL to user's avatar (little chooseable image, e.g. a pachimari).
     pub avatar: String,
+    /// URL to user's portrait.
+    pub rank_image: Option<String>,
+    /// User's competitive "tier", like `"gold"` or `"bronze"`.
+    pub tier: Option<String>,
+    /// Amount of games won overall.
     pub wins: u64,
+    /// Amount of games played overall.
     pub games: u64,
+    /// User's SR.
     pub comprank: u64,
+    /// Amount of games lost overall.
     pub losses: u64,
-}
-
-#[derive(Debug, Copy, Clone, PartialEq, Serialize, Deserialize)]
-pub struct GameStats {
-    pub objective_kills: f64,
-    pub games_won: f64,
-    pub kpd: f64,
-    pub objective_kills_most_in_game: f64,
-    pub time_spent_on_fire_most_in_game: f64,
-    pub healing_done: f64,
-    pub defensive_assists: f64,
-    pub offensive_assists: f64,
-    pub final_blows_most_in_game: f64,
-    pub objective_time: f64,
-    pub melee_final_blows: f64,
-    pub medals: f64,
-    pub cards: f64,
-    pub multikill_best: f64,
-    pub multikills: f64,
-    pub defensive_assists_most_in_game: f64,
-    pub offensive_assists_most_in_game: f64,
-    pub melee_final_blow_most_in_game: f64,
-    pub damage_done: f64,
-    pub medals_silver: f64,
-    pub medals_gold: f64,
-    pub healing_done_most_in_game: f64,
-    pub environmental_kills: f64,
-    pub medals_bronze: f64,
-    pub solo_kills: f64,
-    pub time_spent_on_fire: f64,
-    pub eliminations_most_in_game: f64,
-    pub final_blows: f64,
-    pub time_played: f64,
-    pub environmental_deaths: f64,
-    pub solo_kills_most_in_game: f64,
-    pub damage_done_most_in_game: f64,
-    pub games_played: f64,
-    pub eliminations: f64,
-    pub objective_time_most_in_game: f64,
-    pub deaths: f64,
-}
-
-#[derive(Debug, Copy, Clone, PartialEq, Serialize, Deserialize)]
-pub struct AverageStats {
-    pub healing_done_avg: f64,
-    pub eliminations_avg: f64,
-    pub melee_final_blows_avg: f64,
-    pub final_blows_avg: f64,
-    pub defensive_assists_avg: f64,
-    pub damage_done_avg: f64,
-    pub deaths_avg: f64,
-    pub objective_time_avg: f64,
-    pub offensive_assists_avg: f64,
-    pub solo_kills_avg: f64,
-    pub time_spent_on_fire_avg: f64,
-    pub objective_kills_avg: f64,
+    /// Amount of games tied overall.
+    pub ties: Option<u64>,
 }
