@@ -100,99 +100,63 @@
 <span id="55">55</span>
 <span id="56">56</span>
 <span id="57">57</span>
-<span id="58">58</span>
-<span id="59">59</span>
-<span id="60">60</span>
-<span id="61">61</span>
-<span id="62">62</span>
-<span id="63">63</span>
-<span id="64">64</span>
-<span id="65">65</span>
-<span id="66">66</span>
-<span id="67">67</span>
-<span id="68">68</span>
-<span id="69">69</span>
-<span id="70">70</span>
-<span id="71">71</span>
-<span id="72">72</span>
-<span id="73">73</span>
-<span id="74">74</span>
-<span id="75">75</span>
 </pre><pre class='rust '>
+<span class='doccomment'>//! Statistics data structures.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! These stats include overall statistics, like winrate, level, SR,</span>
+<span class='doccomment'>//! average statistics, like healing, and all-game statistics, like kills per life.</span>
+
+
+<span class='kw'>use</span> <span class='ident'>serde_json</span>::<span class='ident'>Value</span> <span class='kw'>as</span> <span class='ident'>JsonValue</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>BTreeMap</span>;
+
+
+<span class='doccomment'>/// All user statistics.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Statistics</span> {
+    <span class='doccomment'>/// Overall statistics, incl. winrate, game count, prestige, level, etc.</span>
     <span class='kw'>pub</span> <span class='ident'>overall_stats</span>: <span class='ident'>OverallStats</span>,
-    <span class='kw'>pub</span> <span class='ident'>game_stats</span>: <span class='ident'>GameStats</span>,
-    <span class='kw'>pub</span> <span class='ident'>average_stats</span>: <span class='ident'>AverageStats</span>,
+    <span class='doccomment'>/// Statistics over all games.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// This is just a map due to being a bloody inconsistent mess.</span>
+    <span class='kw'>pub</span> <span class='ident'>game_stats</span>: <span class='ident'>BTreeMap</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>JsonValue</span><span class='op'>&gt;</span>,
+    <span class='doccomment'>/// Blizzard-calculated average per-game statistics.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// This is just a map due to being a bloody inconsistent mess.</span>
+    <span class='kw'>pub</span> <span class='ident'>average_stats</span>: <span class='ident'>BTreeMap</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>JsonValue</span><span class='op'>&gt;</span>,
+    <span class='doccomment'>/// Whether these statistics are for quickplay or competitive.</span>
     <span class='kw'>pub</span> <span class='ident'>competitive</span>: <span class='ident'>bool</span>,
 }
 
+<span class='doccomment'>/// Overall statistics.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>OverallStats</span> {
-    <span class='kw'>pub</span> <span class='ident'>win_rate</span>: <span class='ident'>u64</span>,
+    <span class='doccomment'>/// % of games won.</span>
+    <span class='kw'>pub</span> <span class='ident'>win_rate</span>: <span class='ident'>f64</span>,
+    <span class='doccomment'>/// User&#39;s level, excl. prestige (&quot;stars&quot;)</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// The user&#39;s numerical level can be calculated using the `(prestige * 100) + level` formula.</span>
     <span class='kw'>pub</span> <span class='ident'>level</span>: <span class='ident'>u64</span>,
+    <span class='doccomment'>/// User&#39;s prestige (&quot;stars&quot;)</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// The user&#39;s numerical level can be calculated using the `(prestige * 100) + level` formula.</span>
     <span class='kw'>pub</span> <span class='ident'>prestige</span>: <span class='ident'>u64</span>,
+    <span class='doccomment'>/// URL to user&#39;s avatar (little chooseable image, e.g. a pachimari).</span>
     <span class='kw'>pub</span> <span class='ident'>avatar</span>: <span class='ident'>String</span>,
+    <span class='doccomment'>/// URL to user&#39;s portrait.</span>
+    <span class='kw'>pub</span> <span class='ident'>rank_image</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>,
+    <span class='doccomment'>/// User&#39;s competitive &quot;tier&quot;, like `&quot;gold&quot;` or `&quot;bronze&quot;`.</span>
+    <span class='kw'>pub</span> <span class='ident'>tier</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>,
+    <span class='doccomment'>/// Amount of games won overall.</span>
     <span class='kw'>pub</span> <span class='ident'>wins</span>: <span class='ident'>u64</span>,
+    <span class='doccomment'>/// Amount of games played overall.</span>
     <span class='kw'>pub</span> <span class='ident'>games</span>: <span class='ident'>u64</span>,
+    <span class='doccomment'>/// User&#39;s SR.</span>
     <span class='kw'>pub</span> <span class='ident'>comprank</span>: <span class='ident'>u64</span>,
+    <span class='doccomment'>/// Amount of games lost overall.</span>
     <span class='kw'>pub</span> <span class='ident'>losses</span>: <span class='ident'>u64</span>,
-}
-
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>GameStats</span> {
-    <span class='kw'>pub</span> <span class='ident'>objective_kills</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>games_won</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>kpd</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>objective_kills_most_in_game</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>time_spent_on_fire_most_in_game</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>healing_done</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>defensive_assists</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>offensive_assists</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>final_blows_most_in_game</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>objective_time</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>melee_final_blows</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>medals</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>cards</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>multikill_best</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>multikills</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>defensive_assists_most_in_game</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>offensive_assists_most_in_game</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>melee_final_blow_most_in_game</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>damage_done</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>medals_silver</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>medals_gold</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>healing_done_most_in_game</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>environmental_kills</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>medals_bronze</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>solo_kills</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>time_spent_on_fire</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>eliminations_most_in_game</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>final_blows</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>time_played</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>environmental_deaths</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>solo_kills_most_in_game</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>damage_done_most_in_game</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>games_played</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>eliminations</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>objective_time_most_in_game</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>deaths</span>: <span class='ident'>f64</span>,
-}
-
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>AverageStats</span> {
-    <span class='kw'>pub</span> <span class='ident'>healing_done_avg</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>eliminations_avg</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>melee_final_blows_avg</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>final_blows_avg</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>defensive_assists_avg</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>damage_done_avg</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>deaths_avg</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>objective_time_avg</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>offensive_assists_avg</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>solo_kills_avg</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>time_spent_on_fire_avg</span>: <span class='ident'>f64</span>,
-    <span class='kw'>pub</span> <span class='ident'>objective_kills_avg</span>: <span class='ident'>f64</span>,
+    <span class='doccomment'>/// Amount of games tied overall.</span>
+    <span class='kw'>pub</span> <span class='ident'>ties</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u64</span><span class='op'>&gt;</span>,
 }
 </pre>
 </section>

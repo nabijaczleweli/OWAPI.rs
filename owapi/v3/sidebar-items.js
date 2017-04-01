@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["achievements",""],["blob",""],["stats",""]],"struct":[["HeroPlaytime",""]]});
+initSidebarItems({"mod":[["achievements","Achievement data structures."],["blob","Structures for handling the blobbed data."],["stats","Statistics data structures."]],"struct":[["HeroPlaytime","Time dedicated to playing each hero."]]});

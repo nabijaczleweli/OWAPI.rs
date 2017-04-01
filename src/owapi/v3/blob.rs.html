@@ -89,7 +89,33 @@
 <span id="44">44</span>
 <span id="45">45</span>
 <span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
 </pre><pre class='rust '>
+<span class='doccomment'>//! Structures for handling the blobbed data.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! See `FullData` for top-level and work down from there.</span>
+
+
 <span class='kw'>use</span> <span class='ident'>serde_json</span>::{<span class='ident'>Value</span> <span class='kw'>as</span> <span class='ident'>JsonValue</span>, <span class='ident'>from_value</span> <span class='kw'>as</span> <span class='ident'>from_json_value</span>};
 <span class='kw'>use</span> <span class='self'>self</span>::<span class='kw'>super</span>::<span class='ident'>achievements</span>::<span class='ident'>Achievements</span>;
 <span class='kw'>use</span> <span class='ident'>serde</span>::{<span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>, <span class='ident'>Deserializer</span>};
@@ -99,29 +125,45 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Debug</span>;
 
 
+<span class='doccomment'>/// Data for all regions.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>FullData</span> {
+    <span class='doccomment'>/// Data for Europe.</span>
     <span class='kw'>pub</span> <span class='ident'>eu</span>: <span class='ident'>RegionalData</span>,
+    <span class='doccomment'>/// Data for the U.S.</span>
     <span class='kw'>pub</span> <span class='ident'>us</span>: <span class='ident'>RegionalData</span>,
+    <span class='doccomment'>/// Data for Korea.</span>
     <span class='kw'>pub</span> <span class='ident'>kr</span>: <span class='ident'>RegionalData</span>,
 }
 
+<span class='doccomment'>/// Data for a single region.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Serialize</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>RegionalData</span> {
+    <span class='doccomment'>/// User statistics.</span>
     <span class='kw'>pub</span> <span class='ident'>stats</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>BiMode</span><span class='op'>&lt;</span><span class='ident'>Statistics</span><span class='op'>&gt;&gt;</span>,
+    <span class='doccomment'>/// Achievements achieved by user.</span>
     <span class='kw'>pub</span> <span class='ident'>achievements</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Achievements</span><span class='op'>&gt;</span>,
+    <span class='doccomment'>/// Hero data.</span>
     <span class='kw'>pub</span> <span class='ident'>heroes</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>HeroesContainer</span><span class='op'>&gt;</span>,
 }
 
+<span class='doccomment'>/// Something that has a competitive and a quickplay variant.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>BiMode</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>Debug</span> <span class='op'>+</span> <span class='ident'>Clone</span> <span class='op'>+</span> <span class='ident'>PartialEq</span> <span class='op'>+</span> <span class='ident'>Serialize</span> <span class='op'>+</span> <span class='ident'>Deserialize</span><span class='op'>&gt;</span> {
+    <span class='doccomment'>/// Variant for competitive play.</span>
     <span class='kw'>pub</span> <span class='ident'>competitive</span>: <span class='ident'>T</span>,
+    <span class='doccomment'>/// Variant for quickplay.</span>
     <span class='kw'>pub</span> <span class='ident'>quickplay</span>: <span class='ident'>T</span>,
 }
 
+<span class='doccomment'>/// Hero data.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>HeroesContainer</span> {
+    <span class='doccomment'>/// Time played for each of the heroes.</span>
     <span class='kw'>pub</span> <span class='ident'>playtime</span>: <span class='ident'>BiMode</span><span class='op'>&lt;</span><span class='ident'>HeroPlaytime</span><span class='op'>&gt;</span>,
+    <span class='doccomment'>/// Statistics for various heroes.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// This is just a map because it&#39;s a bloody mess all-round.</span>
     <span class='kw'>pub</span> <span class='ident'>stats</span>: <span class='ident'>BiMode</span><span class='op'>&lt;</span><span class='ident'>BTreeMap</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>JsonValue</span><span class='op'>&gt;&gt;</span>,
 }
 

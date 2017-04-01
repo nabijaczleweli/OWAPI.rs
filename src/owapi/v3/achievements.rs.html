@@ -43,194 +43,718 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1"> 1</span>
-<span id="2"> 2</span>
-<span id="3"> 3</span>
-<span id="4"> 4</span>
-<span id="5"> 5</span>
-<span id="6"> 6</span>
-<span id="7"> 7</span>
-<span id="8"> 8</span>
-<span id="9"> 9</span>
-<span id="10">10</span>
-<span id="11">11</span>
-<span id="12">12</span>
-<span id="13">13</span>
-<span id="14">14</span>
-<span id="15">15</span>
-<span id="16">16</span>
-<span id="17">17</span>
-<span id="18">18</span>
-<span id="19">19</span>
-<span id="20">20</span>
-<span id="21">21</span>
-<span id="22">22</span>
-<span id="23">23</span>
-<span id="24">24</span>
-<span id="25">25</span>
-<span id="26">26</span>
-<span id="27">27</span>
-<span id="28">28</span>
-<span id="29">29</span>
-<span id="30">30</span>
-<span id="31">31</span>
-<span id="32">32</span>
-<span id="33">33</span>
-<span id="34">34</span>
-<span id="35">35</span>
-<span id="36">36</span>
-<span id="37">37</span>
-<span id="38">38</span>
-<span id="39">39</span>
-<span id="40">40</span>
-<span id="41">41</span>
-<span id="42">42</span>
-<span id="43">43</span>
-<span id="44">44</span>
-<span id="45">45</span>
-<span id="46">46</span>
-<span id="47">47</span>
-<span id="48">48</span>
-<span id="49">49</span>
-<span id="50">50</span>
-<span id="51">51</span>
-<span id="52">52</span>
-<span id="53">53</span>
-<span id="54">54</span>
-<span id="55">55</span>
-<span id="56">56</span>
-<span id="57">57</span>
-<span id="58">58</span>
-<span id="59">59</span>
-<span id="60">60</span>
-<span id="61">61</span>
-<span id="62">62</span>
-<span id="63">63</span>
-<span id="64">64</span>
-<span id="65">65</span>
-<span id="66">66</span>
-<span id="67">67</span>
-<span id="68">68</span>
-<span id="69">69</span>
-<span id="70">70</span>
-<span id="71">71</span>
-<span id="72">72</span>
-<span id="73">73</span>
-<span id="74">74</span>
-<span id="75">75</span>
-<span id="76">76</span>
-<span id="77">77</span>
-<span id="78">78</span>
-<span id="79">79</span>
-<span id="80">80</span>
-<span id="81">81</span>
-<span id="82">82</span>
-<span id="83">83</span>
-<span id="84">84</span>
-<span id="85">85</span>
-<span id="86">86</span>
-<span id="87">87</span>
-<span id="88">88</span>
-<span id="89">89</span>
-<span id="90">90</span>
-<span id="91">91</span>
-<span id="92">92</span>
-<span id="93">93</span>
-<span id="94">94</span>
+    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+<span id="2">  2</span>
+<span id="3">  3</span>
+<span id="4">  4</span>
+<span id="5">  5</span>
+<span id="6">  6</span>
+<span id="7">  7</span>
+<span id="8">  8</span>
+<span id="9">  9</span>
+<span id="10"> 10</span>
+<span id="11"> 11</span>
+<span id="12"> 12</span>
+<span id="13"> 13</span>
+<span id="14"> 14</span>
+<span id="15"> 15</span>
+<span id="16"> 16</span>
+<span id="17"> 17</span>
+<span id="18"> 18</span>
+<span id="19"> 19</span>
+<span id="20"> 20</span>
+<span id="21"> 21</span>
+<span id="22"> 22</span>
+<span id="23"> 23</span>
+<span id="24"> 24</span>
+<span id="25"> 25</span>
+<span id="26"> 26</span>
+<span id="27"> 27</span>
+<span id="28"> 28</span>
+<span id="29"> 29</span>
+<span id="30"> 30</span>
+<span id="31"> 31</span>
+<span id="32"> 32</span>
+<span id="33"> 33</span>
+<span id="34"> 34</span>
+<span id="35"> 35</span>
+<span id="36"> 36</span>
+<span id="37"> 37</span>
+<span id="38"> 38</span>
+<span id="39"> 39</span>
+<span id="40"> 40</span>
+<span id="41"> 41</span>
+<span id="42"> 42</span>
+<span id="43"> 43</span>
+<span id="44"> 44</span>
+<span id="45"> 45</span>
+<span id="46"> 46</span>
+<span id="47"> 47</span>
+<span id="48"> 48</span>
+<span id="49"> 49</span>
+<span id="50"> 50</span>
+<span id="51"> 51</span>
+<span id="52"> 52</span>
+<span id="53"> 53</span>
+<span id="54"> 54</span>
+<span id="55"> 55</span>
+<span id="56"> 56</span>
+<span id="57"> 57</span>
+<span id="58"> 58</span>
+<span id="59"> 59</span>
+<span id="60"> 60</span>
+<span id="61"> 61</span>
+<span id="62"> 62</span>
+<span id="63"> 63</span>
+<span id="64"> 64</span>
+<span id="65"> 65</span>
+<span id="66"> 66</span>
+<span id="67"> 67</span>
+<span id="68"> 68</span>
+<span id="69"> 69</span>
+<span id="70"> 70</span>
+<span id="71"> 71</span>
+<span id="72"> 72</span>
+<span id="73"> 73</span>
+<span id="74"> 74</span>
+<span id="75"> 75</span>
+<span id="76"> 76</span>
+<span id="77"> 77</span>
+<span id="78"> 78</span>
+<span id="79"> 79</span>
+<span id="80"> 80</span>
+<span id="81"> 81</span>
+<span id="82"> 82</span>
+<span id="83"> 83</span>
+<span id="84"> 84</span>
+<span id="85"> 85</span>
+<span id="86"> 86</span>
+<span id="87"> 87</span>
+<span id="88"> 88</span>
+<span id="89"> 89</span>
+<span id="90"> 90</span>
+<span id="91"> 91</span>
+<span id="92"> 92</span>
+<span id="93"> 93</span>
+<span id="94"> 94</span>
+<span id="95"> 95</span>
+<span id="96"> 96</span>
+<span id="97"> 97</span>
+<span id="98"> 98</span>
+<span id="99"> 99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
 </pre><pre class='rust '>
+<span class='doccomment'>//! Achievement data structures.</span>
+
+
+<span class='doccomment'>/// User&#39;s completed achievements, by category.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Hash</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Achievements</span> {
+    <span class='doccomment'>/// Achievements for heroes classified by Blizzard as &quot;defense&quot;.</span>
     <span class='kw'>pub</span> <span class='ident'>defense</span>: <span class='ident'>DefenseAchievements</span>,
+    <span class='doccomment'>/// Achievements for heroes classified by Blizzard as &quot;offense&quot;.</span>
     <span class='kw'>pub</span> <span class='ident'>offense</span>: <span class='ident'>OffenseAchievements</span>,
+    <span class='doccomment'>/// Achievements for heroes classified by Blizzard as &quot;support&quot;.</span>
     <span class='kw'>pub</span> <span class='ident'>support</span>: <span class='ident'>SupportAchievements</span>,
+    <span class='doccomment'>/// General achievements.</span>
     <span class='kw'>pub</span> <span class='ident'>general</span>: <span class='ident'>GeneralAchievements</span>,
+    <span class='doccomment'>/// Achievements for heroes classified by Blizzard as &quot;tank&quot;.</span>
     <span class='kw'>pub</span> <span class='ident'>tank</span>: <span class='ident'>TankAchievements</span>,
+    <span class='doccomment'>/// Achievements for various maps.</span>
     <span class='kw'>pub</span> <span class='ident'>maps</span>: <span class='ident'>MapsAchievements</span>,
+    <span class='doccomment'>/// Achievements for various events.</span>
+    <span class='kw'>pub</span> <span class='ident'>special</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>SpecialAchievements</span><span class='op'>&gt;</span>,
 }
 
+<span class='doccomment'>/// Achievements for heroes classified by Blizzard as &quot;defense&quot;.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Hash</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>DefenseAchievements</span> {
+    <span class='doccomment'>/// Ice Blocked achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Block 1200 Damage with a single use of Mei&#39;s Ice Wall.</span>
     <span class='kw'>pub</span> <span class='ident'>ice_blocked</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Triple Threat achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Kill 2 enemies in each of Bastion&#39;s Configurations without dying.</span>
     <span class='kw'>pub</span> <span class='ident'>triple_threat</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Simple Geometry achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Get 2 killing blows with a single use of Hanzo&#39;s Scatter Arrow.</span>
     <span class='kw'>pub</span> <span class='ident'>simple_geometry</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// The Dragon is Sated achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Kill 4 enemies with one of Hanzo&#39;s Dragonstrikes.</span>
     <span class='kw'>pub</span> <span class='ident'>the_dragon_is_sated</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Did That Sting? achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Kill 4 enemies using Widowmaker&#39;s Venom Mine during a single game.</span>
     <span class='kw'>pub</span> <span class='ident'>did_that_sting</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Mine Like a Steel Trap achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Knock an enemy into your Steel Trap using Junkrat&#39;s Concussion Mine.</span>
     <span class='kw'>pub</span> <span class='ident'>mine_like_a_steel_trap</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Charge! achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Kill 4 enemies with a single use of Bastion&#39;s Configuration: Tank.</span>
     <span class='kw'>pub</span> <span class='ident'>charge</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Cold Snap achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Freeze 4 enemies at once with Mei.</span>
     <span class='kw'>pub</span> <span class='ident'>cold_snap</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Raid Wipe achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Kill 4 enemies during a single use of Torbjörn&#39;s Molten Core.</span>
     <span class='kw'>pub</span> <span class='ident'>raid_wipe</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Armor Up! achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Have one of Torbjörn&#39;s Armor Packs on 5 allies at the same time.</span>
     <span class='kw'>pub</span> <span class='ident'>armor_up</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Roadkill achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Kill 4 enemies with a single use of Junkrat&#39;s RIP-Tire.</span>
     <span class='kw'>pub</span> <span class='ident'>roadkill</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Smooth As Silk achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Kill an enemy with a Scoped Headshot while airborne as Widowmaker.</span>
     <span class='kw'>pub</span> <span class='ident'>smooth_as_silk</span>: <span class='ident'>bool</span>,
 }
 
+<span class='doccomment'>/// Achievements for heroes classified by Blizzard as &quot;offense&quot;.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Hash</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>OffenseAchievements</span> {
+    <span class='doccomment'>/// Hack The Planet achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Hack 15 enemies without dying as Sombra in quick or competitive play.</span>
+    <span class='kw'>pub</span> <span class='ident'>hack_the_planet</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Power Outage achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Hack 6 enemies at once as Sombra in quick or competitive play.</span>
+    <span class='kw'>pub</span> <span class='ident'>power_outage</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Whoa There! achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Interrupt an enemy ultimate ability with McCree&#39;s Flashbang.</span>
     <span class='kw'>pub</span> <span class='ident'>whoa_there</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Die Die Die... Die achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Kill 4 enemies with a single use of Reaper&#39;s Death Blossom.</span>
     <span class='kw'>pub</span> <span class='ident'>die_die_die_die</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// It&#39;s High Noon achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Get 4 killing blows with a single use of McCree&#39;s Deadeye.</span>
     <span class='kw'>pub</span> <span class='ident'>its_high_noon</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Their Own Worst Enemy achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Kill 2 enemies with a single use of Genji&#39;s Deflect.</span>
     <span class='kw'>pub</span> <span class='ident'>their_own_worst_enemy</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Clearing the Area achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Knock an enemy to their death using Pharah&#39;s Concussive Blast.</span>
     <span class='kw'>pub</span> <span class='ident'>clearing_the_area</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Target Rich Environment achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Kill 4 enemies with a single use of Soldier: 76&#39;s Tactical Visor.</span>
     <span class='kw'>pub</span> <span class='ident'>target_rich_environment</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Death From Above achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Kill 4 enemies in a row without touching the ground as Pharah.</span>
     <span class='kw'>pub</span> <span class='ident'>death_from_above</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Total Recall achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Recover 400 health using Tracer&#39;s Recall without dying.</span>
     <span class='kw'>pub</span> <span class='ident'>total_recall</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Rocket Man achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Get 2 killing blows with a single use of Soldier: 76&#39;s Helix Rockets.</span>
     <span class='kw'>pub</span> <span class='ident'>rocket_man</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Slice and Dice achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Kill 4 enemies with a single use of Genji&#39;s Dragonblade.</span>
     <span class='kw'>pub</span> <span class='ident'>slice_and_dice</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Special Delivery achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Stick 4 of Tracer&#39;s Pulse Bombs onto enemies in a single game.</span>
     <span class='kw'>pub</span> <span class='ident'>special_delivery</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Waste Not, Want Not achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Get 3 solo kills with a single clip of Reaper&#39;s shotguns.</span>
     <span class='kw'>pub</span> <span class='ident'>waste_not_want_not</span>: <span class='ident'>bool</span>,
 }
 
+<span class='doccomment'>/// Achievements for heroes classified by Blizzard as &quot;support&quot;.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Hash</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>SupportAchievements</span> {
+    <span class='doccomment'>/// Rapid Discord achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Get 4 kills or assists with Zenyatta&#39;s Orb of Discord within 6 seconds.</span>
     <span class='kw'>pub</span> <span class='ident'>rapid_discord</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Enabler achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Get 4 kills or assists with a single use of Ana&#39;s Nano Boost.</span>
     <span class='kw'>pub</span> <span class='ident'>enabler</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Huge Rez achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Resurrect 4 players at once with Mercy.</span>
     <span class='kw'>pub</span> <span class='ident'>huge_rez</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Supersonic achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Block 1000 damage with a single use of Lúcio&#39;s Sound Barrier.</span>
     <span class='kw'>pub</span> <span class='ident'>supersonic</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Naptime achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Interrupt an enemy ultimate ability with Ana&#39;s Sleep Dart.</span>
     <span class='kw'>pub</span> <span class='ident'>naptime</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Huge Success achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Teleport 20 players in a single game as Symmetra.</span>
     <span class='kw'>pub</span> <span class='ident'>huge_success</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// The Iris Embraces You achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Restore 1500 health with a single use of Zenyatta&#39;s Transcendence.</span>
     <span class='kw'>pub</span> <span class='ident'>the_iris_embraces_you</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// The Car Wash achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Hit an enemy with 6 beams simultaneously as Symmetra.</span>
     <span class='kw'>pub</span> <span class='ident'>the_car_wash</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// The Floor is Lava achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Get 3 killing blows while wall riding as Lúcio without dying.</span>
     <span class='kw'>pub</span> <span class='ident'>the_floor_is_lava</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Group Health Plan achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Restore 200 health for 5 players without dying as Mercy.</span>
     <span class='kw'>pub</span> <span class='ident'>group_health_plan</span>: <span class='ident'>bool</span>,
 }
 
+<span class='doccomment'>/// General achievements.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Hash</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>GeneralAchievements</span> {
+    <span class='doccomment'>/// Decorated achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Earn 50 postgame medals.</span>
     <span class='kw'>pub</span> <span class='ident'>decorated</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Blackjack achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Earn 21 postgame cards.</span>
     <span class='kw'>pub</span> <span class='ident'>blackjack</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Centenary achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Win 150 games.</span>
     <span class='kw'>pub</span> <span class='ident'>centenary</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Undying achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Get a 20 player kill streak in a game.</span>
     <span class='kw'>pub</span> <span class='ident'>undying</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Level 10 achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Reach level 10.</span>
     <span class='kw'>pub</span> <span class='ident'>level_10</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// The Path is Closed achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Destroy 3 of Symmetra&#39;s Teleporters in a single game.</span>
     <span class='kw'>pub</span> <span class='ident'>the_path_is_closed</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Level 50 achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Reach level 50.</span>
     <span class='kw'>pub</span> <span class='ident'>level_50</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Level 25 achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Reach level 25.</span>
     <span class='kw'>pub</span> <span class='ident'>level_25</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Decked Out achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Collect 50 unlocks for a single hero.</span>
     <span class='kw'>pub</span> <span class='ident'>decked_out</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Survival Expert achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Use Health Packs to heal 900 health in a single life.</span>
     <span class='kw'>pub</span> <span class='ident'>survival_expert</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// The Friend Zone achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Play a game in a group with a friend.</span>
     <span class='kw'>pub</span> <span class='ident'>the_friend_zone</span>: <span class='ident'>bool</span>,
 }
 
+<span class='doccomment'>/// Achievements for heroes classified by Blizzard as &quot;tank&quot;.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Hash</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>TankAchievements</span> {
+    <span class='doccomment'>/// Halt State achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Pull enemies into 1000 damage with a single use of Orisa&#39;s Halt! in quick or competitive play.</span>
+    <span class='kw'>pub</span> <span class='ident'>halt_state</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Overclocked achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Amplify 900 damage with a single use of Orisa&#39;s Supercharger in quick or competitive play.</span>
+    <span class='kw'>pub</span> <span class='ident'>overclocked</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// I Am Your Shield achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Block 8000 damage with Reinhardt&#39;s Barrier Field without dying.</span>
     <span class='kw'>pub</span> <span class='ident'>i_am_your_shield</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Mine Sweeper achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Destroy 10 Turrets or Traps using Winston&#39;s Tesla Cannon without dying.</span>
     <span class='kw'>pub</span> <span class='ident'>mine_sweeper</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Storm, Earth and Fire achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Land Reinhardt&#39;s Fire Strike and Charge after an Earthshatter Stun.</span>
     <span class='kw'>pub</span> <span class='ident'>storm_earth_and_fire</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Giving You The Hook achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Interrupt an enemy ultimate ability with Roadhog&#39;s Chain Hook.</span>
     <span class='kw'>pub</span> <span class='ident'>giving_you_the_hook</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Power Overwhelming achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Keep Zarya&#39;s Particle Cannon above 70 Energy for 60 seconds.</span>
     <span class='kw'>pub</span> <span class='ident'>power_overwhelming</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Anger Management achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Damage 6 enemies a single use of Winston&#39;s Primal Rage.</span>
     <span class='kw'>pub</span> <span class='ident'>anger_management</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Hog Wild achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Knock 2 enemies to their deaths with one use of Roadhog&#39;s Whole Hog.</span>
     <span class='kw'>pub</span> <span class='ident'>hog_wild</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// The Power of Attraction achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Capture 5 enemies in a single use of Zarya&#39;s Graviton Surge.</span>
     <span class='kw'>pub</span> <span class='ident'>the_power_of_attraction</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Shot Down achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Prevent 1500 damage with a single use of D.Va&#39;s Defense Matrix.</span>
     <span class='kw'>pub</span> <span class='ident'>shot_down</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Game Over achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Kill 4 enemies with a single use of D.Va&#39;s Self-Destruct.</span>
     <span class='kw'>pub</span> <span class='ident'>game_over</span>: <span class='ident'>bool</span>,
 }
 
+<span class='doccomment'>/// Achievements for various maps.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Hash</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>MapsAchievements</span> {
+    <span class='doccomment'>/// World Traveler achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Win a quick or competitive play game on 12 different maps.</span>
     <span class='kw'>pub</span> <span class='ident'>world_traveler</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Lockdown achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Win an Assault map on defense without losing the first objective.</span>
     <span class='kw'>pub</span> <span class='ident'>lockdown</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Can&#39;t Touch This achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Prevent the attacking team from touching the Payload for 1 minute.</span>
     <span class='kw'>pub</span> <span class='ident'>cant_touch_this</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Shutout achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Win a Control map without the enemy capturing an objective.</span>
     <span class='kw'>pub</span> <span class='ident'>shutout</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Escort Duty achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Push a Payload 100 meters without leaving it.</span>
     <span class='kw'>pub</span> <span class='ident'>escort_duty</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Double Cap achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Capture both objectives on an Assault map without dying.</span>
     <span class='kw'>pub</span> <span class='ident'>double_cap</span>: <span class='ident'>bool</span>,
+}
+
+<span class='doccomment'>/// Achievements for various events.</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Hash</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>SpecialAchievements</span> {
+    <span class='doccomment'>/// Survived The Night achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Win Junkenstein&#39;s Revenge on Medium difficulty.</span>
+    <span class='kw'>pub</span> <span class='ident'>survived_the_night</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Flagbearer achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Win Capture the Rooster with as score of 3 to 0.</span>
+    <span class='kw'>pub</span> <span class='ident'>flagbearer</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Cleanup Duty achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Recover a flag in a game of Capture the Rooster.</span>
+    <span class='kw'>pub</span> <span class='ident'>cleanup_duty</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Not A Scratch achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Win Junkenstein&#39;s Revenge on Medium difficulty with no damage to the door.</span>
+    <span class='kw'>pub</span> <span class='ident'>not_a_scratch</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Four They Were achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Win Junkenstein&#39;s Revenge using each of the 4 heroes.</span>
+    <span class='kw'>pub</span> <span class='ident'>four_they_were</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Whap! achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Kill an enemy with a snowball from 25 meters away in Mei&#39;s Snowball Offensive.</span>
+    <span class='kw'>pub</span> <span class='ident'>whap</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Cool As Ice achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Kill 4 enemies without missing in Mei&#39;s Snowball Offensive.</span>
+    <span class='kw'>pub</span> <span class='ident'>cool_as_ice</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Ambush! achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Kill 3 enemies while they are picking up snow in a game of Mei&#39;s Snowball Offensive.</span>
+    <span class='kw'>pub</span> <span class='ident'>ambush</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Snowed In achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Win Mei&#39;s Snowball Offensive without losing a round.</span>
+    <span class='kw'>pub</span> <span class='ident'>snowed_in</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Held The Door achievement.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Win Junkenstein&#39;s Revenge on Hard difficulty.</span>
+    <span class='kw'>pub</span> <span class='ident'>held_the_door</span>: <span class='ident'>bool</span>,
 }
 </pre>
 </section>

@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["AverageStats",""],["GameStats",""],["OverallStats",""],["Statistics",""]]});
+initSidebarItems({"struct":[["OverallStats","Overall statistics."],["Statistics","All user statistics."]]});

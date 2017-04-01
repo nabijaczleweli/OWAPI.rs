@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["v3",""]]});
+initSidebarItems({"mod":[["v3","The OWAPI v3 API bindings."]]});
