@@ -16,7 +16,7 @@ use self::super::{BNetUser, Error};
 ///
 /// # Examples
 ///
-/// ```
+/// ```rust,no_run
 /// # use owapi::v3::acquire;
 /// println!("nabijaczleweli has played {} hours of Zenyatta in competitive",
 ///          acquire("наб-2170").unwrap().eu.heroes.unwrap().playtime.competitive.zenyatta);
