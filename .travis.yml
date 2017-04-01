@@ -5,6 +5,11 @@ rust:
   - beta
   - nightly
 
+matrix:
+  allow_failures:
+    - rust: beta
+    - rust: nightly
+
 before_install:
   - openssl aes-256-cbc -K $encrypted_b1243ab99dc6_key -iv $encrypted_b1243ab99dc6_iv -in gh_rsa.enc -out gh_rsa -d
 
