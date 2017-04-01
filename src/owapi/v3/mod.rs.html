@@ -105,6 +105,24 @@
 <span id="60">60</span>
 <span id="61">61</span>
 <span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! The [OWAPI](https://github.com/SunDwarf/OWAPI)</span>
 <span class='doccomment'>//! [v3](https://github.com/SunDwarf/OWAPI/blob/8167f61d965cdfd5e9604fcd3605f11fd4425585/api.md)</span>
@@ -114,6 +132,24 @@
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>blob</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>stats</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>achievements</span>;
+
+<span class='kw'>use</span> <span class='ident'>reqwest</span>;
+<span class='kw'>use</span> <span class='ident'>serde_json</span>::<span class='ident'>from_reader</span>;
+<span class='kw'>use</span> <span class='self'>self</span>::<span class='kw'>super</span>::{<span class='ident'>BNetUser</span>, <span class='ident'>Error</span>};
+
+
+<span class='doccomment'>/// Download full information about the specified player.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Examples</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// # use owapi::v3::acquire;</span>
+<span class='doccomment'>/// println!(&quot;nabijaczleweli has played {} hours of Zenyatta in competitive&quot;,</span>
+<span class='doccomment'>///          acquire(&quot;наб-2170&quot;).unwrap().eu.heroes.unwrap().playtime.competitive.zenyatta);</span>
+<span class='doccomment'>/// ```</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>acquire</span><span class='op'>&lt;</span><span class='ident'>U</span>: <span class='ident'>BNetUser</span><span class='op'>&gt;</span>(<span class='ident'>player</span>: <span class='ident'>U</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>self</span>::<span class='ident'>blob</span>::<span class='ident'>FullData</span>, <span class='ident'>Error</span><span class='op'>&gt;</span> {
+    <span class='prelude-val'>Ok</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>from_reader</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>reqwest</span>::<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;https://owapi.net/api/v3/u/{}/blob&quot;</span>, <span class='ident'>player</span>.<span class='ident'>identifier</span>()))))))
+}
 
 
 <span class='doccomment'>/// Time dedicated to playing each hero.</span>

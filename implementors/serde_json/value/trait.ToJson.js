@@ -1,4 +1,5 @@
 (function() {var implementors = {};
+implementors["reqwest"] = [];
 implementors["serde_json"] = [];
 
             if (window.register_implementors) {

@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["v3","The OWAPI v3 API bindings."]]});
+initSidebarItems({"enum":[["Error","Generic error type colluding errors that may occur in the library."]],"mod":[["v3","The OWAPI v3 API bindings."]],"trait":[["BNetUser","Descriptor for a (username, unique discrimnator) pair."]]});

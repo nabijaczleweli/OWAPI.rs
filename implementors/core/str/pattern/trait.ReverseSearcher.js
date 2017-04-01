@@ -1,5 +1,11 @@
 (function() {var implementors = {};
+implementors["antidote"] = [];
+implementors["hyper"] = [];
+implementors["libc"] = [];
+implementors["openssl"] = [];
+implementors["reqwest"] = [];
 implementors["serde"] = [];
+implementors["serde_urlencoded"] = [];
 implementors["syn"] = [];
 
             if (window.register_implementors) {
