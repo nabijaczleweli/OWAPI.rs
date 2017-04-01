@@ -6,3 +6,4 @@ extern crate owapi;
 
 
 mod v3;
+mod user;
