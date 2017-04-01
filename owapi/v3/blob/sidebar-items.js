@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["BiMode",""],["FullData",""],["HeroesContainer",""],["RegionalData",""]]});
