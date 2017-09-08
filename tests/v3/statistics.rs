@@ -8,6 +8,8 @@ static TEST_STATS_REAL_QUICKPLAY: &'static str = include_str!("../../test_data/s
 static TEST_STATS_REAL_COMPETITIVE: &'static str = include_str!("../../test_data/stats_real_comp.json");
 
 
+
+
 #[test]
 fn deserialisation_official() {
     assert_eq!(from_str::<Statistics>(TEST_STATS_OFFICIAL).unwrap(),
@@ -21,7 +23,7 @@ fn deserialisation_official() {
                        tier: None,
                        wins: 9,
                        games: 17,
-                       comprank: 2395,
+                       comprank: None,
                        losses: 8,
                        ties: None,
                    },
@@ -96,7 +98,7 @@ fn deserialisation_real_quickplay() {
     assert_eq!(from_str::<Statistics>(TEST_STATS_REAL_QUICKPLAY).unwrap(),
                Statistics {
                    overall_stats: OverallStats {
-                       comprank: 2113,
+                       comprank: Some(2113),
                        games: 1513,
                        tier: Some("gold".to_string()),
                        losses: 793,
@@ -172,7 +174,7 @@ fn deserialisation_real_competitive() {
     assert_eq!(from_str::<Statistics>(TEST_STATS_REAL_COMPETITIVE).unwrap(),
                Statistics {
                    overall_stats: OverallStats {
-                       comprank: 2113,
+                       comprank: Some(2113),
                        games: 10,
                        tier: Some("gold".to_string()),
                        losses: 5,

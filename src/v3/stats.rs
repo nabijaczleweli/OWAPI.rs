@@ -49,7 +49,7 @@ pub struct OverallStats {
     /// Amount of games played overall.
     pub games: u64,
     /// User's SR.
-    pub comprank: u64,
+    pub comprank: Option<u64>,
     /// Amount of games lost overall.
     pub losses: u64,
     /// Amount of games tied overall.
