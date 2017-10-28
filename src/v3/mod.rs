@@ -77,4 +77,6 @@ pub struct HeroPlaytime {
     pub mercy: f64,
     /// Hours spent playing McCree.
     pub mccree: f64,
+    /// Hours spent playing Doomfist.
+    pub doomfist: f64,
 }
