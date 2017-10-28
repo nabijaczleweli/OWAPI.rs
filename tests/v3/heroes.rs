@@ -33,5 +33,6 @@ fn deserialisation() {
                    reinhardt: 0.0,
                    mercy: 0.014722222222222222,
                    mccree: 0.0,
+                   doomfist: 0.0,
                });
 }
