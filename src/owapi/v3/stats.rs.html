@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1"> 1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1"> 1</span>
 <span id="2"> 2</span>
 <span id="3"> 3</span>
 <span id="4"> 4</span>
@@ -100,63 +100,63 @@
 <span id="55">55</span>
 <span id="56">56</span>
 <span id="57">57</span>
-</pre><pre class='rust '>
-<span class='doccomment'>//! Statistics data structures.</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! These stats include overall statistics, like winrate, level, SR,</span>
-<span class='doccomment'>//! average statistics, like healing, and all-game statistics, like kills per life.</span>
+</pre><pre class="rust ">
+<span class="doccomment">//! Statistics data structures.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! These stats include overall statistics, like winrate, level, SR,</span>
+<span class="doccomment">//! average statistics, like healing, and all-game statistics, like kills per life.</span>
 
 
-<span class='kw'>use</span> <span class='ident'>serde_json</span>::<span class='ident'>Value</span> <span class='kw'>as</span> <span class='ident'>JsonValue</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>BTreeMap</span>;
+<span class="kw">use</span> <span class="ident">serde_json</span>::<span class="ident">Value</span> <span class="kw">as</span> <span class="ident">JsonValue</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span>;
 
 
-<span class='doccomment'>/// All user statistics.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Statistics</span> {
-    <span class='doccomment'>/// Overall statistics, incl. winrate, game count, prestige, level, etc.</span>
-    <span class='kw'>pub</span> <span class='ident'>overall_stats</span>: <span class='ident'>OverallStats</span>,
-    <span class='doccomment'>/// Statistics over all games.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// This is just a map due to being a bloody inconsistent mess.</span>
-    <span class='kw'>pub</span> <span class='ident'>game_stats</span>: <span class='ident'>BTreeMap</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>JsonValue</span><span class='op'>&gt;</span>,
-    <span class='doccomment'>/// Blizzard-calculated average per-game statistics.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// This is just a map due to being a bloody inconsistent mess.</span>
-    <span class='kw'>pub</span> <span class='ident'>average_stats</span>: <span class='ident'>BTreeMap</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>JsonValue</span><span class='op'>&gt;</span>,
-    <span class='doccomment'>/// Whether these statistics are for quickplay or competitive.</span>
-    <span class='kw'>pub</span> <span class='ident'>competitive</span>: <span class='ident'>bool</span>,
+<span class="doccomment">/// All user statistics.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Statistics</span> {
+    <span class="doccomment">/// Overall statistics, incl. winrate, game count, prestige, level, etc.</span>
+    <span class="kw">pub</span> <span class="ident">overall_stats</span>: <span class="ident">OverallStats</span>,
+    <span class="doccomment">/// Statistics over all games.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This is just a map due to being a bloody inconsistent mess.</span>
+    <span class="kw">pub</span> <span class="ident">game_stats</span>: <span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">JsonValue</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Blizzard-calculated average per-game statistics.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This is just a map due to being a bloody inconsistent mess.</span>
+    <span class="kw">pub</span> <span class="ident">average_stats</span>: <span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">JsonValue</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Whether these statistics are for quickplay or competitive.</span>
+    <span class="kw">pub</span> <span class="ident">competitive</span>: <span class="ident">bool</span>,
 }
 
-<span class='doccomment'>/// Overall statistics.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>OverallStats</span> {
-    <span class='doccomment'>/// % of games won.</span>
-    <span class='kw'>pub</span> <span class='ident'>win_rate</span>: <span class='ident'>f64</span>,
-    <span class='doccomment'>/// User&#39;s level, excl. prestige (&quot;stars&quot;)</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// The user&#39;s numerical level can be calculated using the `(prestige * 100) + level` formula.</span>
-    <span class='kw'>pub</span> <span class='ident'>level</span>: <span class='ident'>u64</span>,
-    <span class='doccomment'>/// User&#39;s prestige (&quot;stars&quot;)</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// The user&#39;s numerical level can be calculated using the `(prestige * 100) + level` formula.</span>
-    <span class='kw'>pub</span> <span class='ident'>prestige</span>: <span class='ident'>u64</span>,
-    <span class='doccomment'>/// URL to user&#39;s avatar (little chooseable image, e.g. a pachimari).</span>
-    <span class='kw'>pub</span> <span class='ident'>avatar</span>: <span class='ident'>String</span>,
-    <span class='doccomment'>/// URL to user&#39;s portrait.</span>
-    <span class='kw'>pub</span> <span class='ident'>rank_image</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>,
-    <span class='doccomment'>/// User&#39;s competitive &quot;tier&quot;, like `&quot;gold&quot;` or `&quot;bronze&quot;`.</span>
-    <span class='kw'>pub</span> <span class='ident'>tier</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>,
-    <span class='doccomment'>/// Amount of games won overall.</span>
-    <span class='kw'>pub</span> <span class='ident'>wins</span>: <span class='ident'>u64</span>,
-    <span class='doccomment'>/// Amount of games played overall.</span>
-    <span class='kw'>pub</span> <span class='ident'>games</span>: <span class='ident'>u64</span>,
-    <span class='doccomment'>/// User&#39;s SR.</span>
-    <span class='kw'>pub</span> <span class='ident'>comprank</span>: <span class='ident'>u64</span>,
-    <span class='doccomment'>/// Amount of games lost overall.</span>
-    <span class='kw'>pub</span> <span class='ident'>losses</span>: <span class='ident'>u64</span>,
-    <span class='doccomment'>/// Amount of games tied overall.</span>
-    <span class='kw'>pub</span> <span class='ident'>ties</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u64</span><span class='op'>&gt;</span>,
+<span class="doccomment">/// Overall statistics.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OverallStats</span> {
+    <span class="doccomment">/// % of games won.</span>
+    <span class="kw">pub</span> <span class="ident">win_rate</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// User&#39;s level, excl. prestige (&quot;stars&quot;)</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The user&#39;s numerical level can be calculated using the `(prestige * 100) + level` formula.</span>
+    <span class="kw">pub</span> <span class="ident">level</span>: <span class="ident">u64</span>,
+    <span class="doccomment">/// User&#39;s prestige (&quot;stars&quot;)</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The user&#39;s numerical level can be calculated using the `(prestige * 100) + level` formula.</span>
+    <span class="kw">pub</span> <span class="ident">prestige</span>: <span class="ident">u64</span>,
+    <span class="doccomment">/// URL to user&#39;s avatar (little chooseable image, e.g. a pachimari).</span>
+    <span class="kw">pub</span> <span class="ident">avatar</span>: <span class="ident">String</span>,
+    <span class="doccomment">/// URL to user&#39;s portrait.</span>
+    <span class="kw">pub</span> <span class="ident">rank_image</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// User&#39;s competitive &quot;tier&quot;, like `&quot;gold&quot;` or `&quot;bronze&quot;`.</span>
+    <span class="kw">pub</span> <span class="ident">tier</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Amount of games won overall.</span>
+    <span class="kw">pub</span> <span class="ident">wins</span>: <span class="ident">u64</span>,
+    <span class="doccomment">/// Amount of games played overall.</span>
+    <span class="kw">pub</span> <span class="ident">games</span>: <span class="ident">u64</span>,
+    <span class="doccomment">/// User&#39;s SR.</span>
+    <span class="kw">pub</span> <span class="ident">comprank</span>: <span class="ident">u64</span>,
+    <span class="doccomment">/// Amount of games lost overall.</span>
+    <span class="kw">pub</span> <span class="ident">losses</span>: <span class="ident">u64</span>,
+    <span class="doccomment">/// Amount of games tied overall.</span>
+    <span class="kw">pub</span> <span class="ident">ties</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span>,
 }
 </pre>
 </section>
@@ -216,7 +216,6 @@
         window.rootPath = "../../../";
         window.currentCrate = "owapi";
     </script>
-    <script src="../../../jquery.js"></script>
     <script src="../../../main.js"></script>
     <script defer src="../../../search-index.js"></script>
 </body>

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/libflate-0.1.4/src/finish.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/libflate-0.1.12/src/finish.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>finish.rs.html -- source</title>
@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1"> 1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1"> 1</span>
 <span id="2"> 2</span>
 <span id="3"> 3</span>
 <span id="4"> 4</span>
@@ -130,91 +130,91 @@
 <span id="85">85</span>
 <span id="86">86</span>
 <span id="87">87</span>
-</pre><pre class='rust '>
-<span class='doccomment'>/// `Finish` is a type that represents a value which</span>
-<span class='doccomment'>/// may have an error occurred during the computation.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Logically, `Finish&lt;T, E&gt;` is equivalent to `Result&lt;T, (T, E)&gt;`.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Default</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialOrd</span>, <span class='ident'>Ord</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Hash</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Finish</span><span class='op'>&lt;</span><span class='ident'>T</span>, <span class='ident'>E</span><span class='op'>&gt;</span> {
-    <span class='ident'>value</span>: <span class='ident'>T</span>,
-    <span class='ident'>error</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span>,
+</pre><pre class="rust ">
+<span class="doccomment">/// `Finish` is a type that represents a value which</span>
+<span class="doccomment">/// may have an error occurred during the computation.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Logically, `Finish&lt;T, E&gt;` is equivalent to `Result&lt;T, (T, E)&gt;`.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Default</span>, <span class="ident">Clone</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Finish</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span><span class="op">&gt;</span> {
+    <span class="ident">value</span>: <span class="ident">T</span>,
+    <span class="ident">error</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span>,
 }
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span>, <span class='ident'>E</span><span class='op'>&gt;</span> <span class='ident'>Finish</span><span class='op'>&lt;</span><span class='ident'>T</span>, <span class='ident'>E</span><span class='op'>&gt;</span> {
-    <span class='doccomment'>/// Makes a new instance.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Examples</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// use libflate::Finish;</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// // The result value of a succeeded computation</span>
-    <span class='doccomment'>/// let succeeded = Finish::new(&quot;value&quot;, None as Option&lt;()&gt;);</span>
-    <span class='doccomment'>/// assert_eq!(succeeded.into_result(), Ok(&quot;value&quot;));</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// // The result value of a failed computation</span>
-    <span class='doccomment'>/// let failed = Finish::new(&quot;value&quot;, Some(&quot;error&quot;));</span>
-    <span class='doccomment'>/// assert_eq!(failed.into_result(), Err(&quot;error&quot;));</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>value</span>: <span class='ident'>T</span>, <span class='ident'>error</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='ident'>Finish</span> {
-            <span class='ident'>value</span>: <span class='ident'>value</span>,
-            <span class='ident'>error</span>: <span class='ident'>error</span>,
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span><span class="op">&gt;</span> <span class="ident">Finish</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Makes a new instance.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use libflate::Finish;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// // The result value of a succeeded computation</span>
+    <span class="doccomment">/// let succeeded = Finish::new(&quot;value&quot;, None as Option&lt;()&gt;);</span>
+    <span class="doccomment">/// assert_eq!(succeeded.into_result(), Ok(&quot;value&quot;));</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// // The result value of a failed computation</span>
+    <span class="doccomment">/// let failed = Finish::new(&quot;value&quot;, Some(&quot;error&quot;));</span>
+    <span class="doccomment">/// assert_eq!(failed.into_result(), Err(&quot;error&quot;));</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">value</span>: <span class="ident">T</span>, <span class="ident">error</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="ident">Finish</span> {
+            <span class="ident">value</span>: <span class="ident">value</span>,
+            <span class="ident">error</span>: <span class="ident">error</span>,
         }
     }
 
-    <span class='doccomment'>/// Unwraps the instance.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Examples</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// use libflate::Finish;</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let succeeded = Finish::new(&quot;value&quot;, None as Option&lt;()&gt;);</span>
-    <span class='doccomment'>/// assert_eq!(succeeded.unwrap(), (&quot;value&quot;, None));</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let failed = Finish::new(&quot;value&quot;, Some(&quot;error&quot;));</span>
-    <span class='doccomment'>/// assert_eq!(failed.unwrap(), (&quot;value&quot;, Some(&quot;error&quot;)));</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>unwrap</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> (<span class='ident'>T</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span>) {
-        (<span class='self'>self</span>.<span class='ident'>value</span>, <span class='self'>self</span>.<span class='ident'>error</span>)
+    <span class="doccomment">/// Unwraps the instance.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use libflate::Finish;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let succeeded = Finish::new(&quot;value&quot;, None as Option&lt;()&gt;);</span>
+    <span class="doccomment">/// assert_eq!(succeeded.unwrap(), (&quot;value&quot;, None));</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let failed = Finish::new(&quot;value&quot;, Some(&quot;error&quot;));</span>
+    <span class="doccomment">/// assert_eq!(failed.unwrap(), (&quot;value&quot;, Some(&quot;error&quot;)));</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">unwrap</span>(<span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">T</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span>) {
+        (<span class="self">self</span>.<span class="ident">value</span>, <span class="self">self</span>.<span class="ident">error</span>)
     }
 
-    <span class='doccomment'>/// Converts from `Finish&lt;T, E&gt;` to `Result&lt;T, E&gt;`.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Examples</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// use libflate::Finish;</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let succeeded = Finish::new(&quot;value&quot;, None as Option&lt;()&gt;);</span>
-    <span class='doccomment'>/// assert_eq!(succeeded.into_result(), Ok(&quot;value&quot;));</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let failed = Finish::new(&quot;value&quot;, Some(&quot;error&quot;));</span>
-    <span class='doccomment'>/// assert_eq!(failed.into_result(), Err(&quot;error&quot;));</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>into_result</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>T</span>, <span class='ident'>E</span><span class='op'>&gt;</span> {
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>error</span> {
-            <span class='prelude-val'>Err</span>(<span class='ident'>e</span>)
-        } <span class='kw'>else</span> {
-            <span class='prelude-val'>Ok</span>(<span class='self'>self</span>.<span class='ident'>value</span>)
+    <span class="doccomment">/// Converts from `Finish&lt;T, E&gt;` to `Result&lt;T, E&gt;`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use libflate::Finish;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let succeeded = Finish::new(&quot;value&quot;, None as Option&lt;()&gt;);</span>
+    <span class="doccomment">/// assert_eq!(succeeded.into_result(), Ok(&quot;value&quot;));</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let failed = Finish::new(&quot;value&quot;, Some(&quot;error&quot;));</span>
+    <span class="doccomment">/// assert_eq!(failed.into_result(), Err(&quot;error&quot;));</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_result</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">e</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">error</span> {
+            <span class="prelude-val">Err</span>(<span class="ident">e</span>)
+        } <span class="kw">else</span> {
+            <span class="prelude-val">Ok</span>(<span class="self">self</span>.<span class="ident">value</span>)
         }
     }
 
-    <span class='doccomment'>/// Converts from `Finish&lt;T, E&gt;` to `Result&lt;&amp;T, &amp;E&gt;`.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Examples</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// use libflate::Finish;</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let succeeded = Finish::new(&quot;value&quot;, None as Option&lt;()&gt;);</span>
-    <span class='doccomment'>/// assert_eq!(succeeded.as_result(), Ok(&amp;&quot;value&quot;));</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let failed = Finish::new(&quot;value&quot;, Some(&quot;error&quot;));</span>
-    <span class='doccomment'>/// assert_eq!(failed.as_result(), Err(&amp;&quot;error&quot;));</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>as_result</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>T</span>, <span class='kw-2'>&amp;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>e</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>error</span> {
-            <span class='prelude-val'>Err</span>(<span class='ident'>e</span>)
-        } <span class='kw'>else</span> {
-            <span class='prelude-val'>Ok</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>value</span>)
+    <span class="doccomment">/// Converts from `Finish&lt;T, E&gt;` to `Result&lt;&amp;T, &amp;E&gt;`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use libflate::Finish;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let succeeded = Finish::new(&quot;value&quot;, None as Option&lt;()&gt;);</span>
+    <span class="doccomment">/// assert_eq!(succeeded.as_result(), Ok(&amp;&quot;value&quot;));</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let failed = Finish::new(&quot;value&quot;, Some(&quot;error&quot;));</span>
+    <span class="doccomment">/// assert_eq!(failed.as_result(), Err(&amp;&quot;error&quot;));</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_result</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">T</span>, <span class="kw-2">&amp;</span><span class="ident">E</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">e</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">error</span> {
+            <span class="prelude-val">Err</span>(<span class="ident">e</span>)
+        } <span class="kw">else</span> {
+            <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">value</span>)
         }
     }
 }
@@ -276,7 +276,6 @@
         window.rootPath = "../../";
         window.currentCrate = "libflate";
     </script>
-    <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     <script defer src="../../search-index.js"></script>
 </body>

@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1"> 1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1"> 1</span>
 <span id="2"> 2</span>
 <span id="3"> 3</span>
 <span id="4"> 4</span>
@@ -110,71 +110,71 @@
 <span id="65">65</span>
 <span id="66">66</span>
 <span id="67">67</span>
-</pre><pre class='rust '>
-<span class='doccomment'>//! Structures for handling the blobbed data.</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! See `FullData` for top-level and work down from there.</span>
+</pre><pre class="rust ">
+<span class="doccomment">//! Structures for handling the blobbed data.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! See `FullData` for top-level and work down from there.</span>
 
 
-<span class='kw'>use</span> <span class='ident'>serde_json</span>::{<span class='ident'>Value</span> <span class='kw'>as</span> <span class='ident'>JsonValue</span>, <span class='ident'>from_value</span> <span class='kw'>as</span> <span class='ident'>from_json_value</span>};
-<span class='kw'>use</span> <span class='self'>self</span>::<span class='kw'>super</span>::<span class='ident'>achievements</span>::<span class='ident'>Achievements</span>;
-<span class='kw'>use</span> <span class='ident'>serde</span>::{<span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>, <span class='ident'>Deserializer</span>};
-<span class='kw'>use</span> <span class='self'>self</span>::<span class='kw'>super</span>::<span class='ident'>stats</span>::<span class='ident'>Statistics</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>BTreeMap</span>;
-<span class='kw'>use</span> <span class='self'>self</span>::<span class='kw'>super</span>::<span class='ident'>HeroPlaytime</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Debug</span>;
+<span class="kw">use</span> <span class="ident">serde_json</span>::{<span class="ident">Value</span> <span class="kw">as</span> <span class="ident">JsonValue</span>, <span class="ident">from_value</span> <span class="kw">as</span> <span class="ident">from_json_value</span>};
+<span class="kw">use</span> <span class="self">self</span>::<span class="kw">super</span>::<span class="ident">achievements</span>::<span class="ident">Achievements</span>;
+<span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Deserializer</span>};
+<span class="kw">use</span> <span class="self">self</span>::<span class="kw">super</span>::<span class="ident">stats</span>::<span class="ident">Statistics</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span>;
+<span class="kw">use</span> <span class="self">self</span>::<span class="kw">super</span>::<span class="ident">HeroPlaytime</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Debug</span>;
 
 
-<span class='doccomment'>/// Data for all regions.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>FullData</span> {
-    <span class='doccomment'>/// Data for Europe.</span>
-    <span class='kw'>pub</span> <span class='ident'>eu</span>: <span class='ident'>RegionalData</span>,
-    <span class='doccomment'>/// Data for the U.S.</span>
-    <span class='kw'>pub</span> <span class='ident'>us</span>: <span class='ident'>RegionalData</span>,
-    <span class='doccomment'>/// Data for Korea.</span>
-    <span class='kw'>pub</span> <span class='ident'>kr</span>: <span class='ident'>RegionalData</span>,
+<span class="doccomment">/// Data for all regions.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FullData</span> {
+    <span class="doccomment">/// Data for Europe.</span>
+    <span class="kw">pub</span> <span class="ident">eu</span>: <span class="ident">RegionalData</span>,
+    <span class="doccomment">/// Data for the U.S.</span>
+    <span class="kw">pub</span> <span class="ident">us</span>: <span class="ident">RegionalData</span>,
+    <span class="doccomment">/// Data for Korea.</span>
+    <span class="kw">pub</span> <span class="ident">kr</span>: <span class="ident">RegionalData</span>,
 }
 
-<span class='doccomment'>/// Data for a single region.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Serialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>RegionalData</span> {
-    <span class='doccomment'>/// User statistics.</span>
-    <span class='kw'>pub</span> <span class='ident'>stats</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>BiMode</span><span class='op'>&lt;</span><span class='ident'>Statistics</span><span class='op'>&gt;&gt;</span>,
-    <span class='doccomment'>/// Achievements achieved by user.</span>
-    <span class='kw'>pub</span> <span class='ident'>achievements</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Achievements</span><span class='op'>&gt;</span>,
-    <span class='doccomment'>/// Hero data.</span>
-    <span class='kw'>pub</span> <span class='ident'>heroes</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>HeroesContainer</span><span class='op'>&gt;</span>,
+<span class="doccomment">/// Data for a single region.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Serialize</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RegionalData</span> {
+    <span class="doccomment">/// User statistics.</span>
+    <span class="kw">pub</span> <span class="ident">stats</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">BiMode</span><span class="op">&lt;</span><span class="ident">Statistics</span><span class="op">&gt;&gt;</span>,
+    <span class="doccomment">/// Achievements achieved by user.</span>
+    <span class="kw">pub</span> <span class="ident">achievements</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Achievements</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Hero data.</span>
+    <span class="kw">pub</span> <span class="ident">heroes</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">HeroesContainer</span><span class="op">&gt;</span>,
 }
 
-<span class='doccomment'>/// Something that has a competitive and a quickplay variant.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>BiMode</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>Debug</span> <span class='op'>+</span> <span class='ident'>Clone</span> <span class='op'>+</span> <span class='ident'>PartialEq</span> <span class='op'>+</span> <span class='ident'>Serialize</span> <span class='op'>+</span> <span class='ident'>Deserialize</span><span class='op'>&gt;</span> {
-    <span class='doccomment'>/// Variant for competitive play.</span>
-    <span class='kw'>pub</span> <span class='ident'>competitive</span>: <span class='ident'>T</span>,
-    <span class='doccomment'>/// Variant for quickplay.</span>
-    <span class='kw'>pub</span> <span class='ident'>quickplay</span>: <span class='ident'>T</span>,
+<span class="doccomment">/// Something that has a competitive and a quickplay variant.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BiMode</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Debug</span> <span class="op">+</span> <span class="ident">Clone</span> <span class="op">+</span> <span class="ident">PartialEq</span> <span class="op">+</span> <span class="ident">Serialize</span> <span class="op">+</span> <span class="ident">Deserialize</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Variant for competitive play.</span>
+    <span class="kw">pub</span> <span class="ident">competitive</span>: <span class="ident">T</span>,
+    <span class="doccomment">/// Variant for quickplay.</span>
+    <span class="kw">pub</span> <span class="ident">quickplay</span>: <span class="ident">T</span>,
 }
 
-<span class='doccomment'>/// Hero data.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>HeroesContainer</span> {
-    <span class='doccomment'>/// Time played for each of the heroes.</span>
-    <span class='kw'>pub</span> <span class='ident'>playtime</span>: <span class='ident'>BiMode</span><span class='op'>&lt;</span><span class='ident'>HeroPlaytime</span><span class='op'>&gt;</span>,
-    <span class='doccomment'>/// Statistics for various heroes.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// This is just a map because it&#39;s a bloody mess all-round.</span>
-    <span class='kw'>pub</span> <span class='ident'>stats</span>: <span class='ident'>BiMode</span><span class='op'>&lt;</span><span class='ident'>BTreeMap</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>JsonValue</span><span class='op'>&gt;&gt;</span>,
+<span class="doccomment">/// Hero data.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">HeroesContainer</span> {
+    <span class="doccomment">/// Time played for each of the heroes.</span>
+    <span class="kw">pub</span> <span class="ident">playtime</span>: <span class="ident">BiMode</span><span class="op">&lt;</span><span class="ident">HeroPlaytime</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Statistics for various heroes.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This is just a map because it&#39;s a bloody mess all-round.</span>
+    <span class="kw">pub</span> <span class="ident">stats</span>: <span class="ident">BiMode</span><span class="op">&lt;</span><span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">JsonValue</span><span class="op">&gt;&gt;</span>,
 }
 
 
-<span class='kw'>impl</span> <span class='ident'>Deserialize</span> <span class='kw'>for</span> <span class='ident'>RegionalData</span> {
-    <span class='kw'>fn</span> <span class='ident'>deserialize</span><span class='op'>&lt;</span><span class='ident'>D</span>: <span class='ident'>Deserializer</span><span class='op'>&gt;</span>(<span class='ident'>deserializer</span>: <span class='ident'>D</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>Self</span>, <span class='ident'>D</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>val</span>: <span class='ident'>JsonValue</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>Deserialize</span>::<span class='ident'>deserialize</span>(<span class='ident'>deserializer</span>));
-        <span class='prelude-val'>Ok</span>(<span class='ident'>RegionalData</span> {
-            <span class='ident'>stats</span>: <span class='ident'>val</span>.<span class='ident'>get</span>(<span class='string'>&quot;stats&quot;</span>).<span class='ident'>into_iter</span>().<span class='ident'>filter</span>(<span class='op'>|</span><span class='ident'>v</span><span class='op'>|</span> <span class='op'>!</span><span class='ident'>v</span>.<span class='ident'>is_null</span>()).<span class='ident'>flat_map</span>(<span class='op'>|</span><span class='ident'>v</span><span class='op'>|</span> <span class='ident'>from_json_value</span>(<span class='ident'>v</span>.<span class='ident'>clone</span>())).<span class='ident'>next</span>(),
-            <span class='ident'>achievements</span>: <span class='ident'>val</span>.<span class='ident'>get</span>(<span class='string'>&quot;achievements&quot;</span>).<span class='ident'>into_iter</span>().<span class='ident'>filter</span>(<span class='op'>|</span><span class='ident'>v</span><span class='op'>|</span> <span class='op'>!</span><span class='ident'>v</span>.<span class='ident'>is_null</span>()).<span class='ident'>flat_map</span>(<span class='op'>|</span><span class='ident'>v</span><span class='op'>|</span> <span class='ident'>from_json_value</span>(<span class='ident'>v</span>.<span class='ident'>clone</span>())).<span class='ident'>next</span>(),
-            <span class='ident'>heroes</span>: <span class='ident'>val</span>.<span class='ident'>get</span>(<span class='string'>&quot;heroes&quot;</span>).<span class='ident'>into_iter</span>().<span class='ident'>filter</span>(<span class='op'>|</span><span class='ident'>v</span><span class='op'>|</span> <span class='op'>!</span><span class='ident'>v</span>.<span class='ident'>is_null</span>()).<span class='ident'>flat_map</span>(<span class='op'>|</span><span class='ident'>v</span><span class='op'>|</span> <span class='ident'>from_json_value</span>(<span class='ident'>v</span>.<span class='ident'>clone</span>())).<span class='ident'>next</span>(),
+<span class="kw">impl</span> <span class="ident">Deserialize</span> <span class="kw">for</span> <span class="ident">RegionalData</span> {
+    <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span>: <span class="ident">Deserializer</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">val</span>: <span class="ident">JsonValue</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">Deserialize</span>::<span class="ident">deserialize</span>(<span class="ident">deserializer</span>));
+        <span class="prelude-val">Ok</span>(<span class="ident">RegionalData</span> {
+            <span class="ident">stats</span>: <span class="ident">val</span>.<span class="ident">get</span>(<span class="string">&quot;stats&quot;</span>).<span class="ident">into_iter</span>().<span class="ident">filter</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="op">!</span><span class="ident">v</span>.<span class="ident">is_null</span>()).<span class="ident">flat_map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">from_json_value</span>(<span class="ident">v</span>.<span class="ident">clone</span>())).<span class="ident">next</span>(),
+            <span class="ident">achievements</span>: <span class="ident">val</span>.<span class="ident">get</span>(<span class="string">&quot;achievements&quot;</span>).<span class="ident">into_iter</span>().<span class="ident">filter</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="op">!</span><span class="ident">v</span>.<span class="ident">is_null</span>()).<span class="ident">flat_map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">from_json_value</span>(<span class="ident">v</span>.<span class="ident">clone</span>())).<span class="ident">next</span>(),
+            <span class="ident">heroes</span>: <span class="ident">val</span>.<span class="ident">get</span>(<span class="string">&quot;heroes&quot;</span>).<span class="ident">into_iter</span>().<span class="ident">filter</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="op">!</span><span class="ident">v</span>.<span class="ident">is_null</span>()).<span class="ident">flat_map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">from_json_value</span>(<span class="ident">v</span>.<span class="ident">clone</span>())).<span class="ident">next</span>(),
         })
     }
 }
@@ -236,7 +236,6 @@
         window.rootPath = "../../../";
         window.currentCrate = "owapi";
     </script>
-    <script src="../../../jquery.js"></script>
     <script src="../../../main.js"></script>
     <script defer src="../../../search-index.js"></script>
 </body>

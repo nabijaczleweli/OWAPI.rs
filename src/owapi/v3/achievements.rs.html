@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -399,362 +399,362 @@
 <span id="354">354</span>
 <span id="355">355</span>
 <span id="356">356</span>
-</pre><pre class='rust '>
-<span class='doccomment'>//! Achievement data structures.</span>
+</pre><pre class="rust ">
+<span class="doccomment">//! Achievement data structures.</span>
 
 
-<span class='doccomment'>/// User&#39;s completed achievements, by category.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Hash</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Achievements</span> {
-    <span class='doccomment'>/// Achievements for heroes classified by Blizzard as &quot;defense&quot;.</span>
-    <span class='kw'>pub</span> <span class='ident'>defense</span>: <span class='ident'>DefenseAchievements</span>,
-    <span class='doccomment'>/// Achievements for heroes classified by Blizzard as &quot;offense&quot;.</span>
-    <span class='kw'>pub</span> <span class='ident'>offense</span>: <span class='ident'>OffenseAchievements</span>,
-    <span class='doccomment'>/// Achievements for heroes classified by Blizzard as &quot;support&quot;.</span>
-    <span class='kw'>pub</span> <span class='ident'>support</span>: <span class='ident'>SupportAchievements</span>,
-    <span class='doccomment'>/// General achievements.</span>
-    <span class='kw'>pub</span> <span class='ident'>general</span>: <span class='ident'>GeneralAchievements</span>,
-    <span class='doccomment'>/// Achievements for heroes classified by Blizzard as &quot;tank&quot;.</span>
-    <span class='kw'>pub</span> <span class='ident'>tank</span>: <span class='ident'>TankAchievements</span>,
-    <span class='doccomment'>/// Achievements for various maps.</span>
-    <span class='kw'>pub</span> <span class='ident'>maps</span>: <span class='ident'>MapsAchievements</span>,
-    <span class='doccomment'>/// Achievements for various events.</span>
-    <span class='kw'>pub</span> <span class='ident'>special</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>SpecialAchievements</span><span class='op'>&gt;</span>,
+<span class="doccomment">/// User&#39;s completed achievements, by category.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Hash</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Achievements</span> {
+    <span class="doccomment">/// Achievements for heroes classified by Blizzard as &quot;defense&quot;.</span>
+    <span class="kw">pub</span> <span class="ident">defense</span>: <span class="ident">DefenseAchievements</span>,
+    <span class="doccomment">/// Achievements for heroes classified by Blizzard as &quot;offense&quot;.</span>
+    <span class="kw">pub</span> <span class="ident">offense</span>: <span class="ident">OffenseAchievements</span>,
+    <span class="doccomment">/// Achievements for heroes classified by Blizzard as &quot;support&quot;.</span>
+    <span class="kw">pub</span> <span class="ident">support</span>: <span class="ident">SupportAchievements</span>,
+    <span class="doccomment">/// General achievements.</span>
+    <span class="kw">pub</span> <span class="ident">general</span>: <span class="ident">GeneralAchievements</span>,
+    <span class="doccomment">/// Achievements for heroes classified by Blizzard as &quot;tank&quot;.</span>
+    <span class="kw">pub</span> <span class="ident">tank</span>: <span class="ident">TankAchievements</span>,
+    <span class="doccomment">/// Achievements for various maps.</span>
+    <span class="kw">pub</span> <span class="ident">maps</span>: <span class="ident">MapsAchievements</span>,
+    <span class="doccomment">/// Achievements for various events.</span>
+    <span class="kw">pub</span> <span class="ident">special</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SpecialAchievements</span><span class="op">&gt;</span>,
 }
 
-<span class='doccomment'>/// Achievements for heroes classified by Blizzard as &quot;defense&quot;.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Hash</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>DefenseAchievements</span> {
-    <span class='doccomment'>/// Ice Blocked achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Block 1200 Damage with a single use of Mei&#39;s Ice Wall.</span>
-    <span class='kw'>pub</span> <span class='ident'>ice_blocked</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Triple Threat achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Kill 2 enemies in each of Bastion&#39;s Configurations without dying.</span>
-    <span class='kw'>pub</span> <span class='ident'>triple_threat</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Simple Geometry achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Get 2 killing blows with a single use of Hanzo&#39;s Scatter Arrow.</span>
-    <span class='kw'>pub</span> <span class='ident'>simple_geometry</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// The Dragon is Sated achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Kill 4 enemies with one of Hanzo&#39;s Dragonstrikes.</span>
-    <span class='kw'>pub</span> <span class='ident'>the_dragon_is_sated</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Did That Sting? achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Kill 4 enemies using Widowmaker&#39;s Venom Mine during a single game.</span>
-    <span class='kw'>pub</span> <span class='ident'>did_that_sting</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Mine Like a Steel Trap achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Knock an enemy into your Steel Trap using Junkrat&#39;s Concussion Mine.</span>
-    <span class='kw'>pub</span> <span class='ident'>mine_like_a_steel_trap</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Charge! achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Kill 4 enemies with a single use of Bastion&#39;s Configuration: Tank.</span>
-    <span class='kw'>pub</span> <span class='ident'>charge</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Cold Snap achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Freeze 4 enemies at once with Mei.</span>
-    <span class='kw'>pub</span> <span class='ident'>cold_snap</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Raid Wipe achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Kill 4 enemies during a single use of Torbjörn&#39;s Molten Core.</span>
-    <span class='kw'>pub</span> <span class='ident'>raid_wipe</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Armor Up! achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Have one of Torbjörn&#39;s Armor Packs on 5 allies at the same time.</span>
-    <span class='kw'>pub</span> <span class='ident'>armor_up</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Roadkill achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Kill 4 enemies with a single use of Junkrat&#39;s RIP-Tire.</span>
-    <span class='kw'>pub</span> <span class='ident'>roadkill</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Smooth As Silk achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Kill an enemy with a Scoped Headshot while airborne as Widowmaker.</span>
-    <span class='kw'>pub</span> <span class='ident'>smooth_as_silk</span>: <span class='ident'>bool</span>,
+<span class="doccomment">/// Achievements for heroes classified by Blizzard as &quot;defense&quot;.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Hash</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DefenseAchievements</span> {
+    <span class="doccomment">/// Ice Blocked achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Block 1200 Damage with a single use of Mei&#39;s Ice Wall.</span>
+    <span class="kw">pub</span> <span class="ident">ice_blocked</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Triple Threat achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Kill 2 enemies in each of Bastion&#39;s Configurations without dying.</span>
+    <span class="kw">pub</span> <span class="ident">triple_threat</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Simple Geometry achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Get 2 killing blows with a single use of Hanzo&#39;s Scatter Arrow.</span>
+    <span class="kw">pub</span> <span class="ident">simple_geometry</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// The Dragon is Sated achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Kill 4 enemies with one of Hanzo&#39;s Dragonstrikes.</span>
+    <span class="kw">pub</span> <span class="ident">the_dragon_is_sated</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Did That Sting? achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Kill 4 enemies using Widowmaker&#39;s Venom Mine during a single game.</span>
+    <span class="kw">pub</span> <span class="ident">did_that_sting</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Mine Like a Steel Trap achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Knock an enemy into your Steel Trap using Junkrat&#39;s Concussion Mine.</span>
+    <span class="kw">pub</span> <span class="ident">mine_like_a_steel_trap</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Charge! achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Kill 4 enemies with a single use of Bastion&#39;s Configuration: Tank.</span>
+    <span class="kw">pub</span> <span class="ident">charge</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Cold Snap achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Freeze 4 enemies at once with Mei.</span>
+    <span class="kw">pub</span> <span class="ident">cold_snap</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Raid Wipe achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Kill 4 enemies during a single use of Torbjörn&#39;s Molten Core.</span>
+    <span class="kw">pub</span> <span class="ident">raid_wipe</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Armor Up! achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Have one of Torbjörn&#39;s Armor Packs on 5 allies at the same time.</span>
+    <span class="kw">pub</span> <span class="ident">armor_up</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Roadkill achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Kill 4 enemies with a single use of Junkrat&#39;s RIP-Tire.</span>
+    <span class="kw">pub</span> <span class="ident">roadkill</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Smooth As Silk achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Kill an enemy with a Scoped Headshot while airborne as Widowmaker.</span>
+    <span class="kw">pub</span> <span class="ident">smooth_as_silk</span>: <span class="ident">bool</span>,
 }
 
-<span class='doccomment'>/// Achievements for heroes classified by Blizzard as &quot;offense&quot;.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Hash</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>OffenseAchievements</span> {
-    <span class='doccomment'>/// Hack The Planet achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Hack 15 enemies without dying as Sombra in quick or competitive play.</span>
-    <span class='kw'>pub</span> <span class='ident'>hack_the_planet</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Power Outage achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Hack 6 enemies at once as Sombra in quick or competitive play.</span>
-    <span class='kw'>pub</span> <span class='ident'>power_outage</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Whoa There! achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Interrupt an enemy ultimate ability with McCree&#39;s Flashbang.</span>
-    <span class='kw'>pub</span> <span class='ident'>whoa_there</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Die Die Die... Die achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Kill 4 enemies with a single use of Reaper&#39;s Death Blossom.</span>
-    <span class='kw'>pub</span> <span class='ident'>die_die_die_die</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// It&#39;s High Noon achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Get 4 killing blows with a single use of McCree&#39;s Deadeye.</span>
-    <span class='kw'>pub</span> <span class='ident'>its_high_noon</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Their Own Worst Enemy achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Kill 2 enemies with a single use of Genji&#39;s Deflect.</span>
-    <span class='kw'>pub</span> <span class='ident'>their_own_worst_enemy</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Clearing the Area achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Knock an enemy to their death using Pharah&#39;s Concussive Blast.</span>
-    <span class='kw'>pub</span> <span class='ident'>clearing_the_area</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Target Rich Environment achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Kill 4 enemies with a single use of Soldier: 76&#39;s Tactical Visor.</span>
-    <span class='kw'>pub</span> <span class='ident'>target_rich_environment</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Death From Above achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Kill 4 enemies in a row without touching the ground as Pharah.</span>
-    <span class='kw'>pub</span> <span class='ident'>death_from_above</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Total Recall achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Recover 400 health using Tracer&#39;s Recall without dying.</span>
-    <span class='kw'>pub</span> <span class='ident'>total_recall</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Rocket Man achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Get 2 killing blows with a single use of Soldier: 76&#39;s Helix Rockets.</span>
-    <span class='kw'>pub</span> <span class='ident'>rocket_man</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Slice and Dice achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Kill 4 enemies with a single use of Genji&#39;s Dragonblade.</span>
-    <span class='kw'>pub</span> <span class='ident'>slice_and_dice</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Special Delivery achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Stick 4 of Tracer&#39;s Pulse Bombs onto enemies in a single game.</span>
-    <span class='kw'>pub</span> <span class='ident'>special_delivery</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Waste Not, Want Not achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Get 3 solo kills with a single clip of Reaper&#39;s shotguns.</span>
-    <span class='kw'>pub</span> <span class='ident'>waste_not_want_not</span>: <span class='ident'>bool</span>,
+<span class="doccomment">/// Achievements for heroes classified by Blizzard as &quot;offense&quot;.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Hash</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OffenseAchievements</span> {
+    <span class="doccomment">/// Hack The Planet achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Hack 15 enemies without dying as Sombra in quick or competitive play.</span>
+    <span class="kw">pub</span> <span class="ident">hack_the_planet</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Power Outage achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Hack 6 enemies at once as Sombra in quick or competitive play.</span>
+    <span class="kw">pub</span> <span class="ident">power_outage</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Whoa There! achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Interrupt an enemy ultimate ability with McCree&#39;s Flashbang.</span>
+    <span class="kw">pub</span> <span class="ident">whoa_there</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Die Die Die... Die achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Kill 4 enemies with a single use of Reaper&#39;s Death Blossom.</span>
+    <span class="kw">pub</span> <span class="ident">die_die_die_die</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// It&#39;s High Noon achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Get 4 killing blows with a single use of McCree&#39;s Deadeye.</span>
+    <span class="kw">pub</span> <span class="ident">its_high_noon</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Their Own Worst Enemy achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Kill 2 enemies with a single use of Genji&#39;s Deflect.</span>
+    <span class="kw">pub</span> <span class="ident">their_own_worst_enemy</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Clearing the Area achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Knock an enemy to their death using Pharah&#39;s Concussive Blast.</span>
+    <span class="kw">pub</span> <span class="ident">clearing_the_area</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Target Rich Environment achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Kill 4 enemies with a single use of Soldier: 76&#39;s Tactical Visor.</span>
+    <span class="kw">pub</span> <span class="ident">target_rich_environment</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Death From Above achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Kill 4 enemies in a row without touching the ground as Pharah.</span>
+    <span class="kw">pub</span> <span class="ident">death_from_above</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Total Recall achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Recover 400 health using Tracer&#39;s Recall without dying.</span>
+    <span class="kw">pub</span> <span class="ident">total_recall</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Rocket Man achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Get 2 killing blows with a single use of Soldier: 76&#39;s Helix Rockets.</span>
+    <span class="kw">pub</span> <span class="ident">rocket_man</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Slice and Dice achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Kill 4 enemies with a single use of Genji&#39;s Dragonblade.</span>
+    <span class="kw">pub</span> <span class="ident">slice_and_dice</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Special Delivery achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Stick 4 of Tracer&#39;s Pulse Bombs onto enemies in a single game.</span>
+    <span class="kw">pub</span> <span class="ident">special_delivery</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Waste Not, Want Not achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Get 3 solo kills with a single clip of Reaper&#39;s shotguns.</span>
+    <span class="kw">pub</span> <span class="ident">waste_not_want_not</span>: <span class="ident">bool</span>,
 }
 
-<span class='doccomment'>/// Achievements for heroes classified by Blizzard as &quot;support&quot;.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Hash</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>SupportAchievements</span> {
-    <span class='doccomment'>/// Rapid Discord achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Get 4 kills or assists with Zenyatta&#39;s Orb of Discord within 6 seconds.</span>
-    <span class='kw'>pub</span> <span class='ident'>rapid_discord</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Enabler achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Get 4 kills or assists with a single use of Ana&#39;s Nano Boost.</span>
-    <span class='kw'>pub</span> <span class='ident'>enabler</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Huge Rez achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Resurrect 4 players at once with Mercy.</span>
-    <span class='kw'>pub</span> <span class='ident'>huge_rez</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Supersonic achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Block 1000 damage with a single use of Lúcio&#39;s Sound Barrier.</span>
-    <span class='kw'>pub</span> <span class='ident'>supersonic</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Naptime achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Interrupt an enemy ultimate ability with Ana&#39;s Sleep Dart.</span>
-    <span class='kw'>pub</span> <span class='ident'>naptime</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Huge Success achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Teleport 20 players in a single game as Symmetra.</span>
-    <span class='kw'>pub</span> <span class='ident'>huge_success</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// The Iris Embraces You achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Restore 1500 health with a single use of Zenyatta&#39;s Transcendence.</span>
-    <span class='kw'>pub</span> <span class='ident'>the_iris_embraces_you</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// The Car Wash achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Hit an enemy with 6 beams simultaneously as Symmetra.</span>
-    <span class='kw'>pub</span> <span class='ident'>the_car_wash</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// The Floor is Lava achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Get 3 killing blows while wall riding as Lúcio without dying.</span>
-    <span class='kw'>pub</span> <span class='ident'>the_floor_is_lava</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Group Health Plan achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Restore 200 health for 5 players without dying as Mercy.</span>
-    <span class='kw'>pub</span> <span class='ident'>group_health_plan</span>: <span class='ident'>bool</span>,
+<span class="doccomment">/// Achievements for heroes classified by Blizzard as &quot;support&quot;.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Hash</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SupportAchievements</span> {
+    <span class="doccomment">/// Rapid Discord achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Get 4 kills or assists with Zenyatta&#39;s Orb of Discord within 6 seconds.</span>
+    <span class="kw">pub</span> <span class="ident">rapid_discord</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Enabler achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Get 4 kills or assists with a single use of Ana&#39;s Nano Boost.</span>
+    <span class="kw">pub</span> <span class="ident">enabler</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Huge Rez achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Resurrect 4 players at once with Mercy.</span>
+    <span class="kw">pub</span> <span class="ident">huge_rez</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Supersonic achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Block 1000 damage with a single use of Lúcio&#39;s Sound Barrier.</span>
+    <span class="kw">pub</span> <span class="ident">supersonic</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Naptime achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Interrupt an enemy ultimate ability with Ana&#39;s Sleep Dart.</span>
+    <span class="kw">pub</span> <span class="ident">naptime</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Huge Success achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Teleport 20 players in a single game as Symmetra.</span>
+    <span class="kw">pub</span> <span class="ident">huge_success</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// The Iris Embraces You achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Restore 1500 health with a single use of Zenyatta&#39;s Transcendence.</span>
+    <span class="kw">pub</span> <span class="ident">the_iris_embraces_you</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// The Car Wash achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Hit an enemy with 6 beams simultaneously as Symmetra.</span>
+    <span class="kw">pub</span> <span class="ident">the_car_wash</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// The Floor is Lava achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Get 3 killing blows while wall riding as Lúcio without dying.</span>
+    <span class="kw">pub</span> <span class="ident">the_floor_is_lava</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Group Health Plan achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Restore 200 health for 5 players without dying as Mercy.</span>
+    <span class="kw">pub</span> <span class="ident">group_health_plan</span>: <span class="ident">bool</span>,
 }
 
-<span class='doccomment'>/// General achievements.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Hash</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>GeneralAchievements</span> {
-    <span class='doccomment'>/// Decorated achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Earn 50 postgame medals.</span>
-    <span class='kw'>pub</span> <span class='ident'>decorated</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Blackjack achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Earn 21 postgame cards.</span>
-    <span class='kw'>pub</span> <span class='ident'>blackjack</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Centenary achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Win 150 games.</span>
-    <span class='kw'>pub</span> <span class='ident'>centenary</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Undying achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Get a 20 player kill streak in a game.</span>
-    <span class='kw'>pub</span> <span class='ident'>undying</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Level 10 achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Reach level 10.</span>
-    <span class='kw'>pub</span> <span class='ident'>level_10</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// The Path is Closed achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Destroy 3 of Symmetra&#39;s Teleporters in a single game.</span>
-    <span class='kw'>pub</span> <span class='ident'>the_path_is_closed</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Level 50 achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Reach level 50.</span>
-    <span class='kw'>pub</span> <span class='ident'>level_50</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Level 25 achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Reach level 25.</span>
-    <span class='kw'>pub</span> <span class='ident'>level_25</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Decked Out achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Collect 50 unlocks for a single hero.</span>
-    <span class='kw'>pub</span> <span class='ident'>decked_out</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Survival Expert achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Use Health Packs to heal 900 health in a single life.</span>
-    <span class='kw'>pub</span> <span class='ident'>survival_expert</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// The Friend Zone achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Play a game in a group with a friend.</span>
-    <span class='kw'>pub</span> <span class='ident'>the_friend_zone</span>: <span class='ident'>bool</span>,
+<span class="doccomment">/// General achievements.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Hash</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GeneralAchievements</span> {
+    <span class="doccomment">/// Decorated achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Earn 50 postgame medals.</span>
+    <span class="kw">pub</span> <span class="ident">decorated</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Blackjack achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Earn 21 postgame cards.</span>
+    <span class="kw">pub</span> <span class="ident">blackjack</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Centenary achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Win 150 games.</span>
+    <span class="kw">pub</span> <span class="ident">centenary</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Undying achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Get a 20 player kill streak in a game.</span>
+    <span class="kw">pub</span> <span class="ident">undying</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Level 10 achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Reach level 10.</span>
+    <span class="kw">pub</span> <span class="ident">level_10</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// The Path is Closed achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Destroy 3 of Symmetra&#39;s Teleporters in a single game.</span>
+    <span class="kw">pub</span> <span class="ident">the_path_is_closed</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Level 50 achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Reach level 50.</span>
+    <span class="kw">pub</span> <span class="ident">level_50</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Level 25 achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Reach level 25.</span>
+    <span class="kw">pub</span> <span class="ident">level_25</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Decked Out achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Collect 50 unlocks for a single hero.</span>
+    <span class="kw">pub</span> <span class="ident">decked_out</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Survival Expert achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Use Health Packs to heal 900 health in a single life.</span>
+    <span class="kw">pub</span> <span class="ident">survival_expert</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// The Friend Zone achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Play a game in a group with a friend.</span>
+    <span class="kw">pub</span> <span class="ident">the_friend_zone</span>: <span class="ident">bool</span>,
 }
 
-<span class='doccomment'>/// Achievements for heroes classified by Blizzard as &quot;tank&quot;.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Hash</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>TankAchievements</span> {
-    <span class='doccomment'>/// Halt State achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Pull enemies into 1000 damage with a single use of Orisa&#39;s Halt! in quick or competitive play.</span>
-    <span class='kw'>pub</span> <span class='ident'>halt_state</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Overclocked achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Amplify 900 damage with a single use of Orisa&#39;s Supercharger in quick or competitive play.</span>
-    <span class='kw'>pub</span> <span class='ident'>overclocked</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// I Am Your Shield achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Block 8000 damage with Reinhardt&#39;s Barrier Field without dying.</span>
-    <span class='kw'>pub</span> <span class='ident'>i_am_your_shield</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Mine Sweeper achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Destroy 10 Turrets or Traps using Winston&#39;s Tesla Cannon without dying.</span>
-    <span class='kw'>pub</span> <span class='ident'>mine_sweeper</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Storm, Earth and Fire achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Land Reinhardt&#39;s Fire Strike and Charge after an Earthshatter Stun.</span>
-    <span class='kw'>pub</span> <span class='ident'>storm_earth_and_fire</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Giving You The Hook achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Interrupt an enemy ultimate ability with Roadhog&#39;s Chain Hook.</span>
-    <span class='kw'>pub</span> <span class='ident'>giving_you_the_hook</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Power Overwhelming achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Keep Zarya&#39;s Particle Cannon above 70 Energy for 60 seconds.</span>
-    <span class='kw'>pub</span> <span class='ident'>power_overwhelming</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Anger Management achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Damage 6 enemies a single use of Winston&#39;s Primal Rage.</span>
-    <span class='kw'>pub</span> <span class='ident'>anger_management</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Hog Wild achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Knock 2 enemies to their deaths with one use of Roadhog&#39;s Whole Hog.</span>
-    <span class='kw'>pub</span> <span class='ident'>hog_wild</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// The Power of Attraction achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Capture 5 enemies in a single use of Zarya&#39;s Graviton Surge.</span>
-    <span class='kw'>pub</span> <span class='ident'>the_power_of_attraction</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Shot Down achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Prevent 1500 damage with a single use of D.Va&#39;s Defense Matrix.</span>
-    <span class='kw'>pub</span> <span class='ident'>shot_down</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Game Over achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Kill 4 enemies with a single use of D.Va&#39;s Self-Destruct.</span>
-    <span class='kw'>pub</span> <span class='ident'>game_over</span>: <span class='ident'>bool</span>,
+<span class="doccomment">/// Achievements for heroes classified by Blizzard as &quot;tank&quot;.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Hash</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TankAchievements</span> {
+    <span class="doccomment">/// Halt State achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Pull enemies into 1000 damage with a single use of Orisa&#39;s Halt! in quick or competitive play.</span>
+    <span class="kw">pub</span> <span class="ident">halt_state</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Overclocked achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Amplify 900 damage with a single use of Orisa&#39;s Supercharger in quick or competitive play.</span>
+    <span class="kw">pub</span> <span class="ident">overclocked</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// I Am Your Shield achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Block 8000 damage with Reinhardt&#39;s Barrier Field without dying.</span>
+    <span class="kw">pub</span> <span class="ident">i_am_your_shield</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Mine Sweeper achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Destroy 10 Turrets or Traps using Winston&#39;s Tesla Cannon without dying.</span>
+    <span class="kw">pub</span> <span class="ident">mine_sweeper</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Storm, Earth and Fire achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Land Reinhardt&#39;s Fire Strike and Charge after an Earthshatter Stun.</span>
+    <span class="kw">pub</span> <span class="ident">storm_earth_and_fire</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Giving You The Hook achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Interrupt an enemy ultimate ability with Roadhog&#39;s Chain Hook.</span>
+    <span class="kw">pub</span> <span class="ident">giving_you_the_hook</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Power Overwhelming achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Keep Zarya&#39;s Particle Cannon above 70 Energy for 60 seconds.</span>
+    <span class="kw">pub</span> <span class="ident">power_overwhelming</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Anger Management achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Damage 6 enemies a single use of Winston&#39;s Primal Rage.</span>
+    <span class="kw">pub</span> <span class="ident">anger_management</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Hog Wild achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Knock 2 enemies to their deaths with one use of Roadhog&#39;s Whole Hog.</span>
+    <span class="kw">pub</span> <span class="ident">hog_wild</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// The Power of Attraction achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Capture 5 enemies in a single use of Zarya&#39;s Graviton Surge.</span>
+    <span class="kw">pub</span> <span class="ident">the_power_of_attraction</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Shot Down achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Prevent 1500 damage with a single use of D.Va&#39;s Defense Matrix.</span>
+    <span class="kw">pub</span> <span class="ident">shot_down</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Game Over achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Kill 4 enemies with a single use of D.Va&#39;s Self-Destruct.</span>
+    <span class="kw">pub</span> <span class="ident">game_over</span>: <span class="ident">bool</span>,
 }
 
-<span class='doccomment'>/// Achievements for various maps.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Hash</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>MapsAchievements</span> {
-    <span class='doccomment'>/// World Traveler achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Win a quick or competitive play game on 12 different maps.</span>
-    <span class='kw'>pub</span> <span class='ident'>world_traveler</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Lockdown achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Win an Assault map on defense without losing the first objective.</span>
-    <span class='kw'>pub</span> <span class='ident'>lockdown</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Can&#39;t Touch This achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Prevent the attacking team from touching the Payload for 1 minute.</span>
-    <span class='kw'>pub</span> <span class='ident'>cant_touch_this</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Shutout achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Win a Control map without the enemy capturing an objective.</span>
-    <span class='kw'>pub</span> <span class='ident'>shutout</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Escort Duty achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Push a Payload 100 meters without leaving it.</span>
-    <span class='kw'>pub</span> <span class='ident'>escort_duty</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Double Cap achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Capture both objectives on an Assault map without dying.</span>
-    <span class='kw'>pub</span> <span class='ident'>double_cap</span>: <span class='ident'>bool</span>,
+<span class="doccomment">/// Achievements for various maps.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Hash</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MapsAchievements</span> {
+    <span class="doccomment">/// World Traveler achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Win a quick or competitive play game on 12 different maps.</span>
+    <span class="kw">pub</span> <span class="ident">world_traveler</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Lockdown achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Win an Assault map on defense without losing the first objective.</span>
+    <span class="kw">pub</span> <span class="ident">lockdown</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Can&#39;t Touch This achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Prevent the attacking team from touching the Payload for 1 minute.</span>
+    <span class="kw">pub</span> <span class="ident">cant_touch_this</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Shutout achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Win a Control map without the enemy capturing an objective.</span>
+    <span class="kw">pub</span> <span class="ident">shutout</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Escort Duty achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Push a Payload 100 meters without leaving it.</span>
+    <span class="kw">pub</span> <span class="ident">escort_duty</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Double Cap achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Capture both objectives on an Assault map without dying.</span>
+    <span class="kw">pub</span> <span class="ident">double_cap</span>: <span class="ident">bool</span>,
 }
 
-<span class='doccomment'>/// Achievements for various events.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Hash</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>SpecialAchievements</span> {
-    <span class='doccomment'>/// Survived The Night achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Win Junkenstein&#39;s Revenge on Medium difficulty.</span>
-    <span class='kw'>pub</span> <span class='ident'>survived_the_night</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Flagbearer achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Win Capture the Rooster with as score of 3 to 0.</span>
-    <span class='kw'>pub</span> <span class='ident'>flagbearer</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Cleanup Duty achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Recover a flag in a game of Capture the Rooster.</span>
-    <span class='kw'>pub</span> <span class='ident'>cleanup_duty</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Not A Scratch achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Win Junkenstein&#39;s Revenge on Medium difficulty with no damage to the door.</span>
-    <span class='kw'>pub</span> <span class='ident'>not_a_scratch</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Four They Were achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Win Junkenstein&#39;s Revenge using each of the 4 heroes.</span>
-    <span class='kw'>pub</span> <span class='ident'>four_they_were</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Whap! achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Kill an enemy with a snowball from 25 meters away in Mei&#39;s Snowball Offensive.</span>
-    <span class='kw'>pub</span> <span class='ident'>whap</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Cool As Ice achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Kill 4 enemies without missing in Mei&#39;s Snowball Offensive.</span>
-    <span class='kw'>pub</span> <span class='ident'>cool_as_ice</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Ambush! achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Kill 3 enemies while they are picking up snow in a game of Mei&#39;s Snowball Offensive.</span>
-    <span class='kw'>pub</span> <span class='ident'>ambush</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Snowed In achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Win Mei&#39;s Snowball Offensive without losing a round.</span>
-    <span class='kw'>pub</span> <span class='ident'>snowed_in</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Held The Door achievement.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Win Junkenstein&#39;s Revenge on Hard difficulty.</span>
-    <span class='kw'>pub</span> <span class='ident'>held_the_door</span>: <span class='ident'>bool</span>,
+<span class="doccomment">/// Achievements for various events.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Hash</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SpecialAchievements</span> {
+    <span class="doccomment">/// Survived The Night achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Win Junkenstein&#39;s Revenge on Medium difficulty.</span>
+    <span class="kw">pub</span> <span class="ident">survived_the_night</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Flagbearer achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Win Capture the Rooster with as score of 3 to 0.</span>
+    <span class="kw">pub</span> <span class="ident">flagbearer</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Cleanup Duty achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Recover a flag in a game of Capture the Rooster.</span>
+    <span class="kw">pub</span> <span class="ident">cleanup_duty</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Not A Scratch achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Win Junkenstein&#39;s Revenge on Medium difficulty with no damage to the door.</span>
+    <span class="kw">pub</span> <span class="ident">not_a_scratch</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Four They Were achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Win Junkenstein&#39;s Revenge using each of the 4 heroes.</span>
+    <span class="kw">pub</span> <span class="ident">four_they_were</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Whap! achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Kill an enemy with a snowball from 25 meters away in Mei&#39;s Snowball Offensive.</span>
+    <span class="kw">pub</span> <span class="ident">whap</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Cool As Ice achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Kill 4 enemies without missing in Mei&#39;s Snowball Offensive.</span>
+    <span class="kw">pub</span> <span class="ident">cool_as_ice</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Ambush! achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Kill 3 enemies while they are picking up snow in a game of Mei&#39;s Snowball Offensive.</span>
+    <span class="kw">pub</span> <span class="ident">ambush</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Snowed In achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Win Mei&#39;s Snowball Offensive without losing a round.</span>
+    <span class="kw">pub</span> <span class="ident">snowed_in</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Held The Door achievement.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Win Junkenstein&#39;s Revenge on Hard difficulty.</span>
+    <span class="kw">pub</span> <span class="ident">held_the_door</span>: <span class="ident">bool</span>,
 }
 </pre>
 </section>
@@ -814,7 +814,6 @@
         window.rootPath = "../../../";
         window.currentCrate = "owapi";
     </script>
-    <script src="../../../jquery.js"></script>
     <script src="../../../main.js"></script>
     <script defer src="../../../search-index.js"></script>
 </body>

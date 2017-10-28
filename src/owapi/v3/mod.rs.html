@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1"> 1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1"> 1</span>
 <span id="2"> 2</span>
 <span id="3"> 3</span>
 <span id="4"> 4</span>
@@ -123,86 +123,90 @@
 <span id="78">78</span>
 <span id="79">79</span>
 <span id="80">80</span>
-</pre><pre class='rust '>
-<span class='doccomment'>//! The [OWAPI](https://github.com/SunDwarf/OWAPI)</span>
-<span class='doccomment'>//! [v3](https://github.com/SunDwarf/OWAPI/blob/8167f61d965cdfd5e9604fcd3605f11fd4425585/api.md)</span>
-<span class='doccomment'>//! API bindings.</span>
+<span id="81">81</span>
+<span id="82">82</span>
+</pre><pre class="rust ">
+<span class="doccomment">//! The [OWAPI](https://github.com/SunDwarf/OWAPI)</span>
+<span class="doccomment">//! [v3](https://github.com/SunDwarf/OWAPI/blob/8167f61d965cdfd5e9604fcd3605f11fd4425585/api.md)</span>
+<span class="doccomment">//! API bindings.</span>
 
 
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>blob</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>stats</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>achievements</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">blob</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">stats</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">achievements</span>;
 
-<span class='kw'>use</span> <span class='ident'>reqwest</span>;
-<span class='kw'>use</span> <span class='ident'>serde_json</span>::<span class='ident'>from_reader</span>;
-<span class='kw'>use</span> <span class='self'>self</span>::<span class='kw'>super</span>::{<span class='ident'>BNetUser</span>, <span class='ident'>Error</span>};
+<span class="kw">use</span> <span class="ident">reqwest</span>;
+<span class="kw">use</span> <span class="ident">serde_json</span>::<span class="ident">from_reader</span>;
+<span class="kw">use</span> <span class="self">self</span>::<span class="kw">super</span>::{<span class="ident">BNetUser</span>, <span class="ident">Error</span>};
 
 
-<span class='doccomment'>/// Download full information about the specified player.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Examples</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// ```rust,no_run</span>
-<span class='doccomment'>/// # use owapi::v3::acquire;</span>
-<span class='doccomment'>/// println!(&quot;nabijaczleweli has played {} hours of Zenyatta in competitive&quot;,</span>
-<span class='doccomment'>///          acquire(&quot;наб-2170&quot;).unwrap().eu.heroes.unwrap().playtime.competitive.zenyatta);</span>
-<span class='doccomment'>/// ```</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>acquire</span><span class='op'>&lt;</span><span class='ident'>U</span>: <span class='ident'>BNetUser</span><span class='op'>&gt;</span>(<span class='ident'>player</span>: <span class='ident'>U</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>self</span>::<span class='ident'>blob</span>::<span class='ident'>FullData</span>, <span class='ident'>Error</span><span class='op'>&gt;</span> {
-    <span class='prelude-val'>Ok</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>from_reader</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>reqwest</span>::<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;https://owapi.net/api/v3/u/{}/blob&quot;</span>, <span class='ident'>player</span>.<span class='ident'>identifier</span>()))))))
+<span class="doccomment">/// Download full information about the specified player.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Examples</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```rust,no_run</span>
+<span class="doccomment">/// # use owapi::v3::acquire;</span>
+<span class="doccomment">/// println!(&quot;nabijaczleweli has played {} hours of Zenyatta in competitive&quot;,</span>
+<span class="doccomment">///          acquire(&quot;наб-2170&quot;).unwrap().eu.heroes.unwrap().playtime.competitive.zenyatta);</span>
+<span class="doccomment">/// ```</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">acquire</span><span class="op">&lt;</span><span class="ident">U</span>: <span class="ident">BNetUser</span><span class="op">&gt;</span>(<span class="ident">player</span>: <span class="ident">U</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">self</span>::<span class="ident">blob</span>::<span class="ident">FullData</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="prelude-val">Ok</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">from_reader</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">reqwest</span>::<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;https://owapi.net/api/v3/u/{}/blob&quot;</span>, <span class="ident">player</span>.<span class="ident">identifier</span>()))))))
 }
 
 
-<span class='doccomment'>/// Time dedicated to playing each hero.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>HeroPlaytime</span> {
-    <span class='doccomment'>/// Hours spent playing Junkrat.</span>
-    <span class='kw'>pub</span> <span class='ident'>junkrat</span>: <span class='ident'>f64</span>,
-    <span class='doccomment'>/// Hours spent playing Roadhog.</span>
-    <span class='kw'>pub</span> <span class='ident'>roadhog</span>: <span class='ident'>f64</span>,
-    <span class='doccomment'>/// Hours spent playing OR15A.</span>
-    <span class='kw'>pub</span> <span class='ident'>orisa</span>: <span class='ident'>f64</span>,
-    <span class='doccomment'>/// Hours spent playing Genji.</span>
-    <span class='kw'>pub</span> <span class='ident'>genji</span>: <span class='ident'>f64</span>,
-    <span class='doccomment'>/// Hours spent playing Zenyatta.</span>
-    <span class='kw'>pub</span> <span class='ident'>zenyatta</span>: <span class='ident'>f64</span>,
-    <span class='doccomment'>/// Hours spent playing Tracer.</span>
-    <span class='kw'>pub</span> <span class='ident'>tracer</span>: <span class='ident'>f64</span>,
-    <span class='doccomment'>/// Hours spent playing Symmetra.</span>
-    <span class='kw'>pub</span> <span class='ident'>symmetra</span>: <span class='ident'>f64</span>,
-    <span class='doccomment'>/// Hours spent playing Lúcio.</span>
-    <span class='kw'>pub</span> <span class='ident'>lucio</span>: <span class='ident'>f64</span>,
-    <span class='doccomment'>/// Hours spent playing D.VA.</span>
-    <span class='kw'>pub</span> <span class='ident'>dva</span>: <span class='ident'>f64</span>,
-    <span class='doccomment'>/// Hours spent playing Pharah.</span>
-    <span class='kw'>pub</span> <span class='ident'>pharah</span>: <span class='ident'>f64</span>,
-    <span class='doccomment'>/// Hours spent playing Mei.</span>
-    <span class='kw'>pub</span> <span class='ident'>mei</span>: <span class='ident'>f64</span>,
-    <span class='doccomment'>/// Hours spent playing Soldier: 76.</span>
-    <span class='kw'>pub</span> <span class='ident'>soldier76</span>: <span class='ident'>f64</span>,
-    <span class='doccomment'>/// Hours spent playing Torbjörn.</span>
-    <span class='kw'>pub</span> <span class='ident'>torbjorn</span>: <span class='ident'>f64</span>,
-    <span class='doccomment'>/// Hours spent playing Zarya.</span>
-    <span class='kw'>pub</span> <span class='ident'>zarya</span>: <span class='ident'>f64</span>,
-    <span class='doccomment'>/// Hours spent playing Bastion.</span>
-    <span class='kw'>pub</span> <span class='ident'>bastion</span>: <span class='ident'>f64</span>,
-    <span class='doccomment'>/// Hours spent playing Ana.</span>
-    <span class='kw'>pub</span> <span class='ident'>ana</span>: <span class='ident'>f64</span>,
-    <span class='doccomment'>/// Hours spent playing Reaper.</span>
-    <span class='kw'>pub</span> <span class='ident'>reaper</span>: <span class='ident'>f64</span>,
-    <span class='doccomment'>/// Hours spent playing Winston.</span>
-    <span class='kw'>pub</span> <span class='ident'>winston</span>: <span class='ident'>f64</span>,
-    <span class='doccomment'>/// Hours spent playing Hanzo.</span>
-    <span class='kw'>pub</span> <span class='ident'>hanzo</span>: <span class='ident'>f64</span>,
-    <span class='doccomment'>/// Hours spent playing Sombra.</span>
-    <span class='kw'>pub</span> <span class='ident'>sombra</span>: <span class='ident'>f64</span>,
-    <span class='doccomment'>/// Hours spent playing Widowmaker.</span>
-    <span class='kw'>pub</span> <span class='ident'>widowmaker</span>: <span class='ident'>f64</span>,
-    <span class='doccomment'>/// Hours spent playing Reinhardt.</span>
-    <span class='kw'>pub</span> <span class='ident'>reinhardt</span>: <span class='ident'>f64</span>,
-    <span class='doccomment'>/// Hours spent playing Mercy.</span>
-    <span class='kw'>pub</span> <span class='ident'>mercy</span>: <span class='ident'>f64</span>,
-    <span class='doccomment'>/// Hours spent playing McCree.</span>
-    <span class='kw'>pub</span> <span class='ident'>mccree</span>: <span class='ident'>f64</span>,
+<span class="doccomment">/// Time dedicated to playing each hero.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">HeroPlaytime</span> {
+    <span class="doccomment">/// Hours spent playing Junkrat.</span>
+    <span class="kw">pub</span> <span class="ident">junkrat</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// Hours spent playing Roadhog.</span>
+    <span class="kw">pub</span> <span class="ident">roadhog</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// Hours spent playing OR15A.</span>
+    <span class="kw">pub</span> <span class="ident">orisa</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// Hours spent playing Genji.</span>
+    <span class="kw">pub</span> <span class="ident">genji</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// Hours spent playing Zenyatta.</span>
+    <span class="kw">pub</span> <span class="ident">zenyatta</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// Hours spent playing Tracer.</span>
+    <span class="kw">pub</span> <span class="ident">tracer</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// Hours spent playing Symmetra.</span>
+    <span class="kw">pub</span> <span class="ident">symmetra</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// Hours spent playing Lúcio.</span>
+    <span class="kw">pub</span> <span class="ident">lucio</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// Hours spent playing D.VA.</span>
+    <span class="kw">pub</span> <span class="ident">dva</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// Hours spent playing Pharah.</span>
+    <span class="kw">pub</span> <span class="ident">pharah</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// Hours spent playing Mei.</span>
+    <span class="kw">pub</span> <span class="ident">mei</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// Hours spent playing Soldier: 76.</span>
+    <span class="kw">pub</span> <span class="ident">soldier76</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// Hours spent playing Torbjörn.</span>
+    <span class="kw">pub</span> <span class="ident">torbjorn</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// Hours spent playing Zarya.</span>
+    <span class="kw">pub</span> <span class="ident">zarya</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// Hours spent playing Bastion.</span>
+    <span class="kw">pub</span> <span class="ident">bastion</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// Hours spent playing Ana.</span>
+    <span class="kw">pub</span> <span class="ident">ana</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// Hours spent playing Reaper.</span>
+    <span class="kw">pub</span> <span class="ident">reaper</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// Hours spent playing Winston.</span>
+    <span class="kw">pub</span> <span class="ident">winston</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// Hours spent playing Hanzo.</span>
+    <span class="kw">pub</span> <span class="ident">hanzo</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// Hours spent playing Sombra.</span>
+    <span class="kw">pub</span> <span class="ident">sombra</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// Hours spent playing Widowmaker.</span>
+    <span class="kw">pub</span> <span class="ident">widowmaker</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// Hours spent playing Reinhardt.</span>
+    <span class="kw">pub</span> <span class="ident">reinhardt</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// Hours spent playing Mercy.</span>
+    <span class="kw">pub</span> <span class="ident">mercy</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// Hours spent playing McCree.</span>
+    <span class="kw">pub</span> <span class="ident">mccree</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// Hours spent playing Doomfist.</span>
+    <span class="kw">pub</span> <span class="ident">doomfist</span>: <span class="ident">f64</span>,
 }
 </pre>
 </section>
@@ -262,7 +266,6 @@
         window.rootPath = "../../../";
         window.currentCrate = "owapi";
     </script>
-    <script src="../../../jquery.js"></script>
     <script src="../../../main.js"></script>
     <script defer src="../../../search-index.js"></script>
 </body>

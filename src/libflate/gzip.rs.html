@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/libflate-0.1.4/src/gzip.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/libflate-0.1.12/src/gzip.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>gzip.rs.html -- source</title>
@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -931,893 +931,987 @@
 <span id="886">886</span>
 <span id="887">887</span>
 <span id="888">888</span>
-</pre><pre class='rust '>
-<span class='doccomment'>//! The encoder and decoder of the GZIP format.</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! The GZIP format is defined in [RFC-1952](https://tools.ietf.org/html/rfc1952).</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! # Examples</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//! use std::io::{self, Read};</span>
-<span class='doccomment'>//! use libflate::gzip::{Encoder, Decoder};</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! // Encoding</span>
-<span class='doccomment'>//! let mut encoder = Encoder::new(Vec::new()).unwrap();</span>
-<span class='doccomment'>//! io::copy(&amp;mut &amp;b&quot;Hello World!&quot;[..], &amp;mut encoder).unwrap();</span>
-<span class='doccomment'>//! let encoded_data = encoder.finish().into_result().unwrap();</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! // Decoding</span>
-<span class='doccomment'>//! let mut decoder = Decoder::new(io::Cursor::new(encoded_data)).unwrap();</span>
-<span class='doccomment'>//! let mut decoded_data = Vec::new();</span>
-<span class='doccomment'>//! decoder.read_to_end(&amp;mut decoded_data).unwrap();</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! assert_eq!(decoded_data, b&quot;Hello World!&quot;);</span>
-<span class='doccomment'>//! ```</span>
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>time</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ffi</span>::<span class='ident'>CString</span>;
-<span class='kw'>use</span> <span class='ident'>byteorder</span>::<span class='ident'>ReadBytesExt</span>;
-<span class='kw'>use</span> <span class='ident'>byteorder</span>::<span class='ident'>WriteBytesExt</span>;
-<span class='kw'>use</span> <span class='ident'>byteorder</span>::<span class='ident'>LittleEndian</span>;
+<span id="889">889</span>
+<span id="890">890</span>
+<span id="891">891</span>
+<span id="892">892</span>
+<span id="893">893</span>
+<span id="894">894</span>
+<span id="895">895</span>
+<span id="896">896</span>
+<span id="897">897</span>
+<span id="898">898</span>
+<span id="899">899</span>
+<span id="900">900</span>
+<span id="901">901</span>
+<span id="902">902</span>
+<span id="903">903</span>
+<span id="904">904</span>
+<span id="905">905</span>
+<span id="906">906</span>
+<span id="907">907</span>
+<span id="908">908</span>
+<span id="909">909</span>
+<span id="910">910</span>
+<span id="911">911</span>
+<span id="912">912</span>
+<span id="913">913</span>
+<span id="914">914</span>
+<span id="915">915</span>
+<span id="916">916</span>
+<span id="917">917</span>
+<span id="918">918</span>
+<span id="919">919</span>
+<span id="920">920</span>
+<span id="921">921</span>
+<span id="922">922</span>
+<span id="923">923</span>
+<span id="924">924</span>
+<span id="925">925</span>
+<span id="926">926</span>
+<span id="927">927</span>
+<span id="928">928</span>
+<span id="929">929</span>
+<span id="930">930</span>
+<span id="931">931</span>
+<span id="932">932</span>
+<span id="933">933</span>
+<span id="934">934</span>
+<span id="935">935</span>
+</pre><pre class="rust ">
+<span class="doccomment">//! The encoder and decoder of the GZIP format.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! The GZIP format is defined in [RFC-1952](https://tools.ietf.org/html/rfc1952).</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! # Examples</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//! use std::io::{self, Read};</span>
+<span class="doccomment">//! use libflate::gzip::{Encoder, Decoder};</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! // Encoding</span>
+<span class="doccomment">//! let mut encoder = Encoder::new(Vec::new()).unwrap();</span>
+<span class="doccomment">//! io::copy(&amp;mut &amp;b&quot;Hello World!&quot;[..], &amp;mut encoder).unwrap();</span>
+<span class="doccomment">//! let encoded_data = encoder.finish().into_result().unwrap();</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! // Decoding</span>
+<span class="doccomment">//! let mut decoder = Decoder::new(&amp;encoded_data[..]).unwrap();</span>
+<span class="doccomment">//! let mut decoded_data = Vec::new();</span>
+<span class="doccomment">//! decoder.read_to_end(&amp;mut decoded_data).unwrap();</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! assert_eq!(decoded_data, b&quot;Hello World!&quot;);</span>
+<span class="doccomment">//! ```</span>
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">time</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::<span class="ident">CString</span>;
+<span class="kw">use</span> <span class="ident">byteorder</span>::<span class="ident">ReadBytesExt</span>;
+<span class="kw">use</span> <span class="ident">byteorder</span>::<span class="ident">WriteBytesExt</span>;
+<span class="kw">use</span> <span class="ident">byteorder</span>::<span class="ident">LittleEndian</span>;
 
-<span class='kw'>use</span> <span class='ident'>lz77</span>;
-<span class='kw'>use</span> <span class='ident'>deflate</span>;
-<span class='kw'>use</span> <span class='ident'>checksum</span>;
-<span class='kw'>use</span> <span class='ident'>finish</span>::<span class='ident'>Finish</span>;
+<span class="kw">use</span> <span class="ident">lz77</span>;
+<span class="kw">use</span> <span class="ident">deflate</span>;
+<span class="kw">use</span> <span class="ident">checksum</span>;
+<span class="kw">use</span> <span class="ident">finish</span>::<span class="ident">Finish</span>;
 
-<span class='kw'>const</span> <span class='ident'>GZIP_ID</span>: [<span class='ident'>u8</span>; <span class='number'>2</span>] <span class='op'>=</span> [<span class='number'>31</span>, <span class='number'>139</span>];
-<span class='kw'>const</span> <span class='ident'>COMPRESSION_METHOD_DEFLATE</span>: <span class='ident'>u8</span> <span class='op'>=</span> <span class='number'>8</span>;
+<span class="kw">const</span> <span class="ident">GZIP_ID</span>: [<span class="ident">u8</span>; <span class="number">2</span>] <span class="op">=</span> [<span class="number">31</span>, <span class="number">139</span>];
+<span class="kw">const</span> <span class="ident">COMPRESSION_METHOD_DEFLATE</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">8</span>;
 
-<span class='kw'>const</span> <span class='ident'>OS_FAT</span>: <span class='ident'>u8</span> <span class='op'>=</span> <span class='number'>0</span>;
-<span class='kw'>const</span> <span class='ident'>OS_AMIGA</span>: <span class='ident'>u8</span> <span class='op'>=</span> <span class='number'>1</span>;
-<span class='kw'>const</span> <span class='ident'>OS_VMS</span>: <span class='ident'>u8</span> <span class='op'>=</span> <span class='number'>2</span>;
-<span class='kw'>const</span> <span class='ident'>OS_UNIX</span>: <span class='ident'>u8</span> <span class='op'>=</span> <span class='number'>3</span>;
-<span class='kw'>const</span> <span class='ident'>OS_VM_CMS</span>: <span class='ident'>u8</span> <span class='op'>=</span> <span class='number'>4</span>;
-<span class='kw'>const</span> <span class='ident'>OS_ATARI_TOS</span>: <span class='ident'>u8</span> <span class='op'>=</span> <span class='number'>5</span>;
-<span class='kw'>const</span> <span class='ident'>OS_HPFS</span>: <span class='ident'>u8</span> <span class='op'>=</span> <span class='number'>6</span>;
-<span class='kw'>const</span> <span class='ident'>OS_MACINTOSH</span>: <span class='ident'>u8</span> <span class='op'>=</span> <span class='number'>7</span>;
-<span class='kw'>const</span> <span class='ident'>OS_Z_SYSTEM</span>: <span class='ident'>u8</span> <span class='op'>=</span> <span class='number'>8</span>;
-<span class='kw'>const</span> <span class='ident'>OS_CPM</span>: <span class='ident'>u8</span> <span class='op'>=</span> <span class='number'>9</span>;
-<span class='kw'>const</span> <span class='ident'>OS_TOPS20</span>: <span class='ident'>u8</span> <span class='op'>=</span> <span class='number'>10</span>;
-<span class='kw'>const</span> <span class='ident'>OS_NTFS</span>: <span class='ident'>u8</span> <span class='op'>=</span> <span class='number'>11</span>;
-<span class='kw'>const</span> <span class='ident'>OS_QDOS</span>: <span class='ident'>u8</span> <span class='op'>=</span> <span class='number'>12</span>;
-<span class='kw'>const</span> <span class='ident'>OS_ACORN_RISCOS</span>: <span class='ident'>u8</span> <span class='op'>=</span> <span class='number'>13</span>;
-<span class='kw'>const</span> <span class='ident'>OS_UNKNOWN</span>: <span class='ident'>u8</span> <span class='op'>=</span> <span class='number'>255</span>;
+<span class="kw">const</span> <span class="ident">OS_FAT</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">0</span>;
+<span class="kw">const</span> <span class="ident">OS_AMIGA</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">1</span>;
+<span class="kw">const</span> <span class="ident">OS_VMS</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">2</span>;
+<span class="kw">const</span> <span class="ident">OS_UNIX</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">3</span>;
+<span class="kw">const</span> <span class="ident">OS_VM_CMS</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">4</span>;
+<span class="kw">const</span> <span class="ident">OS_ATARI_TOS</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">5</span>;
+<span class="kw">const</span> <span class="ident">OS_HPFS</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">6</span>;
+<span class="kw">const</span> <span class="ident">OS_MACINTOSH</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">7</span>;
+<span class="kw">const</span> <span class="ident">OS_Z_SYSTEM</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">8</span>;
+<span class="kw">const</span> <span class="ident">OS_CPM</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">9</span>;
+<span class="kw">const</span> <span class="ident">OS_TOPS20</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">10</span>;
+<span class="kw">const</span> <span class="ident">OS_NTFS</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">11</span>;
+<span class="kw">const</span> <span class="ident">OS_QDOS</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">12</span>;
+<span class="kw">const</span> <span class="ident">OS_ACORN_RISCOS</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">13</span>;
+<span class="kw">const</span> <span class="ident">OS_UNKNOWN</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">255</span>;
 
-<span class='kw'>const</span> <span class='ident'>F_TEXT</span>: <span class='ident'>u8</span> <span class='op'>=</span> <span class='number'>0b000001</span>;
-<span class='kw'>const</span> <span class='ident'>F_HCRC</span>: <span class='ident'>u8</span> <span class='op'>=</span> <span class='number'>0b000010</span>;
-<span class='kw'>const</span> <span class='ident'>F_EXTRA</span>: <span class='ident'>u8</span> <span class='op'>=</span> <span class='number'>0b000100</span>;
-<span class='kw'>const</span> <span class='ident'>F_NAME</span>: <span class='ident'>u8</span> <span class='op'>=</span> <span class='number'>0b001000</span>;
-<span class='kw'>const</span> <span class='ident'>F_COMMENT</span>: <span class='ident'>u8</span> <span class='op'>=</span> <span class='number'>0b010000</span>;
+<span class="kw">const</span> <span class="ident">F_TEXT</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">0b00_0001</span>;
+<span class="kw">const</span> <span class="ident">F_HCRC</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">0b00_0010</span>;
+<span class="kw">const</span> <span class="ident">F_EXTRA</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">0b00_0100</span>;
+<span class="kw">const</span> <span class="ident">F_NAME</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">0b00_1000</span>;
+<span class="kw">const</span> <span class="ident">F_COMMENT</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">0b01_0000</span>;
 
-<span class='doccomment'>/// Compression levels defined by the GZIP format.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Hash</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>CompressionLevel</span> {
-    <span class='doccomment'>/// Compressor used fastest algorithm.</span>
-    <span class='ident'>Fastest</span>,
+<span class="doccomment">/// Compression levels defined by the GZIP format.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">CompressionLevel</span> {
+    <span class="doccomment">/// Compressor used fastest algorithm.</span>
+    <span class="ident">Fastest</span>,
 
-    <span class='doccomment'>/// Compressor used maximum compression, slowest algorithm.</span>
-    <span class='ident'>Slowest</span>,
+    <span class="doccomment">/// Compressor used maximum compression, slowest algorithm.</span>
+    <span class="ident">Slowest</span>,
 
-    <span class='doccomment'>/// No information about compression method.</span>
-    <span class='ident'>Unknown</span>,
+    <span class="doccomment">/// No information about compression method.</span>
+    <span class="ident">Unknown</span>,
 }
-<span class='kw'>impl</span> <span class='ident'>CompressionLevel</span> {
-    <span class='kw'>fn</span> <span class='ident'>to_u8</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>u8</span> {
-        <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> {
-            <span class='ident'>CompressionLevel</span>::<span class='ident'>Fastest</span> <span class='op'>=&gt;</span> <span class='number'>4</span>,
-            <span class='ident'>CompressionLevel</span>::<span class='ident'>Slowest</span> <span class='op'>=&gt;</span> <span class='number'>2</span>,
-            <span class='ident'>CompressionLevel</span>::<span class='ident'>Unknown</span> <span class='op'>=&gt;</span> <span class='number'>0</span>,
+<span class="kw">impl</span> <span class="ident">CompressionLevel</span> {
+    <span class="kw">fn</span> <span class="ident">to_u8</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u8</span> {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">CompressionLevel</span>::<span class="ident">Fastest</span> <span class="op">=&gt;</span> <span class="number">4</span>,
+            <span class="ident">CompressionLevel</span>::<span class="ident">Slowest</span> <span class="op">=&gt;</span> <span class="number">2</span>,
+            <span class="ident">CompressionLevel</span>::<span class="ident">Unknown</span> <span class="op">=&gt;</span> <span class="number">0</span>,
         }
     }
-    <span class='kw'>fn</span> <span class='ident'>from_u8</span>(<span class='ident'>x</span>: <span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='kw'>match</span> <span class='ident'>x</span> {
-            <span class='number'>4</span> <span class='op'>=&gt;</span> <span class='ident'>CompressionLevel</span>::<span class='ident'>Fastest</span>,
-            <span class='number'>2</span> <span class='op'>=&gt;</span> <span class='ident'>CompressionLevel</span>::<span class='ident'>Slowest</span>,
-            _ <span class='op'>=&gt;</span> <span class='ident'>CompressionLevel</span>::<span class='ident'>Unknown</span>,
+    <span class="kw">fn</span> <span class="ident">from_u8</span>(<span class="ident">x</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="kw">match</span> <span class="ident">x</span> {
+            <span class="number">4</span> <span class="op">=&gt;</span> <span class="ident">CompressionLevel</span>::<span class="ident">Fastest</span>,
+            <span class="number">2</span> <span class="op">=&gt;</span> <span class="ident">CompressionLevel</span>::<span class="ident">Slowest</span>,
+            _ <span class="op">=&gt;</span> <span class="ident">CompressionLevel</span>::<span class="ident">Unknown</span>,
         }
     }
 }
-<span class='kw'>impl</span> <span class='ident'>From</span><span class='op'>&lt;</span><span class='ident'>lz77</span>::<span class='ident'>CompressionLevel</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>CompressionLevel</span> {
-    <span class='kw'>fn</span> <span class='ident'>from</span>(<span class='ident'>f</span>: <span class='ident'>lz77</span>::<span class='ident'>CompressionLevel</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='kw'>match</span> <span class='ident'>f</span> {
-            <span class='ident'>lz77</span>::<span class='ident'>CompressionLevel</span>::<span class='ident'>Fast</span> <span class='op'>=&gt;</span> <span class='ident'>CompressionLevel</span>::<span class='ident'>Fastest</span>,
-            <span class='ident'>lz77</span>::<span class='ident'>CompressionLevel</span>::<span class='ident'>Best</span> <span class='op'>=&gt;</span> <span class='ident'>CompressionLevel</span>::<span class='ident'>Slowest</span>,
-            _ <span class='op'>=&gt;</span> <span class='ident'>CompressionLevel</span>::<span class='ident'>Unknown</span>,
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">lz77</span>::<span class="ident">CompressionLevel</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">CompressionLevel</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">f</span>: <span class="ident">lz77</span>::<span class="ident">CompressionLevel</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="kw">match</span> <span class="ident">f</span> {
+            <span class="ident">lz77</span>::<span class="ident">CompressionLevel</span>::<span class="ident">Fast</span> <span class="op">=&gt;</span> <span class="ident">CompressionLevel</span>::<span class="ident">Fastest</span>,
+            <span class="ident">lz77</span>::<span class="ident">CompressionLevel</span>::<span class="ident">Best</span> <span class="op">=&gt;</span> <span class="ident">CompressionLevel</span>::<span class="ident">Slowest</span>,
+            _ <span class="op">=&gt;</span> <span class="ident">CompressionLevel</span>::<span class="ident">Unknown</span>,
         }
     }
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>)]</span>
-<span class='kw'>struct</span> <span class='ident'>Trailer</span> {
-    <span class='ident'>crc32</span>: <span class='ident'>u32</span>,
-    <span class='ident'>input_size</span>: <span class='ident'>u32</span>,
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct</span> <span class="ident">Trailer</span> {
+    <span class="ident">crc32</span>: <span class="ident">u32</span>,
+    <span class="ident">input_size</span>: <span class="ident">u32</span>,
 }
-<span class='kw'>impl</span> <span class='ident'>Trailer</span> {
-    <span class='kw'>fn</span> <span class='ident'>read_from</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='ident'>reader</span>: <span class='ident'>R</span>) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span>
-        <span class='kw'>where</span> <span class='ident'>R</span>: <span class='ident'>io</span>::<span class='ident'>Read</span>
+<span class="kw">impl</span> <span class="ident">Trailer</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">crc32</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
+        <span class="self">self</span>.<span class="ident">crc32</span>
+    }
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_from</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="ident">reader</span>: <span class="ident">R</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">R</span>: <span class="ident">io</span>::<span class="ident">Read</span>,
     {
-        <span class='prelude-val'>Ok</span>(<span class='ident'>Trailer</span> {
-            <span class='ident'>crc32</span>: <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>reader</span>.<span class='ident'>read_u32</span>::<span class='op'>&lt;</span><span class='ident'>LittleEndian</span><span class='op'>&gt;</span>()),
-            <span class='ident'>input_size</span>: <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>reader</span>.<span class='ident'>read_u32</span>::<span class='op'>&lt;</span><span class='ident'>LittleEndian</span><span class='op'>&gt;</span>()),
+        <span class="prelude-val">Ok</span>(<span class="ident">Trailer</span> {
+            <span class="ident">crc32</span>: <span class="ident">reader</span>.<span class="ident">read_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()<span class="question-mark">?</span>,
+            <span class="ident">input_size</span>: <span class="ident">reader</span>.<span class="ident">read_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()<span class="question-mark">?</span>,
         })
     }
-    <span class='kw'>fn</span> <span class='ident'>write_to</span><span class='op'>&lt;</span><span class='ident'>W</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='kw-2'>mut</span> <span class='ident'>writer</span>: <span class='ident'>W</span>) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span>
-        <span class='kw'>where</span> <span class='ident'>W</span>: <span class='ident'>io</span>::<span class='ident'>Write</span>
+    <span class="kw">fn</span> <span class="ident">write_to</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">writer</span>: <span class="ident">W</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">W</span>: <span class="ident">io</span>::<span class="ident">Write</span>,
     {
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>writer</span>.<span class='ident'>write_u32</span>::<span class='op'>&lt;</span><span class='ident'>LittleEndian</span><span class='op'>&gt;</span>(<span class='self'>self</span>.<span class='ident'>crc32</span>));
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>writer</span>.<span class='ident'>write_u32</span>::<span class='op'>&lt;</span><span class='ident'>LittleEndian</span><span class='op'>&gt;</span>(<span class='self'>self</span>.<span class='ident'>input_size</span>));
-        <span class='prelude-val'>Ok</span>(())
+        <span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="self">self</span>.<span class="ident">crc32</span>)<span class="question-mark">?</span>;
+        <span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="self">self</span>.<span class="ident">input_size</span>)<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(())
     }
 }
 
-<span class='doccomment'>/// GZIP header builder.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>HeaderBuilder</span> {
-    <span class='ident'>header</span>: <span class='ident'>Header</span>,
+<span class="doccomment">/// GZIP header builder.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">HeaderBuilder</span> {
+    <span class="ident">header</span>: <span class="ident">Header</span>,
 }
-<span class='kw'>impl</span> <span class='ident'>HeaderBuilder</span> {
-    <span class='doccomment'>/// Makes a new builder instance.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Examples</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// use libflate::gzip::{HeaderBuilder, CompressionLevel, Os};</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let header = HeaderBuilder::new().finish();</span>
-    <span class='doccomment'>/// assert_eq!(header.compression_level(), CompressionLevel::Unknown);</span>
-    <span class='doccomment'>/// assert_eq!(header.os(), Os::Unix);</span>
-    <span class='doccomment'>/// assert_eq!(header.is_text(), false);</span>
-    <span class='doccomment'>/// assert_eq!(header.is_verified(), false);</span>
-    <span class='doccomment'>/// assert_eq!(header.extra_field(), None);</span>
-    <span class='doccomment'>/// assert_eq!(header.filename(), None);</span>
-    <span class='doccomment'>/// assert_eq!(header.comment(), None);</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='kw'>let</span> <span class='ident'>modification_time</span> <span class='op'>=</span> <span class='ident'>time</span>::<span class='ident'>UNIX_EPOCH</span>.<span class='ident'>elapsed</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>d</span><span class='op'>|</span> <span class='ident'>d</span>.<span class='ident'>as_secs</span>() <span class='kw'>as</span> <span class='ident'>u32</span>).<span class='ident'>unwrap_or</span>(<span class='number'>0</span>);
-        <span class='kw'>let</span> <span class='ident'>header</span> <span class='op'>=</span> <span class='ident'>Header</span> {
-            <span class='ident'>modification_time</span>: <span class='ident'>modification_time</span>,
-            <span class='ident'>compression_level</span>: <span class='ident'>CompressionLevel</span>::<span class='ident'>Unknown</span>,
-            <span class='ident'>os</span>: <span class='ident'>Os</span>::<span class='ident'>Unix</span>,
-            <span class='ident'>is_text</span>: <span class='bool-val'>false</span>,
-            <span class='ident'>is_verified</span>: <span class='bool-val'>false</span>,
-            <span class='ident'>extra_field</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>filename</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>comment</span>: <span class='prelude-val'>None</span>,
+<span class="kw">impl</span> <span class="ident">HeaderBuilder</span> {
+    <span class="doccomment">/// Makes a new builder instance.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use libflate::gzip::{HeaderBuilder, CompressionLevel, Os};</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let header = HeaderBuilder::new().finish();</span>
+    <span class="doccomment">/// assert_eq!(header.compression_level(), CompressionLevel::Unknown);</span>
+    <span class="doccomment">/// assert_eq!(header.os(), Os::Unix);</span>
+    <span class="doccomment">/// assert_eq!(header.is_text(), false);</span>
+    <span class="doccomment">/// assert_eq!(header.is_verified(), false);</span>
+    <span class="doccomment">/// assert_eq!(header.extra_field(), None);</span>
+    <span class="doccomment">/// assert_eq!(header.filename(), None);</span>
+    <span class="doccomment">/// assert_eq!(header.comment(), None);</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="kw">let</span> <span class="ident">modification_time</span> <span class="op">=</span> <span class="ident">time</span>::<span class="ident">UNIX_EPOCH</span>
+            .<span class="ident">elapsed</span>()
+            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">d</span><span class="op">|</span> <span class="ident">d</span>.<span class="ident">as_secs</span>() <span class="kw">as</span> <span class="ident">u32</span>)
+            .<span class="ident">unwrap_or</span>(<span class="number">0</span>);
+        <span class="kw">let</span> <span class="ident">header</span> <span class="op">=</span> <span class="ident">Header</span> {
+            <span class="ident">modification_time</span>: <span class="ident">modification_time</span>,
+            <span class="ident">compression_level</span>: <span class="ident">CompressionLevel</span>::<span class="ident">Unknown</span>,
+            <span class="ident">os</span>: <span class="ident">Os</span>::<span class="ident">Unix</span>,
+            <span class="ident">is_text</span>: <span class="bool-val">false</span>,
+            <span class="ident">is_verified</span>: <span class="bool-val">false</span>,
+            <span class="ident">extra_field</span>: <span class="prelude-val">None</span>,
+            <span class="ident">filename</span>: <span class="prelude-val">None</span>,
+            <span class="ident">comment</span>: <span class="prelude-val">None</span>,
         };
-        <span class='ident'>HeaderBuilder</span> { <span class='ident'>header</span>: <span class='ident'>header</span> }
+        <span class="ident">HeaderBuilder</span> { <span class="ident">header</span>: <span class="ident">header</span> }
     }
 
-    <span class='doccomment'>/// Sets the modification time (UNIX timestamp).</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Examples</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// use libflate::gzip::HeaderBuilder;</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let header = HeaderBuilder::new().modification_time(10).finish();</span>
-    <span class='doccomment'>/// assert_eq!(header.modification_time(), 10);</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>modification_time</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>modification_time</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>Self</span> {
-        <span class='self'>self</span>.<span class='ident'>header</span>.<span class='ident'>modification_time</span> <span class='op'>=</span> <span class='ident'>modification_time</span>;
-        <span class='self'>self</span>
+    <span class="doccomment">/// Sets the modification time (UNIX timestamp).</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use libflate::gzip::HeaderBuilder;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let header = HeaderBuilder::new().modification_time(10).finish();</span>
+    <span class="doccomment">/// assert_eq!(header.modification_time(), 10);</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">modification_time</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">modification_time</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">header</span>.<span class="ident">modification_time</span> <span class="op">=</span> <span class="ident">modification_time</span>;
+        <span class="self">self</span>
     }
 
-    <span class='doccomment'>/// Sets the OS type.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// use libflate::gzip::{HeaderBuilder, Os};</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let header = HeaderBuilder::new().os(Os::Ntfs).finish();</span>
-    <span class='doccomment'>/// assert_eq!(header.os(), Os::Ntfs);</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>os</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>os</span>: <span class='ident'>Os</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>Self</span> {
-        <span class='self'>self</span>.<span class='ident'>header</span>.<span class='ident'>os</span> <span class='op'>=</span> <span class='ident'>os</span>;
-        <span class='self'>self</span>
+    <span class="doccomment">/// Sets the OS type.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use libflate::gzip::{HeaderBuilder, Os};</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let header = HeaderBuilder::new().os(Os::Ntfs).finish();</span>
+    <span class="doccomment">/// assert_eq!(header.os(), Os::Ntfs);</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">os</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">os</span>: <span class="ident">Os</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">header</span>.<span class="ident">os</span> <span class="op">=</span> <span class="ident">os</span>;
+        <span class="self">self</span>
     }
 
-    <span class='doccomment'>/// Indicates the encoding data is a ASCII text.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Examples</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// use libflate::gzip::HeaderBuilder;</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let header = HeaderBuilder::new().text().finish();</span>
-    <span class='doccomment'>/// assert_eq!(header.is_text(), true);</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>text</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>Self</span> {
-        <span class='self'>self</span>.<span class='ident'>header</span>.<span class='ident'>is_text</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
-        <span class='self'>self</span>
+    <span class="doccomment">/// Indicates the encoding data is a ASCII text.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use libflate::gzip::HeaderBuilder;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let header = HeaderBuilder::new().text().finish();</span>
+    <span class="doccomment">/// assert_eq!(header.is_text(), true);</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">text</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">header</span>.<span class="ident">is_text</span> <span class="op">=</span> <span class="bool-val">true</span>;
+        <span class="self">self</span>
     }
 
-    <span class='doccomment'>/// Specifies toe verify header bytes using CRC-16.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Examples</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// use libflate::gzip::HeaderBuilder;</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let header = HeaderBuilder::new().verify().finish();</span>
-    <span class='doccomment'>/// assert_eq!(header.is_verified(), true);</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>verify</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>Self</span> {
-        <span class='self'>self</span>.<span class='ident'>header</span>.<span class='ident'>is_verified</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
-        <span class='self'>self</span>
+    <span class="doccomment">/// Specifies toe verify header bytes using CRC-16.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use libflate::gzip::HeaderBuilder;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let header = HeaderBuilder::new().verify().finish();</span>
+    <span class="doccomment">/// assert_eq!(header.is_verified(), true);</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">verify</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">header</span>.<span class="ident">is_verified</span> <span class="op">=</span> <span class="bool-val">true</span>;
+        <span class="self">self</span>
     }
 
-    <span class='doccomment'>/// Sets the extra field.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Examples</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// use libflate::gzip::{HeaderBuilder, ExtraField};</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let extra = ExtraField{id: [0, 1], data: vec![2, 3, 4]};</span>
-    <span class='doccomment'>/// let header = HeaderBuilder::new().extra_field(extra.clone()).finish();</span>
-    <span class='doccomment'>/// assert_eq!(header.extra_field(), Some(&amp;extra));</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>extra_field</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>extra</span>: <span class='ident'>ExtraField</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>Self</span> {
-        <span class='self'>self</span>.<span class='ident'>header</span>.<span class='ident'>extra_field</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>extra</span>);
-        <span class='self'>self</span>
+    <span class="doccomment">/// Sets the extra field.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use libflate::gzip::{HeaderBuilder, ExtraField};</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let extra = ExtraField{id: [0, 1], data: vec![2, 3, 4]};</span>
+    <span class="doccomment">/// let header = HeaderBuilder::new().extra_field(extra.clone()).finish();</span>
+    <span class="doccomment">/// assert_eq!(header.extra_field(), Some(&amp;extra));</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">extra_field</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">extra</span>: <span class="ident">ExtraField</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">header</span>.<span class="ident">extra_field</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">extra</span>);
+        <span class="self">self</span>
     }
 
-    <span class='doccomment'>/// Sets the file name.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Examples</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// use std::ffi::CString;</span>
-    <span class='doccomment'>/// use libflate::gzip::HeaderBuilder;</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let header = HeaderBuilder::new().filename(CString::new(&quot;foo&quot;).unwrap()).finish();</span>
-    <span class='doccomment'>/// assert_eq!(header.filename(), Some(&amp;CString::new(&quot;foo&quot;).unwrap()));</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>filename</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>filename</span>: <span class='ident'>CString</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>Self</span> {
-        <span class='self'>self</span>.<span class='ident'>header</span>.<span class='ident'>filename</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>filename</span>);
-        <span class='self'>self</span>
+    <span class="doccomment">/// Sets the file name.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use std::ffi::CString;</span>
+    <span class="doccomment">/// use libflate::gzip::HeaderBuilder;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let header = HeaderBuilder::new().filename(CString::new(&quot;foo&quot;).unwrap()).finish();</span>
+    <span class="doccomment">/// assert_eq!(header.filename(), Some(&amp;CString::new(&quot;foo&quot;).unwrap()));</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">filename</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">filename</span>: <span class="ident">CString</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">header</span>.<span class="ident">filename</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">filename</span>);
+        <span class="self">self</span>
     }
 
-    <span class='doccomment'>/// Sets the comment.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Examples</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// use std::ffi::CString;</span>
-    <span class='doccomment'>/// use libflate::gzip::HeaderBuilder;</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let header = HeaderBuilder::new().comment(CString::new(&quot;foo&quot;).unwrap()).finish();</span>
-    <span class='doccomment'>/// assert_eq!(header.comment(), Some(&amp;CString::new(&quot;foo&quot;).unwrap()));</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>comment</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>comment</span>: <span class='ident'>CString</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>Self</span> {
-        <span class='self'>self</span>.<span class='ident'>header</span>.<span class='ident'>comment</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>comment</span>);
-        <span class='self'>self</span>
+    <span class="doccomment">/// Sets the comment.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use std::ffi::CString;</span>
+    <span class="doccomment">/// use libflate::gzip::HeaderBuilder;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let header = HeaderBuilder::new().comment(CString::new(&quot;foo&quot;).unwrap()).finish();</span>
+    <span class="doccomment">/// assert_eq!(header.comment(), Some(&amp;CString::new(&quot;foo&quot;).unwrap()));</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">comment</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">comment</span>: <span class="ident">CString</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">header</span>.<span class="ident">comment</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">comment</span>);
+        <span class="self">self</span>
     }
 
-    <span class='doccomment'>/// Returns the result header.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>finish</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Header</span> {
-        <span class='self'>self</span>.<span class='ident'>header</span>.<span class='ident'>clone</span>()
+    <span class="doccomment">/// Returns the result header.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">finish</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Header</span> {
+        <span class="self">self</span>.<span class="ident">header</span>.<span class="ident">clone</span>()
+    }
+}
+<span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">HeaderBuilder</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span>::<span class="ident">new</span>()
     }
 }
 
-<span class='doccomment'>/// GZIP Header.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Header</span> {
-    <span class='ident'>modification_time</span>: <span class='ident'>u32</span>,
-    <span class='ident'>compression_level</span>: <span class='ident'>CompressionLevel</span>,
-    <span class='ident'>os</span>: <span class='ident'>Os</span>,
-    <span class='ident'>is_text</span>: <span class='ident'>bool</span>,
-    <span class='ident'>is_verified</span>: <span class='ident'>bool</span>,
-    <span class='ident'>extra_field</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>ExtraField</span><span class='op'>&gt;</span>,
-    <span class='ident'>filename</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>CString</span><span class='op'>&gt;</span>,
-    <span class='ident'>comment</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>CString</span><span class='op'>&gt;</span>,
+<span class="doccomment">/// GZIP Header.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Header</span> {
+    <span class="ident">modification_time</span>: <span class="ident">u32</span>,
+    <span class="ident">compression_level</span>: <span class="ident">CompressionLevel</span>,
+    <span class="ident">os</span>: <span class="ident">Os</span>,
+    <span class="ident">is_text</span>: <span class="ident">bool</span>,
+    <span class="ident">is_verified</span>: <span class="ident">bool</span>,
+    <span class="ident">extra_field</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ExtraField</span><span class="op">&gt;</span>,
+    <span class="ident">filename</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">CString</span><span class="op">&gt;</span>,
+    <span class="ident">comment</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">CString</span><span class="op">&gt;</span>,
 }
-<span class='kw'>impl</span> <span class='ident'>Header</span> {
-    <span class='doccomment'>/// Returns the modification time (UNIX timestamp).</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>modification_time</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>u32</span> {
-        <span class='self'>self</span>.<span class='ident'>modification_time</span>
+<span class="kw">impl</span> <span class="ident">Header</span> {
+    <span class="doccomment">/// Returns the modification time (UNIX timestamp).</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">modification_time</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
+        <span class="self">self</span>.<span class="ident">modification_time</span>
     }
 
-    <span class='doccomment'>/// Returns the compression level.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>compression_level</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>CompressionLevel</span> {
-        <span class='self'>self</span>.<span class='ident'>compression_level</span>.<span class='ident'>clone</span>()
+    <span class="doccomment">/// Returns the compression level.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">compression_level</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">CompressionLevel</span> {
+        <span class="self">self</span>.<span class="ident">compression_level</span>.<span class="ident">clone</span>()
     }
 
-    <span class='doccomment'>/// Returns the OS type.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>os</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Os</span> {
-        <span class='self'>self</span>.<span class='ident'>os</span>.<span class='ident'>clone</span>()
+    <span class="doccomment">/// Returns the OS type.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">os</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Os</span> {
+        <span class="self">self</span>.<span class="ident">os</span>.<span class="ident">clone</span>()
     }
 
-    <span class='doccomment'>/// Returns `true` if the stream is probably ASCII text, `false` otherwise.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_text</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='self'>self</span>.<span class='ident'>is_text</span>
+    <span class="doccomment">/// Returns `true` if the stream is probably ASCII text, `false` otherwise.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_text</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="self">self</span>.<span class="ident">is_text</span>
     }
 
-    <span class='doccomment'>/// Returns `true` if the header bytes is verified by CRC-16, `false` otherwise.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_verified</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='self'>self</span>.<span class='ident'>is_verified</span>
+    <span class="doccomment">/// Returns `true` if the header bytes is verified by CRC-16, `false` otherwise.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_verified</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="self">self</span>.<span class="ident">is_verified</span>
     }
 
-    <span class='doccomment'>/// Returns the extra field.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>extra_field</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>ExtraField</span><span class='op'>&gt;</span> {
-        <span class='self'>self</span>.<span class='ident'>extra_field</span>.<span class='ident'>as_ref</span>()
+    <span class="doccomment">/// Returns the extra field.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">extra_field</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">ExtraField</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">extra_field</span>.<span class="ident">as_ref</span>()
     }
 
-    <span class='doccomment'>/// Returns the file name.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>filename</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>CString</span><span class='op'>&gt;</span> {
-        <span class='self'>self</span>.<span class='ident'>filename</span>.<span class='ident'>as_ref</span>()
+    <span class="doccomment">/// Returns the file name.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">filename</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">CString</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">filename</span>.<span class="ident">as_ref</span>()
     }
 
-    <span class='doccomment'>/// Returns the comment.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>comment</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>CString</span><span class='op'>&gt;</span> {
-        <span class='self'>self</span>.<span class='ident'>comment</span>.<span class='ident'>as_ref</span>()
+    <span class="doccomment">/// Returns the comment.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">comment</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">CString</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">comment</span>.<span class="ident">as_ref</span>()
     }
 
-    <span class='kw'>fn</span> <span class='ident'>flags</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>u8</span> {
-        [(<span class='ident'>F_TEXT</span>, <span class='self'>self</span>.<span class='ident'>is_text</span>),
-         (<span class='ident'>F_HCRC</span>, <span class='self'>self</span>.<span class='ident'>is_verified</span>),
-         (<span class='ident'>F_EXTRA</span>, <span class='self'>self</span>.<span class='ident'>extra_field</span>.<span class='ident'>is_some</span>()),
-         (<span class='ident'>F_NAME</span>, <span class='self'>self</span>.<span class='ident'>filename</span>.<span class='ident'>is_some</span>()),
-         (<span class='ident'>F_COMMENT</span>, <span class='self'>self</span>.<span class='ident'>comment</span>.<span class='ident'>is_some</span>())]
-            .<span class='ident'>iter</span>()
-            .<span class='ident'>filter</span>(<span class='op'>|</span><span class='ident'>e</span><span class='op'>|</span> <span class='ident'>e</span>.<span class='number'>1</span>)
-            .<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>e</span><span class='op'>|</span> <span class='ident'>e</span>.<span class='number'>0</span>)
-            .<span class='ident'>sum</span>()
+    <span class="kw">fn</span> <span class="ident">flags</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u8</span> {
+        [
+            (<span class="ident">F_TEXT</span>, <span class="self">self</span>.<span class="ident">is_text</span>),
+            (<span class="ident">F_HCRC</span>, <span class="self">self</span>.<span class="ident">is_verified</span>),
+            (<span class="ident">F_EXTRA</span>, <span class="self">self</span>.<span class="ident">extra_field</span>.<span class="ident">is_some</span>()),
+            (<span class="ident">F_NAME</span>, <span class="self">self</span>.<span class="ident">filename</span>.<span class="ident">is_some</span>()),
+            (<span class="ident">F_COMMENT</span>, <span class="self">self</span>.<span class="ident">comment</span>.<span class="ident">is_some</span>()),
+        ].<span class="ident">iter</span>()
+            .<span class="ident">filter</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="number">1</span>)
+            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="number">0</span>)
+            .<span class="ident">sum</span>()
     }
-    <span class='kw'>fn</span> <span class='ident'>crc16</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>u16</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>crc</span> <span class='op'>=</span> <span class='ident'>checksum</span>::<span class='ident'>Crc32</span>::<span class='ident'>new</span>();
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>buf</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
-        <span class='ident'>Header</span> { <span class='ident'>is_verified</span>: <span class='bool-val'>false</span>, ..<span class='self'>self</span>.<span class='ident'>clone</span>() }.<span class='ident'>write_to</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>buf</span>).<span class='ident'>unwrap</span>();
-        <span class='ident'>crc</span>.<span class='ident'>update</span>(<span class='kw-2'>&amp;</span><span class='ident'>buf</span>);
-        <span class='ident'>crc</span>.<span class='ident'>value</span>() <span class='kw'>as</span> <span class='ident'>u16</span>
+    <span class="kw">fn</span> <span class="ident">crc16</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u16</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">crc</span> <span class="op">=</span> <span class="ident">checksum</span>::<span class="ident">Crc32</span>::<span class="ident">new</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+        <span class="ident">Header</span> {
+            <span class="ident">is_verified</span>: <span class="bool-val">false</span>,
+            ..<span class="self">self</span>.<span class="ident">clone</span>()
+        }.<span class="ident">write_to</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>)
+            .<span class="ident">unwrap</span>();
+        <span class="ident">crc</span>.<span class="ident">update</span>(<span class="kw-2">&amp;</span><span class="ident">buf</span>);
+        <span class="ident">crc</span>.<span class="ident">value</span>() <span class="kw">as</span> <span class="ident">u16</span>
     }
-    <span class='kw'>fn</span> <span class='ident'>write_to</span><span class='op'>&lt;</span><span class='ident'>W</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='kw-2'>mut</span> <span class='ident'>writer</span>: <span class='ident'>W</span>) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span>
-        <span class='kw'>where</span> <span class='ident'>W</span>: <span class='ident'>io</span>::<span class='ident'>Write</span>
+    <span class="kw">fn</span> <span class="ident">write_to</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">writer</span>: <span class="ident">W</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">W</span>: <span class="ident">io</span>::<span class="ident">Write</span>,
     {
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>writer</span>.<span class='ident'>write_all</span>(<span class='kw-2'>&amp;</span><span class='ident'>GZIP_ID</span>));
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>writer</span>.<span class='ident'>write_u8</span>(<span class='ident'>COMPRESSION_METHOD_DEFLATE</span>));
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>writer</span>.<span class='ident'>write_u8</span>(<span class='self'>self</span>.<span class='ident'>flags</span>()));
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>writer</span>.<span class='ident'>write_u32</span>::<span class='op'>&lt;</span><span class='ident'>LittleEndian</span><span class='op'>&gt;</span>(<span class='self'>self</span>.<span class='ident'>modification_time</span>));
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>writer</span>.<span class='ident'>write_u8</span>(<span class='self'>self</span>.<span class='ident'>compression_level</span>.<span class='ident'>to_u8</span>()));
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>writer</span>.<span class='ident'>write_u8</span>(<span class='self'>self</span>.<span class='ident'>os</span>.<span class='ident'>to_u8</span>()));
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>x</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>extra_field</span> {
-            <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>x</span>.<span class='ident'>write_to</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>writer</span>));
+        <span class="ident">writer</span>.<span class="ident">write_all</span>(<span class="kw-2">&amp;</span><span class="ident">GZIP_ID</span>)<span class="question-mark">?</span>;
+        <span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="ident">COMPRESSION_METHOD_DEFLATE</span>)<span class="question-mark">?</span>;
+        <span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="self">self</span>.<span class="ident">flags</span>())<span class="question-mark">?</span>;
+        <span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="self">self</span>.<span class="ident">modification_time</span>)<span class="question-mark">?</span>;
+        <span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="self">self</span>.<span class="ident">compression_level</span>.<span class="ident">to_u8</span>())<span class="question-mark">?</span>;
+        <span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="self">self</span>.<span class="ident">os</span>.<span class="ident">to_u8</span>())<span class="question-mark">?</span>;
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">x</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">extra_field</span> {
+            <span class="ident">x</span>.<span class="ident">write_to</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">writer</span>)<span class="question-mark">?</span>;
         }
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>x</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>filename</span> {
-            <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>writer</span>.<span class='ident'>write_all</span>(<span class='ident'>x</span>.<span class='ident'>as_bytes_with_nul</span>()));
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">x</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">filename</span> {
+            <span class="ident">writer</span>.<span class="ident">write_all</span>(<span class="ident">x</span>.<span class="ident">as_bytes_with_nul</span>())<span class="question-mark">?</span>;
         }
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>x</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>comment</span> {
-            <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>writer</span>.<span class='ident'>write_all</span>(<span class='ident'>x</span>.<span class='ident'>as_bytes_with_nul</span>()));
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">x</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">comment</span> {
+            <span class="ident">writer</span>.<span class="ident">write_all</span>(<span class="ident">x</span>.<span class="ident">as_bytes_with_nul</span>())<span class="question-mark">?</span>;
         }
-        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>is_verified</span> {
-            <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>writer</span>.<span class='ident'>write_u16</span>::<span class='op'>&lt;</span><span class='ident'>LittleEndian</span><span class='op'>&gt;</span>(<span class='self'>self</span>.<span class='ident'>crc16</span>()));
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">is_verified</span> {
+            <span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="self">self</span>.<span class="ident">crc16</span>())<span class="question-mark">?</span>;
         }
-        <span class='prelude-val'>Ok</span>(())
+        <span class="prelude-val">Ok</span>(())
     }
-    <span class='kw'>fn</span> <span class='ident'>read_from</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='ident'>reader</span>: <span class='ident'>R</span>) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span>
-        <span class='kw'>where</span> <span class='ident'>R</span>: <span class='ident'>io</span>::<span class='ident'>Read</span>
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">read_from</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="ident">reader</span>: <span class="ident">R</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">R</span>: <span class="ident">io</span>::<span class="ident">Read</span>,
     {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>this</span> <span class='op'>=</span> <span class='ident'>HeaderBuilder</span>::<span class='ident'>new</span>().<span class='ident'>finish</span>();
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>id</span> <span class='op'>=</span> [<span class='number'>0</span>; <span class='number'>2</span>];
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>reader</span>.<span class='ident'>read_exact</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>id</span>));
-        <span class='kw'>if</span> <span class='ident'>id</span> <span class='op'>!=</span> <span class='ident'>GZIP_ID</span> {
-            <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='macro'>invalid_data_error</span><span class='macro'>!</span>(<span class='string'>&quot;Unexpected GZIP ID: value={:?}, \
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">this</span> <span class="op">=</span> <span class="ident">HeaderBuilder</span>::<span class="ident">new</span>().<span class="ident">finish</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">id</span> <span class="op">=</span> [<span class="number">0</span>; <span class="number">2</span>];
+        <span class="ident">reader</span>.<span class="ident">read_exact</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">id</span>)<span class="question-mark">?</span>;
+        <span class="kw">if</span> <span class="ident">id</span> <span class="op">!=</span> <span class="ident">GZIP_ID</span> {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">invalid_data_error</span><span class="macro">!</span>(
+                <span class="string">&quot;Unexpected GZIP ID: value={:?}, \
                                                     expected={:?}&quot;</span>,
-                                           <span class='ident'>id</span>,
-                                           <span class='ident'>GZIP_ID</span>));
+                <span class="ident">id</span>,
+                <span class="ident">GZIP_ID</span>
+            ));
         }
-        <span class='kw'>let</span> <span class='ident'>compression_method</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>reader</span>.<span class='ident'>read_u8</span>());
-        <span class='kw'>if</span> <span class='ident'>compression_method</span> <span class='op'>!=</span> <span class='ident'>COMPRESSION_METHOD_DEFLATE</span> {
-            <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='macro'>invalid_data_error</span><span class='macro'>!</span>(<span class='string'>&quot;Compression methods other than DEFLATE(8) are \
+        <span class="kw">let</span> <span class="ident">compression_method</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">read_u8</span>()<span class="question-mark">?</span>;
+        <span class="kw">if</span> <span class="ident">compression_method</span> <span class="op">!=</span> <span class="ident">COMPRESSION_METHOD_DEFLATE</span> {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">invalid_data_error</span><span class="macro">!</span>(
+                <span class="string">&quot;Compression methods other than DEFLATE(8) are \
                                             unsupported: method={}&quot;</span>,
-                                           <span class='ident'>compression_method</span>));
+                <span class="ident">compression_method</span>
+            ));
         }
-        <span class='kw'>let</span> <span class='ident'>flags</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>reader</span>.<span class='ident'>read_u8</span>());
-        <span class='ident'>this</span>.<span class='ident'>modification_time</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>reader</span>.<span class='ident'>read_u32</span>::<span class='op'>&lt;</span><span class='ident'>LittleEndian</span><span class='op'>&gt;</span>());
-        <span class='ident'>this</span>.<span class='ident'>compression_level</span> <span class='op'>=</span> <span class='ident'>CompressionLevel</span>::<span class='ident'>from_u8</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>reader</span>.<span class='ident'>read_u8</span>()));
-        <span class='ident'>this</span>.<span class='ident'>os</span> <span class='op'>=</span> <span class='ident'>Os</span>::<span class='ident'>from_u8</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>reader</span>.<span class='ident'>read_u8</span>()));
-        <span class='kw'>if</span> <span class='ident'>flags</span> <span class='op'>&amp;</span> <span class='ident'>F_EXTRA</span> <span class='op'>!=</span> <span class='number'>0</span> {
-            <span class='ident'>this</span>.<span class='ident'>extra_field</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>ExtraField</span>::<span class='ident'>read_from</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>reader</span>)));
+        <span class="kw">let</span> <span class="ident">flags</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">read_u8</span>()<span class="question-mark">?</span>;
+        <span class="ident">this</span>.<span class="ident">modification_time</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">read_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
+        <span class="ident">this</span>.<span class="ident">compression_level</span> <span class="op">=</span> <span class="ident">CompressionLevel</span>::<span class="ident">from_u8</span>(<span class="ident">reader</span>.<span class="ident">read_u8</span>()<span class="question-mark">?</span>);
+        <span class="ident">this</span>.<span class="ident">os</span> <span class="op">=</span> <span class="ident">Os</span>::<span class="ident">from_u8</span>(<span class="ident">reader</span>.<span class="ident">read_u8</span>()<span class="question-mark">?</span>);
+        <span class="kw">if</span> <span class="ident">flags</span> <span class="op">&amp;</span> <span class="ident">F_EXTRA</span> <span class="op">!=</span> <span class="number">0</span> {
+            <span class="ident">this</span>.<span class="ident">extra_field</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">ExtraField</span>::<span class="ident">read_from</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">reader</span>)<span class="question-mark">?</span>);
         }
-        <span class='kw'>if</span> <span class='ident'>flags</span> <span class='op'>&amp;</span> <span class='ident'>F_NAME</span> <span class='op'>!=</span> <span class='number'>0</span> {
-            <span class='ident'>this</span>.<span class='ident'>filename</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>read_cstring</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>reader</span>)));
+        <span class="kw">if</span> <span class="ident">flags</span> <span class="op">&amp;</span> <span class="ident">F_NAME</span> <span class="op">!=</span> <span class="number">0</span> {
+            <span class="ident">this</span>.<span class="ident">filename</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">read_cstring</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">reader</span>)<span class="question-mark">?</span>);
         }
-        <span class='kw'>if</span> <span class='ident'>flags</span> <span class='op'>&amp;</span> <span class='ident'>F_COMMENT</span> <span class='op'>!=</span> <span class='number'>0</span> {
-            <span class='ident'>this</span>.<span class='ident'>comment</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>read_cstring</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>reader</span>)));
+        <span class="kw">if</span> <span class="ident">flags</span> <span class="op">&amp;</span> <span class="ident">F_COMMENT</span> <span class="op">!=</span> <span class="number">0</span> {
+            <span class="ident">this</span>.<span class="ident">comment</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">read_cstring</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">reader</span>)<span class="question-mark">?</span>);
         }
-        <span class='kw'>if</span> <span class='ident'>flags</span> <span class='op'>&amp;</span> <span class='ident'>F_HCRC</span> <span class='op'>!=</span> <span class='number'>0</span> {
-            <span class='kw'>let</span> <span class='ident'>crc</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>reader</span>.<span class='ident'>read_u16</span>::<span class='op'>&lt;</span><span class='ident'>LittleEndian</span><span class='op'>&gt;</span>());
-            <span class='kw'>let</span> <span class='ident'>expected</span> <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>crc16</span>();
-            <span class='kw'>if</span> <span class='ident'>crc</span> <span class='op'>!=</span> <span class='ident'>expected</span> {
-                <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='macro'>invalid_data_error</span><span class='macro'>!</span>(<span class='string'>&quot;CRC16 of GZIP header mismatched: value={}, \
+        <span class="kw">if</span> <span class="ident">flags</span> <span class="op">&amp;</span> <span class="ident">F_HCRC</span> <span class="op">!=</span> <span class="number">0</span> {
+            <span class="kw">let</span> <span class="ident">crc</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">read_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> <span class="ident">this</span>.<span class="ident">crc16</span>();
+            <span class="kw">if</span> <span class="ident">crc</span> <span class="op">!=</span> <span class="ident">expected</span> {
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">invalid_data_error</span><span class="macro">!</span>(
+                    <span class="string">&quot;CRC16 of GZIP header mismatched: value={}, \
                                                 expected={}&quot;</span>,
-                                               <span class='ident'>crc</span>,
-                                               <span class='ident'>expected</span>));
+                    <span class="ident">crc</span>,
+                    <span class="ident">expected</span>
+                ));
             }
-            <span class='ident'>this</span>.<span class='ident'>is_verified</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
+            <span class="ident">this</span>.<span class="ident">is_verified</span> <span class="op">=</span> <span class="bool-val">true</span>;
         }
-        <span class='prelude-val'>Ok</span>(<span class='ident'>this</span>)
+        <span class="prelude-val">Ok</span>(<span class="ident">this</span>)
     }
 }
 
-<span class='kw'>fn</span> <span class='ident'>read_cstring</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='ident'>reader</span>: <span class='ident'>R</span>) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>CString</span><span class='op'>&gt;</span>
-    <span class='kw'>where</span> <span class='ident'>R</span>: <span class='ident'>io</span>::<span class='ident'>Read</span>
+<span class="kw">fn</span> <span class="ident">read_cstring</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="ident">reader</span>: <span class="ident">R</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">CString</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">R</span>: <span class="ident">io</span>::<span class="ident">Read</span>,
 {
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>buf</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
-    <span class='kw'>loop</span> {
-        <span class='kw'>let</span> <span class='ident'>b</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>reader</span>.<span class='ident'>read_u8</span>());
-        <span class='kw'>if</span> <span class='ident'>b</span> <span class='op'>==</span> <span class='number'>0</span> {
-            <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='kw'>unsafe</span> { <span class='ident'>CString</span>::<span class='ident'>from_vec_unchecked</span>(<span class='ident'>buf</span>) });
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+    <span class="kw">loop</span> {
+        <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">read_u8</span>()<span class="question-mark">?</span>;
+        <span class="kw">if</span> <span class="ident">b</span> <span class="op">==</span> <span class="number">0</span> {
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="kw">unsafe</span> { <span class="ident">CString</span>::<span class="ident">from_vec_unchecked</span>(<span class="ident">buf</span>) });
         }
-        <span class='ident'>buf</span>.<span class='ident'>push</span>(<span class='ident'>b</span>);
+        <span class="ident">buf</span>.<span class="ident">push</span>(<span class="ident">b</span>);
     }
 }
 
-<span class='doccomment'>/// Extra field of a GZIP header.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Hash</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ExtraField</span> {
-    <span class='doccomment'>/// ID of the extra field.</span>
-    <span class='kw'>pub</span> <span class='ident'>id</span>: [<span class='ident'>u8</span>; <span class='number'>2</span>],
+<span class="doccomment">/// Extra field of a GZIP header.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExtraField</span> {
+    <span class="doccomment">/// ID of the extra field.</span>
+    <span class="kw">pub</span> <span class="ident">id</span>: [<span class="ident">u8</span>; <span class="number">2</span>],
 
-    <span class='doccomment'>/// Data of the extra field.</span>
-    <span class='kw'>pub</span> <span class='ident'>data</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>,
+    <span class="doccomment">/// Data of the extra field.</span>
+    <span class="kw">pub</span> <span class="ident">data</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
 }
-<span class='kw'>impl</span> <span class='ident'>ExtraField</span> {
-    <span class='kw'>fn</span> <span class='ident'>read_from</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='ident'>reader</span>: <span class='ident'>R</span>) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span>
-        <span class='kw'>where</span> <span class='ident'>R</span>: <span class='ident'>io</span>::<span class='ident'>Read</span>
+<span class="kw">impl</span> <span class="ident">ExtraField</span> {
+    <span class="kw">fn</span> <span class="ident">read_from</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="ident">reader</span>: <span class="ident">R</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">R</span>: <span class="ident">io</span>::<span class="ident">Read</span>,
     {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>extra</span> <span class='op'>=</span> <span class='ident'>ExtraField</span> {
-            <span class='ident'>id</span>: [<span class='number'>0</span>; <span class='number'>2</span>],
-            <span class='ident'>data</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">extra</span> <span class="op">=</span> <span class="ident">ExtraField</span> {
+            <span class="ident">id</span>: [<span class="number">0</span>; <span class="number">2</span>],
+            <span class="ident">data</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
         };
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>reader</span>.<span class='ident'>read_exact</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>extra</span>.<span class='ident'>id</span>));
+        <span class="kw">let</span> <span class="ident">data_size</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">read_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()<span class="question-mark">?</span> <span class="kw">as</span> <span class="ident">usize</span>;
+        <span class="kw">if</span> <span class="ident">data_size</span> <span class="op">&lt;</span> <span class="number">2</span> {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">invalid_data_error</span><span class="macro">!</span>(
+                <span class="string">&quot;extra field is too short: {}&quot;</span>,
+                <span class="ident">data_size</span>
+            ));
+        }
 
-        <span class='kw'>let</span> <span class='ident'>data_size</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>reader</span>.<span class='ident'>read_u16</span>::<span class='op'>&lt;</span><span class='ident'>LittleEndian</span><span class='op'>&gt;</span>()) <span class='kw'>as</span> <span class='ident'>usize</span>;
-        <span class='ident'>extra</span>.<span class='ident'>data</span>.<span class='ident'>resize</span>(<span class='ident'>data_size</span>, <span class='number'>0</span>);
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>reader</span>.<span class='ident'>read_exact</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>extra</span>.<span class='ident'>data</span>));
+        <span class="ident">reader</span>.<span class="ident">read_exact</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">extra</span>.<span class="ident">id</span>)<span class="question-mark">?</span>;
 
-        <span class='prelude-val'>Ok</span>(<span class='ident'>extra</span>)
+        <span class="ident">extra</span>.<span class="ident">data</span>.<span class="ident">resize</span>(<span class="ident">data_size</span> <span class="op">-</span> <span class="number">2</span>, <span class="number">0</span>);
+        <span class="ident">reader</span>.<span class="ident">read_exact</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">extra</span>.<span class="ident">data</span>)<span class="question-mark">?</span>;
+
+        <span class="prelude-val">Ok</span>(<span class="ident">extra</span>)
     }
-    <span class='kw'>fn</span> <span class='ident'>write_to</span><span class='op'>&lt;</span><span class='ident'>W</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='kw-2'>mut</span> <span class='ident'>writer</span>: <span class='ident'>W</span>) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span>
-        <span class='kw'>where</span> <span class='ident'>W</span>: <span class='ident'>io</span>::<span class='ident'>Write</span>
+    <span class="kw">fn</span> <span class="ident">write_to</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">writer</span>: <span class="ident">W</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">W</span>: <span class="ident">io</span>::<span class="ident">Write</span>,
     {
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>writer</span>.<span class='ident'>write_all</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>id</span>));
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>writer</span>.<span class='ident'>write_u16</span>::<span class='op'>&lt;</span><span class='ident'>LittleEndian</span><span class='op'>&gt;</span>(<span class='self'>self</span>.<span class='ident'>data</span>.<span class='ident'>len</span>() <span class='kw'>as</span> <span class='ident'>u16</span>()));
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>writer</span>.<span class='ident'>write_all</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>data</span>));
-        <span class='prelude-val'>Ok</span>(())
+        <span class="ident">writer</span>.<span class="ident">write_all</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">id</span>)<span class="question-mark">?</span>;
+        <span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="self">self</span>.<span class="ident">data</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u16</span>)<span class="question-mark">?</span>;
+        <span class="ident">writer</span>.<span class="ident">write_all</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">data</span>)<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(())
     }
 }
 
-<span class='doccomment'>/// OS type.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Hash</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Os</span> {
-    <span class='doccomment'>/// FAT filesystem (MS-DOS, OS/2, NT/Win32)</span>
-    <span class='ident'>Fat</span>,
+<span class="doccomment">/// OS type.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Os</span> {
+    <span class="doccomment">/// FAT filesystem (MS-DOS, OS/2, NT/Win32)</span>
+    <span class="ident">Fat</span>,
 
-    <span class='doccomment'>/// Amiga</span>
-    <span class='ident'>Amiga</span>,
+    <span class="doccomment">/// Amiga</span>
+    <span class="ident">Amiga</span>,
 
-    <span class='doccomment'>/// VMS (or OpenVMS)</span>
-    <span class='ident'>Vms</span>,
+    <span class="doccomment">/// VMS (or OpenVMS)</span>
+    <span class="ident">Vms</span>,
 
-    <span class='doccomment'>/// Unix</span>
-    <span class='ident'>Unix</span>,
+    <span class="doccomment">/// Unix</span>
+    <span class="ident">Unix</span>,
 
-    <span class='doccomment'>/// VM/CMS</span>
-    <span class='ident'>VmCms</span>,
+    <span class="doccomment">/// VM/CMS</span>
+    <span class="ident">VmCms</span>,
 
-    <span class='doccomment'>/// Atari TOS</span>
-    <span class='ident'>AtariTos</span>,
+    <span class="doccomment">/// Atari TOS</span>
+    <span class="ident">AtariTos</span>,
 
-    <span class='doccomment'>/// HPFS filesystem (OS/2, NT)</span>
-    <span class='ident'>Hpfs</span>,
+    <span class="doccomment">/// HPFS filesystem (OS/2, NT)</span>
+    <span class="ident">Hpfs</span>,
 
-    <span class='doccomment'>/// Macintosh</span>
-    <span class='ident'>Macintosh</span>,
+    <span class="doccomment">/// Macintosh</span>
+    <span class="ident">Macintosh</span>,
 
-    <span class='doccomment'>/// Z-System</span>
-    <span class='ident'>ZSystem</span>,
+    <span class="doccomment">/// Z-System</span>
+    <span class="ident">ZSystem</span>,
 
-    <span class='doccomment'>/// CP/M</span>
-    <span class='ident'>CpM</span>,
+    <span class="doccomment">/// CP/M</span>
+    <span class="ident">CpM</span>,
 
-    <span class='doccomment'>/// TOPS-20</span>
-    <span class='ident'>Tops20</span>,
+    <span class="doccomment">/// TOPS-20</span>
+    <span class="ident">Tops20</span>,
 
-    <span class='doccomment'>/// NTFS filesystem (NT)</span>
-    <span class='ident'>Ntfs</span>,
+    <span class="doccomment">/// NTFS filesystem (NT)</span>
+    <span class="ident">Ntfs</span>,
 
-    <span class='doccomment'>/// QDOS</span>
-    <span class='ident'>Qdos</span>,
+    <span class="doccomment">/// QDOS</span>
+    <span class="ident">Qdos</span>,
 
-    <span class='doccomment'>/// Acorn RISCOS</span>
-    <span class='ident'>AcornRiscos</span>,
+    <span class="doccomment">/// Acorn RISCOS</span>
+    <span class="ident">AcornRiscos</span>,
 
-    <span class='doccomment'>/// Unknown</span>
-    <span class='ident'>Unknown</span>,
+    <span class="doccomment">/// Unknown</span>
+    <span class="ident">Unknown</span>,
 
-    <span class='doccomment'>/// Undefined value in RFC-1952</span>
-    <span class='ident'>Undefined</span>(<span class='ident'>u8</span>),
+    <span class="doccomment">/// Undefined value in RFC-1952</span>
+    <span class="ident">Undefined</span>(<span class="ident">u8</span>),
 }
-<span class='kw'>impl</span> <span class='ident'>Os</span> {
-    <span class='kw'>fn</span> <span class='ident'>to_u8</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>u8</span> {
-        <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> {
-            <span class='ident'>Os</span>::<span class='ident'>Fat</span> <span class='op'>=&gt;</span> <span class='ident'>OS_FAT</span>,
-            <span class='ident'>Os</span>::<span class='ident'>Amiga</span> <span class='op'>=&gt;</span> <span class='ident'>OS_AMIGA</span>,
-            <span class='ident'>Os</span>::<span class='ident'>Vms</span> <span class='op'>=&gt;</span> <span class='ident'>OS_VMS</span>,
-            <span class='ident'>Os</span>::<span class='ident'>Unix</span> <span class='op'>=&gt;</span> <span class='ident'>OS_UNIX</span>,
-            <span class='ident'>Os</span>::<span class='ident'>VmCms</span> <span class='op'>=&gt;</span> <span class='ident'>OS_VM_CMS</span>,
-            <span class='ident'>Os</span>::<span class='ident'>AtariTos</span> <span class='op'>=&gt;</span> <span class='ident'>OS_ATARI_TOS</span>,
-            <span class='ident'>Os</span>::<span class='ident'>Hpfs</span> <span class='op'>=&gt;</span> <span class='ident'>OS_HPFS</span>,
-            <span class='ident'>Os</span>::<span class='ident'>Macintosh</span> <span class='op'>=&gt;</span> <span class='ident'>OS_MACINTOSH</span>,
-            <span class='ident'>Os</span>::<span class='ident'>ZSystem</span> <span class='op'>=&gt;</span> <span class='ident'>OS_Z_SYSTEM</span>,
-            <span class='ident'>Os</span>::<span class='ident'>CpM</span> <span class='op'>=&gt;</span> <span class='ident'>OS_CPM</span>,
-            <span class='ident'>Os</span>::<span class='ident'>Tops20</span> <span class='op'>=&gt;</span> <span class='ident'>OS_TOPS20</span>,
-            <span class='ident'>Os</span>::<span class='ident'>Ntfs</span> <span class='op'>=&gt;</span> <span class='ident'>OS_NTFS</span>,
-            <span class='ident'>Os</span>::<span class='ident'>Qdos</span> <span class='op'>=&gt;</span> <span class='ident'>OS_QDOS</span>,
-            <span class='ident'>Os</span>::<span class='ident'>AcornRiscos</span> <span class='op'>=&gt;</span> <span class='ident'>OS_ACORN_RISCOS</span>,
-            <span class='ident'>Os</span>::<span class='ident'>Unknown</span> <span class='op'>=&gt;</span> <span class='ident'>OS_UNKNOWN</span>,
-            <span class='ident'>Os</span>::<span class='ident'>Undefined</span>(<span class='ident'>os</span>) <span class='op'>=&gt;</span> <span class='ident'>os</span>,
+<span class="kw">impl</span> <span class="ident">Os</span> {
+    <span class="kw">fn</span> <span class="ident">to_u8</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u8</span> {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">Os</span>::<span class="ident">Fat</span> <span class="op">=&gt;</span> <span class="ident">OS_FAT</span>,
+            <span class="ident">Os</span>::<span class="ident">Amiga</span> <span class="op">=&gt;</span> <span class="ident">OS_AMIGA</span>,
+            <span class="ident">Os</span>::<span class="ident">Vms</span> <span class="op">=&gt;</span> <span class="ident">OS_VMS</span>,
+            <span class="ident">Os</span>::<span class="ident">Unix</span> <span class="op">=&gt;</span> <span class="ident">OS_UNIX</span>,
+            <span class="ident">Os</span>::<span class="ident">VmCms</span> <span class="op">=&gt;</span> <span class="ident">OS_VM_CMS</span>,
+            <span class="ident">Os</span>::<span class="ident">AtariTos</span> <span class="op">=&gt;</span> <span class="ident">OS_ATARI_TOS</span>,
+            <span class="ident">Os</span>::<span class="ident">Hpfs</span> <span class="op">=&gt;</span> <span class="ident">OS_HPFS</span>,
+            <span class="ident">Os</span>::<span class="ident">Macintosh</span> <span class="op">=&gt;</span> <span class="ident">OS_MACINTOSH</span>,
+            <span class="ident">Os</span>::<span class="ident">ZSystem</span> <span class="op">=&gt;</span> <span class="ident">OS_Z_SYSTEM</span>,
+            <span class="ident">Os</span>::<span class="ident">CpM</span> <span class="op">=&gt;</span> <span class="ident">OS_CPM</span>,
+            <span class="ident">Os</span>::<span class="ident">Tops20</span> <span class="op">=&gt;</span> <span class="ident">OS_TOPS20</span>,
+            <span class="ident">Os</span>::<span class="ident">Ntfs</span> <span class="op">=&gt;</span> <span class="ident">OS_NTFS</span>,
+            <span class="ident">Os</span>::<span class="ident">Qdos</span> <span class="op">=&gt;</span> <span class="ident">OS_QDOS</span>,
+            <span class="ident">Os</span>::<span class="ident">AcornRiscos</span> <span class="op">=&gt;</span> <span class="ident">OS_ACORN_RISCOS</span>,
+            <span class="ident">Os</span>::<span class="ident">Unknown</span> <span class="op">=&gt;</span> <span class="ident">OS_UNKNOWN</span>,
+            <span class="ident">Os</span>::<span class="ident">Undefined</span>(<span class="ident">os</span>) <span class="op">=&gt;</span> <span class="ident">os</span>,
         }
     }
-    <span class='kw'>fn</span> <span class='ident'>from_u8</span>(<span class='ident'>x</span>: <span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='kw'>match</span> <span class='ident'>x</span> {
-            <span class='ident'>OS_FAT</span> <span class='op'>=&gt;</span> <span class='ident'>Os</span>::<span class='ident'>Fat</span>,
-            <span class='ident'>OS_AMIGA</span> <span class='op'>=&gt;</span> <span class='ident'>Os</span>::<span class='ident'>Amiga</span>,
-            <span class='ident'>OS_VMS</span> <span class='op'>=&gt;</span> <span class='ident'>Os</span>::<span class='ident'>Vms</span>,
-            <span class='ident'>OS_UNIX</span> <span class='op'>=&gt;</span> <span class='ident'>Os</span>::<span class='ident'>Unix</span>,
-            <span class='ident'>OS_VM_CMS</span> <span class='op'>=&gt;</span> <span class='ident'>Os</span>::<span class='ident'>VmCms</span>,
-            <span class='ident'>OS_ATARI_TOS</span> <span class='op'>=&gt;</span> <span class='ident'>Os</span>::<span class='ident'>AtariTos</span>,
-            <span class='ident'>OS_HPFS</span> <span class='op'>=&gt;</span> <span class='ident'>Os</span>::<span class='ident'>Hpfs</span>,
-            <span class='ident'>OS_MACINTOSH</span> <span class='op'>=&gt;</span> <span class='ident'>Os</span>::<span class='ident'>Macintosh</span>,
-            <span class='ident'>OS_Z_SYSTEM</span> <span class='op'>=&gt;</span> <span class='ident'>Os</span>::<span class='ident'>ZSystem</span>,
-            <span class='ident'>OS_CPM</span> <span class='op'>=&gt;</span> <span class='ident'>Os</span>::<span class='ident'>CpM</span>,
-            <span class='ident'>OS_TOPS20</span> <span class='op'>=&gt;</span> <span class='ident'>Os</span>::<span class='ident'>Tops20</span>,
-            <span class='ident'>OS_NTFS</span> <span class='op'>=&gt;</span> <span class='ident'>Os</span>::<span class='ident'>Ntfs</span>,
-            <span class='ident'>OS_QDOS</span> <span class='op'>=&gt;</span> <span class='ident'>Os</span>::<span class='ident'>Qdos</span>,
-            <span class='ident'>OS_ACORN_RISCOS</span> <span class='op'>=&gt;</span> <span class='ident'>Os</span>::<span class='ident'>AcornRiscos</span>,
-            <span class='ident'>OS_UNKNOWN</span> <span class='op'>=&gt;</span> <span class='ident'>Os</span>::<span class='ident'>Unknown</span>,
-            <span class='ident'>os</span> <span class='op'>=&gt;</span> <span class='ident'>Os</span>::<span class='ident'>Undefined</span>(<span class='ident'>os</span>),
-        }
-    }
-}
-
-
-<span class='doccomment'>/// Options for a GZIP encoder.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>EncodeOptions</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span>
-    <span class='kw'>where</span> <span class='ident'>E</span>: <span class='ident'>lz77</span>::<span class='ident'>Lz77Encode</span>
-{
-    <span class='ident'>header</span>: <span class='ident'>Header</span>,
-    <span class='ident'>options</span>: <span class='ident'>deflate</span>::<span class='ident'>EncodeOptions</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span>,
-}
-<span class='kw'>impl</span> <span class='ident'>Default</span> <span class='kw'>for</span> <span class='ident'>EncodeOptions</span><span class='op'>&lt;</span><span class='ident'>lz77</span>::<span class='ident'>DefaultLz77Encoder</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>default</span>() <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='ident'>EncodeOptions</span> {
-            <span class='ident'>header</span>: <span class='ident'>HeaderBuilder</span>::<span class='ident'>new</span>().<span class='ident'>finish</span>(),
-            <span class='ident'>options</span>: <span class='ident'>Default</span>::<span class='ident'>default</span>(),
+    <span class="kw">fn</span> <span class="ident">from_u8</span>(<span class="ident">x</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="kw">match</span> <span class="ident">x</span> {
+            <span class="ident">OS_FAT</span> <span class="op">=&gt;</span> <span class="ident">Os</span>::<span class="ident">Fat</span>,
+            <span class="ident">OS_AMIGA</span> <span class="op">=&gt;</span> <span class="ident">Os</span>::<span class="ident">Amiga</span>,
+            <span class="ident">OS_VMS</span> <span class="op">=&gt;</span> <span class="ident">Os</span>::<span class="ident">Vms</span>,
+            <span class="ident">OS_UNIX</span> <span class="op">=&gt;</span> <span class="ident">Os</span>::<span class="ident">Unix</span>,
+            <span class="ident">OS_VM_CMS</span> <span class="op">=&gt;</span> <span class="ident">Os</span>::<span class="ident">VmCms</span>,
+            <span class="ident">OS_ATARI_TOS</span> <span class="op">=&gt;</span> <span class="ident">Os</span>::<span class="ident">AtariTos</span>,
+            <span class="ident">OS_HPFS</span> <span class="op">=&gt;</span> <span class="ident">Os</span>::<span class="ident">Hpfs</span>,
+            <span class="ident">OS_MACINTOSH</span> <span class="op">=&gt;</span> <span class="ident">Os</span>::<span class="ident">Macintosh</span>,
+            <span class="ident">OS_Z_SYSTEM</span> <span class="op">=&gt;</span> <span class="ident">Os</span>::<span class="ident">ZSystem</span>,
+            <span class="ident">OS_CPM</span> <span class="op">=&gt;</span> <span class="ident">Os</span>::<span class="ident">CpM</span>,
+            <span class="ident">OS_TOPS20</span> <span class="op">=&gt;</span> <span class="ident">Os</span>::<span class="ident">Tops20</span>,
+            <span class="ident">OS_NTFS</span> <span class="op">=&gt;</span> <span class="ident">Os</span>::<span class="ident">Ntfs</span>,
+            <span class="ident">OS_QDOS</span> <span class="op">=&gt;</span> <span class="ident">Os</span>::<span class="ident">Qdos</span>,
+            <span class="ident">OS_ACORN_RISCOS</span> <span class="op">=&gt;</span> <span class="ident">Os</span>::<span class="ident">AcornRiscos</span>,
+            <span class="ident">OS_UNKNOWN</span> <span class="op">=&gt;</span> <span class="ident">Os</span>::<span class="ident">Unknown</span>,
+            <span class="ident">os</span> <span class="op">=&gt;</span> <span class="ident">Os</span>::<span class="ident">Undefined</span>(<span class="ident">os</span>),
         }
     }
 }
-<span class='kw'>impl</span> <span class='ident'>EncodeOptions</span><span class='op'>&lt;</span><span class='ident'>lz77</span>::<span class='ident'>DefaultLz77Encoder</span><span class='op'>&gt;</span> {
-    <span class='doccomment'>/// Makes a default instance.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Examples</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// use libflate::gzip::{Encoder, EncodeOptions};</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let options = EncodeOptions::new();</span>
-    <span class='doccomment'>/// let encoder = Encoder::with_options(Vec::new(), options).unwrap();</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='self'>Self</span>::<span class='ident'>default</span>()
+
+
+<span class="doccomment">/// Options for a GZIP encoder.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EncodeOptions</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">E</span>: <span class="ident">lz77</span>::<span class="ident">Lz77Encode</span>,
+{
+    <span class="ident">header</span>: <span class="ident">Header</span>,
+    <span class="ident">options</span>: <span class="ident">deflate</span>::<span class="ident">EncodeOptions</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span>,
+}
+<span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">EncodeOptions</span><span class="op">&lt;</span><span class="ident">lz77</span>::<span class="ident">DefaultLz77Encoder</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="ident">EncodeOptions</span> {
+            <span class="ident">header</span>: <span class="ident">HeaderBuilder</span>::<span class="ident">new</span>().<span class="ident">finish</span>(),
+            <span class="ident">options</span>: <span class="ident">Default</span>::<span class="ident">default</span>(),
+        }
     }
 }
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> <span class='ident'>EncodeOptions</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span>
-    <span class='kw'>where</span> <span class='ident'>E</span>: <span class='ident'>lz77</span>::<span class='ident'>Lz77Encode</span>
+<span class="kw">impl</span> <span class="ident">EncodeOptions</span><span class="op">&lt;</span><span class="ident">lz77</span>::<span class="ident">DefaultLz77Encoder</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Makes a default instance.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use libflate::gzip::{Encoder, EncodeOptions};</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let options = EncodeOptions::new();</span>
+    <span class="doccomment">/// let encoder = Encoder::with_options(Vec::new(), options).unwrap();</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span>::<span class="ident">default</span>()
+    }
+}
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span> <span class="ident">EncodeOptions</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">E</span>: <span class="ident">lz77</span>::<span class="ident">Lz77Encode</span>,
 {
-    <span class='doccomment'>/// Specifies the LZ77 encoder used to compress input data.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Example</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// use libflate::lz77::DefaultLz77Encoder;</span>
-    <span class='doccomment'>/// use libflate::gzip::{Encoder, EncodeOptions};</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let options = EncodeOptions::with_lz77(DefaultLz77Encoder::new());</span>
-    <span class='doccomment'>/// let encoder = Encoder::with_options(Vec::new(), options).unwrap();</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_lz77</span>(<span class='ident'>lz77</span>: <span class='ident'>E</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>header</span> <span class='op'>=</span> <span class='ident'>HeaderBuilder</span>::<span class='ident'>new</span>().<span class='ident'>finish</span>();
-        <span class='ident'>header</span>.<span class='ident'>compression_level</span> <span class='op'>=</span> <span class='ident'>From</span>::<span class='ident'>from</span>(<span class='ident'>lz77</span>.<span class='ident'>compression_level</span>());
-        <span class='ident'>EncodeOptions</span> {
-            <span class='ident'>header</span>: <span class='ident'>header</span>,
-            <span class='ident'>options</span>: <span class='ident'>deflate</span>::<span class='ident'>EncodeOptions</span>::<span class='ident'>with_lz77</span>(<span class='ident'>lz77</span>),
+    <span class="doccomment">/// Specifies the LZ77 encoder used to compress input data.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Example</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use libflate::lz77::DefaultLz77Encoder;</span>
+    <span class="doccomment">/// use libflate::gzip::{Encoder, EncodeOptions};</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let options = EncodeOptions::with_lz77(DefaultLz77Encoder::new());</span>
+    <span class="doccomment">/// let encoder = Encoder::with_options(Vec::new(), options).unwrap();</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_lz77</span>(<span class="ident">lz77</span>: <span class="ident">E</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">header</span> <span class="op">=</span> <span class="ident">HeaderBuilder</span>::<span class="ident">new</span>().<span class="ident">finish</span>();
+        <span class="ident">header</span>.<span class="ident">compression_level</span> <span class="op">=</span> <span class="ident">From</span>::<span class="ident">from</span>(<span class="ident">lz77</span>.<span class="ident">compression_level</span>());
+        <span class="ident">EncodeOptions</span> {
+            <span class="ident">header</span>: <span class="ident">header</span>,
+            <span class="ident">options</span>: <span class="ident">deflate</span>::<span class="ident">EncodeOptions</span>::<span class="ident">with_lz77</span>(<span class="ident">lz77</span>),
         }
     }
 
-    <span class='doccomment'>/// Disables LZ77 compression.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Example</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// use libflate::lz77::DefaultLz77Encoder;</span>
-    <span class='doccomment'>/// use libflate::gzip::{Encoder, EncodeOptions};</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let options = EncodeOptions::new().no_compression();</span>
-    <span class='doccomment'>/// let encoder = Encoder::with_options(Vec::new(), options).unwrap();</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>no_compression</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='self'>self</span>.<span class='ident'>options</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>options</span>.<span class='ident'>no_compression</span>();
-        <span class='self'>self</span>.<span class='ident'>header</span>.<span class='ident'>compression_level</span> <span class='op'>=</span> <span class='ident'>CompressionLevel</span>::<span class='ident'>Unknown</span>;
-        <span class='self'>self</span>
+    <span class="doccomment">/// Disables LZ77 compression.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Example</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use libflate::lz77::DefaultLz77Encoder;</span>
+    <span class="doccomment">/// use libflate::gzip::{Encoder, EncodeOptions};</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let options = EncodeOptions::new().no_compression();</span>
+    <span class="doccomment">/// let encoder = Encoder::with_options(Vec::new(), options).unwrap();</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">no_compression</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">options</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">options</span>.<span class="ident">no_compression</span>();
+        <span class="self">self</span>.<span class="ident">header</span>.<span class="ident">compression_level</span> <span class="op">=</span> <span class="ident">CompressionLevel</span>::<span class="ident">Unknown</span>;
+        <span class="self">self</span>
     }
 
-    <span class='doccomment'>/// Sets the GZIP header which will be written to the output stream.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Example</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// use libflate::gzip::{Encoder, EncodeOptions, HeaderBuilder};</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let header = HeaderBuilder::new().text().modification_time(100).finish();</span>
-    <span class='doccomment'>/// let options = EncodeOptions::new().header(header);</span>
-    <span class='doccomment'>/// let encoder = Encoder::with_options(Vec::new(), options).unwrap();</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>header</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>header</span>: <span class='ident'>Header</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='self'>self</span>.<span class='ident'>header</span> <span class='op'>=</span> <span class='ident'>header</span>;
-        <span class='self'>self</span>
+    <span class="doccomment">/// Sets the GZIP header which will be written to the output stream.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Example</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use libflate::gzip::{Encoder, EncodeOptions, HeaderBuilder};</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let header = HeaderBuilder::new().text().modification_time(100).finish();</span>
+    <span class="doccomment">/// let options = EncodeOptions::new().header(header);</span>
+    <span class="doccomment">/// let encoder = Encoder::with_options(Vec::new(), options).unwrap();</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">header</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">header</span>: <span class="ident">Header</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">header</span> <span class="op">=</span> <span class="ident">header</span>;
+        <span class="self">self</span>
     }
 
-    <span class='doccomment'>/// Specifies the hint of the size of a DEFLATE block.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// The default value is `deflate::DEFAULT_BLOCK_SIZE`.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Example</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// use libflate::gzip::{Encoder, EncodeOptions};</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let options = EncodeOptions::new().block_size(512 * 1024);</span>
-    <span class='doccomment'>/// let encoder = Encoder::with_options(Vec::new(), options).unwrap();</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>block_size</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>size</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='self'>self</span>.<span class='ident'>options</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>options</span>.<span class='ident'>block_size</span>(<span class='ident'>size</span>);
-        <span class='self'>self</span>
+    <span class="doccomment">/// Specifies the hint of the size of a DEFLATE block.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The default value is `deflate::DEFAULT_BLOCK_SIZE`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Example</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use libflate::gzip::{Encoder, EncodeOptions};</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let options = EncodeOptions::new().block_size(512 * 1024);</span>
+    <span class="doccomment">/// let encoder = Encoder::with_options(Vec::new(), options).unwrap();</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">block_size</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">size</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">options</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">options</span>.<span class="ident">block_size</span>(<span class="ident">size</span>);
+        <span class="self">self</span>
     }
 
-    <span class='doccomment'>/// Specifies to compress with fixed huffman codes.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Example</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// use libflate::gzip::{Encoder, EncodeOptions};</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let options = EncodeOptions::new().fixed_huffman_codes();</span>
-    <span class='doccomment'>/// let encoder = Encoder::with_options(Vec::new(), options).unwrap();</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>fixed_huffman_codes</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='self'>self</span>.<span class='ident'>options</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>options</span>.<span class='ident'>fixed_huffman_codes</span>();
-        <span class='self'>self</span>
+    <span class="doccomment">/// Specifies to compress with fixed huffman codes.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Example</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use libflate::gzip::{Encoder, EncodeOptions};</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let options = EncodeOptions::new().fixed_huffman_codes();</span>
+    <span class="doccomment">/// let encoder = Encoder::with_options(Vec::new(), options).unwrap();</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fixed_huffman_codes</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">options</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">options</span>.<span class="ident">fixed_huffman_codes</span>();
+        <span class="self">self</span>
     }
 }
 
-<span class='doccomment'>/// GZIP encoder.</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Encoder</span><span class='op'>&lt;</span><span class='ident'>W</span>, <span class='ident'>E</span> <span class='op'>=</span> <span class='ident'>lz77</span>::<span class='ident'>DefaultLz77Encoder</span><span class='op'>&gt;</span> {
-    <span class='ident'>header</span>: <span class='ident'>Header</span>,
-    <span class='ident'>crc32</span>: <span class='ident'>checksum</span>::<span class='ident'>Crc32</span>,
-    <span class='ident'>input_size</span>: <span class='ident'>u32</span>,
-    <span class='ident'>writer</span>: <span class='ident'>deflate</span>::<span class='ident'>Encoder</span><span class='op'>&lt;</span><span class='ident'>W</span>, <span class='ident'>E</span><span class='op'>&gt;</span>,
+<span class="doccomment">/// GZIP encoder.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Encoder</span><span class="op">&lt;</span><span class="ident">W</span>, <span class="ident">E</span> <span class="op">=</span> <span class="ident">lz77</span>::<span class="ident">DefaultLz77Encoder</span><span class="op">&gt;</span> {
+    <span class="ident">header</span>: <span class="ident">Header</span>,
+    <span class="ident">crc32</span>: <span class="ident">checksum</span>::<span class="ident">Crc32</span>,
+    <span class="ident">input_size</span>: <span class="ident">u32</span>,
+    <span class="ident">writer</span>: <span class="ident">deflate</span>::<span class="ident">Encoder</span><span class="op">&lt;</span><span class="ident">W</span>, <span class="ident">E</span><span class="op">&gt;</span>,
 }
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>W</span><span class='op'>&gt;</span> <span class='ident'>Encoder</span><span class='op'>&lt;</span><span class='ident'>W</span>, <span class='ident'>lz77</span>::<span class='ident'>DefaultLz77Encoder</span><span class='op'>&gt;</span>
-    <span class='kw'>where</span> <span class='ident'>W</span>: <span class='ident'>io</span>::<span class='ident'>Write</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span> <span class="ident">Encoder</span><span class="op">&lt;</span><span class="ident">W</span>, <span class="ident">lz77</span>::<span class="ident">DefaultLz77Encoder</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">W</span>: <span class="ident">io</span>::<span class="ident">Write</span>,
 {
-    <span class='doccomment'>/// Makes a new encoder instance.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Encoded GZIP stream is written to `inner`.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Examples</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// use std::io::Write;</span>
-    <span class='doccomment'>/// use libflate::gzip::Encoder;</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let mut encoder = Encoder::new(Vec::new()).unwrap();</span>
-    <span class='doccomment'>/// encoder.write_all(b&quot;Hello World!&quot;).unwrap();</span>
-    <span class='doccomment'>/// encoder.finish().into_result().unwrap();</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>inner</span>: <span class='ident'>W</span>) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span> {
-        <span class='self'>Self</span>::<span class='ident'>with_options</span>(<span class='ident'>inner</span>, <span class='ident'>EncodeOptions</span>::<span class='ident'>new</span>())
+    <span class="doccomment">/// Makes a new encoder instance.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Encoded GZIP stream is written to `inner`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use std::io::Write;</span>
+    <span class="doccomment">/// use libflate::gzip::Encoder;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let mut encoder = Encoder::new(Vec::new()).unwrap();</span>
+    <span class="doccomment">/// encoder.write_all(b&quot;Hello World!&quot;).unwrap();</span>
+    <span class="doccomment">/// encoder.finish().into_result().unwrap();</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">inner</span>: <span class="ident">W</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+        <span class="self">Self</span>::<span class="ident">with_options</span>(<span class="ident">inner</span>, <span class="ident">EncodeOptions</span>::<span class="ident">new</span>())
     }
 }
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>W</span>, <span class='ident'>E</span><span class='op'>&gt;</span> <span class='ident'>Encoder</span><span class='op'>&lt;</span><span class='ident'>W</span>, <span class='ident'>E</span><span class='op'>&gt;</span>
-    <span class='kw'>where</span> <span class='ident'>W</span>: <span class='ident'>io</span>::<span class='ident'>Write</span>,
-          <span class='ident'>E</span>: <span class='ident'>lz77</span>::<span class='ident'>Lz77Encode</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">W</span>, <span class="ident">E</span><span class="op">&gt;</span> <span class="ident">Encoder</span><span class="op">&lt;</span><span class="ident">W</span>, <span class="ident">E</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">W</span>: <span class="ident">io</span>::<span class="ident">Write</span>,
+    <span class="ident">E</span>: <span class="ident">lz77</span>::<span class="ident">Lz77Encode</span>,
 {
-    <span class='doccomment'>/// Makes a new encoder instance with specified options.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Encoded GZIP stream is written to `inner`.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Examples</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// use std::io::Write;</span>
-    <span class='doccomment'>/// use libflate::gzip::{Encoder, EncodeOptions, HeaderBuilder};</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let header = HeaderBuilder::new().modification_time(123).finish();</span>
-    <span class='doccomment'>/// let options = EncodeOptions::new().no_compression().header(header);</span>
-    <span class='doccomment'>/// let mut encoder = Encoder::with_options(Vec::new(), options).unwrap();</span>
-    <span class='doccomment'>/// encoder.write_all(b&quot;Hello World!&quot;).unwrap();</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// assert_eq!(encoder.finish().into_result().unwrap(),</span>
-    <span class='doccomment'>///            &amp;[31, 139, 8, 0, 123, 0, 0, 0, 0, 3, 1, 12, 0, 243, 255, 72, 101, 108, 108,</span>
-    <span class='doccomment'>///              111, 32, 87, 111, 114, 108, 100, 33, 163, 28, 41, 28, 12, 0, 0, 0][..]);</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_options</span>(<span class='kw-2'>mut</span> <span class='ident'>inner</span>: <span class='ident'>W</span>, <span class='ident'>options</span>: <span class='ident'>EncodeOptions</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span> {
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>options</span>.<span class='ident'>header</span>.<span class='ident'>write_to</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>inner</span>));
-        <span class='prelude-val'>Ok</span>(<span class='ident'>Encoder</span> {
-            <span class='ident'>header</span>: <span class='ident'>options</span>.<span class='ident'>header</span>.<span class='ident'>clone</span>(),
-            <span class='ident'>crc32</span>: <span class='ident'>checksum</span>::<span class='ident'>Crc32</span>::<span class='ident'>new</span>(),
-            <span class='ident'>input_size</span>: <span class='number'>0</span>,
-            <span class='ident'>writer</span>: <span class='ident'>deflate</span>::<span class='ident'>Encoder</span>::<span class='ident'>with_options</span>(<span class='ident'>inner</span>, <span class='ident'>options</span>.<span class='ident'>options</span>),
+    <span class="doccomment">/// Makes a new encoder instance with specified options.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Encoded GZIP stream is written to `inner`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use std::io::Write;</span>
+    <span class="doccomment">/// use libflate::gzip::{Encoder, EncodeOptions, HeaderBuilder};</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let header = HeaderBuilder::new().modification_time(123).finish();</span>
+    <span class="doccomment">/// let options = EncodeOptions::new().no_compression().header(header);</span>
+    <span class="doccomment">/// let mut encoder = Encoder::with_options(Vec::new(), options).unwrap();</span>
+    <span class="doccomment">/// encoder.write_all(b&quot;Hello World!&quot;).unwrap();</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// assert_eq!(encoder.finish().into_result().unwrap(),</span>
+    <span class="doccomment">///            &amp;[31, 139, 8, 0, 123, 0, 0, 0, 0, 3, 1, 12, 0, 243, 255, 72, 101, 108, 108,</span>
+    <span class="doccomment">///              111, 32, 87, 111, 114, 108, 100, 33, 163, 28, 41, 28, 12, 0, 0, 0][..]);</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_options</span>(<span class="kw-2">mut</span> <span class="ident">inner</span>: <span class="ident">W</span>, <span class="ident">options</span>: <span class="ident">EncodeOptions</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+        <span class="ident">options</span>.<span class="ident">header</span>.<span class="ident">write_to</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">inner</span>)<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(<span class="ident">Encoder</span> {
+            <span class="ident">header</span>: <span class="ident">options</span>.<span class="ident">header</span>.<span class="ident">clone</span>(),
+            <span class="ident">crc32</span>: <span class="ident">checksum</span>::<span class="ident">Crc32</span>::<span class="ident">new</span>(),
+            <span class="ident">input_size</span>: <span class="number">0</span>,
+            <span class="ident">writer</span>: <span class="ident">deflate</span>::<span class="ident">Encoder</span>::<span class="ident">with_options</span>(<span class="ident">inner</span>, <span class="ident">options</span>.<span class="ident">options</span>),
         })
     }
 
-    <span class='doccomment'>/// Returns the header of the GZIP stream.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Examples</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// use libflate::gzip::{Encoder, Os};</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let encoder = Encoder::new(Vec::new()).unwrap();</span>
-    <span class='doccomment'>/// assert_eq!(encoder.header().os(), Os::Unix);</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>header</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>Header</span> {
-        <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>header</span>
+    <span class="doccomment">/// Returns the header of the GZIP stream.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use libflate::gzip::{Encoder, Os};</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let encoder = Encoder::new(Vec::new()).unwrap();</span>
+    <span class="doccomment">/// assert_eq!(encoder.header().os(), Os::Unix);</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">header</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Header</span> {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">header</span>
     }
 
-    <span class='doccomment'>/// Writes the GZIP trailer and returns the inner stream.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Examples</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// use std::io::Write;</span>
-    <span class='doccomment'>/// use libflate::gzip::Encoder;</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let mut encoder = Encoder::new(Vec::new()).unwrap();</span>
-    <span class='doccomment'>/// encoder.write_all(b&quot;Hello World!&quot;).unwrap();</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// assert!(encoder.finish().as_result().is_ok())</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>finish</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Finish</span><span class='op'>&lt;</span><span class='ident'>W</span>, <span class='ident'>io</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>trailer</span> <span class='op'>=</span> <span class='ident'>Trailer</span> {
-            <span class='ident'>crc32</span>: <span class='self'>self</span>.<span class='ident'>crc32</span>.<span class='ident'>value</span>(),
-            <span class='ident'>input_size</span>: <span class='self'>self</span>.<span class='ident'>input_size</span>,
+    <span class="doccomment">/// Writes the GZIP trailer and returns the inner stream.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use std::io::Write;</span>
+    <span class="doccomment">/// use libflate::gzip::Encoder;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let mut encoder = Encoder::new(Vec::new()).unwrap();</span>
+    <span class="doccomment">/// encoder.write_all(b&quot;Hello World!&quot;).unwrap();</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// assert!(encoder.finish().as_result().is_ok())</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">finish</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Finish</span><span class="op">&lt;</span><span class="ident">W</span>, <span class="ident">io</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">trailer</span> <span class="op">=</span> <span class="ident">Trailer</span> {
+            <span class="ident">crc32</span>: <span class="self">self</span>.<span class="ident">crc32</span>.<span class="ident">value</span>(),
+            <span class="ident">input_size</span>: <span class="self">self</span>.<span class="ident">input_size</span>,
         };
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>inner</span> <span class='op'>=</span> <span class='macro'>finish_try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>writer</span>.<span class='ident'>finish</span>());
-        <span class='kw'>match</span> <span class='ident'>trailer</span>.<span class='ident'>write_to</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>inner</span>).<span class='ident'>and_then</span>(<span class='op'>|</span>_<span class='op'>|</span> <span class='ident'>inner</span>.<span class='ident'>flush</span>()) {
-            <span class='prelude-val'>Ok</span>(_) <span class='op'>=&gt;</span> <span class='ident'>Finish</span>::<span class='ident'>new</span>(<span class='ident'>inner</span>, <span class='prelude-val'>None</span>),
-            <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='ident'>Finish</span>::<span class='ident'>new</span>(<span class='ident'>inner</span>, <span class='prelude-val'>Some</span>(<span class='ident'>e</span>)),
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">inner</span> <span class="op">=</span> <span class="macro">finish_try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">finish</span>());
+        <span class="kw">match</span> <span class="ident">trailer</span>.<span class="ident">write_to</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">inner</span>).<span class="ident">and_then</span>(<span class="op">|</span>_<span class="op">|</span> <span class="ident">inner</span>.<span class="ident">flush</span>()) {
+            <span class="prelude-val">Ok</span>(_) <span class="op">=&gt;</span> <span class="ident">Finish</span>::<span class="ident">new</span>(<span class="ident">inner</span>, <span class="prelude-val">None</span>),
+            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="ident">Finish</span>::<span class="ident">new</span>(<span class="ident">inner</span>, <span class="prelude-val">Some</span>(<span class="ident">e</span>)),
         }
     }
 }
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>W</span><span class='op'>&gt;</span> <span class='ident'>io</span>::<span class='ident'>Write</span> <span class='kw'>for</span> <span class='ident'>Encoder</span><span class='op'>&lt;</span><span class='ident'>W</span><span class='op'>&gt;</span>
-    <span class='kw'>where</span> <span class='ident'>W</span>: <span class='ident'>io</span>::<span class='ident'>Write</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="ident">Write</span> <span class="kw">for</span> <span class="ident">Encoder</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">W</span>: <span class="ident">io</span>::<span class="ident">Write</span>,
 {
-    <span class='kw'>fn</span> <span class='ident'>write</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>buf</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>written_size</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>writer</span>.<span class='ident'>write</span>(<span class='ident'>buf</span>));
-        <span class='self'>self</span>.<span class='ident'>crc32</span>.<span class='ident'>update</span>(<span class='kw-2'>&amp;</span><span class='ident'>buf</span>[..<span class='ident'>written_size</span>]);
-        <span class='self'>self</span>.<span class='ident'>input_size</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>input_size</span>.<span class='ident'>wrapping_add</span>(<span class='ident'>written_size</span> <span class='kw'>as</span> <span class='ident'>u32</span>);
-        <span class='prelude-val'>Ok</span>(<span class='ident'>written_size</span>)
+    <span class="kw">fn</span> <span class="ident">write</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">written_size</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write</span>(<span class="ident">buf</span>)<span class="question-mark">?</span>;
+        <span class="self">self</span>.<span class="ident">crc32</span>.<span class="ident">update</span>(<span class="kw-2">&amp;</span><span class="ident">buf</span>[..<span class="ident">written_size</span>]);
+        <span class="self">self</span>.<span class="ident">input_size</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">input_size</span>.<span class="ident">wrapping_add</span>(<span class="ident">written_size</span> <span class="kw">as</span> <span class="ident">u32</span>);
+        <span class="prelude-val">Ok</span>(<span class="ident">written_size</span>)
     }
-    <span class='kw'>fn</span> <span class='ident'>flush</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='self'>self</span>.<span class='ident'>writer</span>.<span class='ident'>flush</span>()
+    <span class="kw">fn</span> <span class="ident">flush</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">flush</span>()
     }
 }
 
-<span class='doccomment'>/// GZIP decoder.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Decoder</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> {
-    <span class='ident'>header</span>: <span class='ident'>Header</span>,
-    <span class='ident'>reader</span>: <span class='ident'>deflate</span>::<span class='ident'>Decoder</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span>,
-    <span class='ident'>crc32</span>: <span class='ident'>checksum</span>::<span class='ident'>Crc32</span>,
-    <span class='ident'>eos</span>: <span class='ident'>bool</span>,
+<span class="doccomment">/// GZIP decoder.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
+    <span class="ident">header</span>: <span class="ident">Header</span>,
+    <span class="ident">reader</span>: <span class="ident">deflate</span>::<span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>,
+    <span class="ident">crc32</span>: <span class="ident">checksum</span>::<span class="ident">Crc32</span>,
+    <span class="ident">eos</span>: <span class="ident">bool</span>,
 }
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> <span class='ident'>Decoder</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span>
-    <span class='kw'>where</span> <span class='ident'>R</span>: <span class='ident'>io</span>::<span class='ident'>Read</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> <span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">R</span>: <span class="ident">io</span>::<span class="ident">Read</span>,
 {
-    <span class='doccomment'>/// Makes a new decoder instance.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// `inner` is to be decoded GZIP stream.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Examples</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// use std::io::{Cursor, Read};</span>
-    <span class='doccomment'>/// use libflate::gzip::Decoder;</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let encoded_data = [31, 139, 8, 0, 123, 0, 0, 0, 0, 3, 1, 12, 0, 243, 255, 72, 101, 108, 108,</span>
-    <span class='doccomment'>///                     111, 32, 87, 111, 114, 108, 100, 33, 163, 28, 41, 28, 12, 0, 0, 0];</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let mut decoder = Decoder::new(Cursor::new(&amp;encoded_data[..])).unwrap();</span>
-    <span class='doccomment'>/// let mut buf = Vec::new();</span>
-    <span class='doccomment'>/// decoder.read_to_end(&amp;mut buf).unwrap();</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// assert_eq!(buf, b&quot;Hello World!&quot;);</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='kw-2'>mut</span> <span class='ident'>inner</span>: <span class='ident'>R</span>) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>header</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>Header</span>::<span class='ident'>read_from</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>inner</span>));
-        <span class='prelude-val'>Ok</span>(<span class='ident'>Decoder</span> {
-            <span class='ident'>header</span>: <span class='ident'>header</span>,
-            <span class='ident'>reader</span>: <span class='ident'>deflate</span>::<span class='ident'>Decoder</span>::<span class='ident'>new</span>(<span class='ident'>inner</span>),
-            <span class='ident'>crc32</span>: <span class='ident'>checksum</span>::<span class='ident'>Crc32</span>::<span class='ident'>new</span>(),
-            <span class='ident'>eos</span>: <span class='bool-val'>false</span>,
+    <span class="doccomment">/// Makes a new decoder instance.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// `inner` is to be decoded GZIP stream.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use std::io::Read;</span>
+    <span class="doccomment">/// use libflate::gzip::Decoder;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let encoded_data = [31, 139, 8, 0, 123, 0, 0, 0, 0, 3, 1, 12, 0, 243, 255,</span>
+    <span class="doccomment">///                     72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100, 33,</span>
+    <span class="doccomment">///                     163, 28, 41, 28, 12, 0, 0, 0];</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let mut decoder = Decoder::new(&amp;encoded_data[..]).unwrap();</span>
+    <span class="doccomment">/// let mut buf = Vec::new();</span>
+    <span class="doccomment">/// decoder.read_to_end(&amp;mut buf).unwrap();</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// assert_eq!(buf, b&quot;Hello World!&quot;);</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="kw-2">mut</span> <span class="ident">inner</span>: <span class="ident">R</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">header</span> <span class="op">=</span> <span class="ident">Header</span>::<span class="ident">read_from</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">inner</span>)<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(<span class="ident">Decoder</span> {
+            <span class="ident">header</span>: <span class="ident">header</span>,
+            <span class="ident">reader</span>: <span class="ident">deflate</span>::<span class="ident">Decoder</span>::<span class="ident">new</span>(<span class="ident">inner</span>),
+            <span class="ident">crc32</span>: <span class="ident">checksum</span>::<span class="ident">Crc32</span>::<span class="ident">new</span>(),
+            <span class="ident">eos</span>: <span class="bool-val">false</span>,
         })
     }
 
-    <span class='doccomment'>/// Returns the header of the GZIP stream.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Examples</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// use std::io::Cursor;</span>
-    <span class='doccomment'>/// use libflate::gzip::{Decoder, Os};</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let encoded_data = [31, 139, 8, 0, 123, 0, 0, 0, 0, 3, 1, 12, 0, 243, 255, 72, 101, 108, 108,</span>
-    <span class='doccomment'>///                     111, 32, 87, 111, 114, 108, 100, 33, 163, 28, 41, 28, 12, 0, 0, 0];</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let decoder = Decoder::new(Cursor::new(&amp;encoded_data[..])).unwrap();</span>
-    <span class='doccomment'>/// assert_eq!(decoder.header().os(), Os::Unix);</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>header</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>Header</span> {
-        <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>header</span>
+    <span class="doccomment">/// Returns the header of the GZIP stream.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use libflate::gzip::{Decoder, Os};</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let encoded_data = [31, 139, 8, 0, 123, 0, 0, 0, 0, 3, 1, 12, 0, 243, 255,</span>
+    <span class="doccomment">///                     72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100, 33,</span>
+    <span class="doccomment">///                     163, 28, 41, 28, 12, 0, 0, 0];</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let decoder = Decoder::new(&amp;encoded_data[..]).unwrap();</span>
+    <span class="doccomment">/// assert_eq!(decoder.header().os(), Os::Unix);</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">header</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Header</span> {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">header</span>
     }
 
-    <span class='doccomment'>/// Unwraps this `Decoder`, returning the underlying reader.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Examples</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// use std::io::Cursor;</span>
-    <span class='doccomment'>/// use libflate::gzip::Decoder;</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let encoded_data = [31, 139, 8, 0, 123, 0, 0, 0, 0, 3, 1, 12, 0, 243, 255, 72, 101, 108, 108,</span>
-    <span class='doccomment'>///                     111, 32, 87, 111, 114, 108, 100, 33, 163, 28, 41, 28, 12, 0, 0, 0];</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let decoder = Decoder::new(Cursor::new(&amp;encoded_data[..])).unwrap();</span>
-    <span class='doccomment'>/// assert_eq!(decoder.into_inner().into_inner(), &amp;encoded_data[..]);</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>into_inner</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>R</span> {
-        <span class='self'>self</span>.<span class='ident'>reader</span>.<span class='ident'>into_inner</span>()
+    <span class="doccomment">/// Unwraps this `Decoder`, returning the underlying reader.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use std::io::Cursor;</span>
+    <span class="doccomment">/// use libflate::gzip::Decoder;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let encoded_data = [31, 139, 8, 0, 123, 0, 0, 0, 0, 3, 1, 12, 0, 243, 255,</span>
+    <span class="doccomment">///                     72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100, 33,</span>
+    <span class="doccomment">///                     163, 28, 41, 28, 12, 0, 0, 0];</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let decoder = Decoder::new(Cursor::new(&amp;encoded_data[..])).unwrap();</span>
+    <span class="doccomment">/// assert_eq!(decoder.into_inner().into_inner(), &amp;encoded_data[..]);</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_inner</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">R</span> {
+        <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">into_inner</span>()
     }
 }
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> <span class='ident'>io</span>::<span class='ident'>Read</span> <span class='kw'>for</span> <span class='ident'>Decoder</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span>
-    <span class='kw'>where</span> <span class='ident'>R</span>: <span class='ident'>io</span>::<span class='ident'>Read</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="ident">Read</span> <span class="kw">for</span> <span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">R</span>: <span class="ident">io</span>::<span class="ident">Read</span>,
 {
-    <span class='kw'>fn</span> <span class='ident'>read</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>buf</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span> {
-        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>eos</span> {
-            <span class='prelude-val'>Ok</span>(<span class='number'>0</span>)
-        } <span class='kw'>else</span> {
-            <span class='kw'>let</span> <span class='ident'>read_size</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>reader</span>.<span class='ident'>read</span>(<span class='ident'>buf</span>));
-            <span class='self'>self</span>.<span class='ident'>crc32</span>.<span class='ident'>update</span>(<span class='kw-2'>&amp;</span><span class='ident'>buf</span>[..<span class='ident'>read_size</span>]);
-            <span class='kw'>if</span> <span class='ident'>read_size</span> <span class='op'>==</span> <span class='number'>0</span> {
-                <span class='self'>self</span>.<span class='ident'>eos</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
-                <span class='kw'>let</span> <span class='ident'>trailer</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>Trailer</span>::<span class='ident'>read_from</span>(<span class='self'>self</span>.<span class='ident'>reader</span>.<span class='ident'>as_inner_mut</span>()));
-                <span class='kw'>if</span> <span class='ident'>trailer</span>.<span class='ident'>crc32</span> <span class='op'>!=</span> <span class='self'>self</span>.<span class='ident'>crc32</span>.<span class='ident'>value</span>() {
-                    <span class='prelude-val'>Err</span>(<span class='macro'>invalid_data_error</span><span class='macro'>!</span>(<span class='string'>&quot;CRC32 mismatched: value={}, expected={}&quot;</span>,
-                                            <span class='self'>self</span>.<span class='ident'>crc32</span>.<span class='ident'>value</span>(),
-                                            <span class='ident'>trailer</span>.<span class='ident'>crc32</span>))
-                } <span class='kw'>else</span> {
-                    <span class='prelude-val'>Ok</span>(<span class='number'>0</span>)
+    <span class="kw">fn</span> <span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">eos</span> {
+            <span class="prelude-val">Ok</span>(<span class="number">0</span>)
+        } <span class="kw">else</span> {
+            <span class="kw">let</span> <span class="ident">read_size</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">read</span>(<span class="ident">buf</span>)<span class="question-mark">?</span>;
+            <span class="self">self</span>.<span class="ident">crc32</span>.<span class="ident">update</span>(<span class="kw-2">&amp;</span><span class="ident">buf</span>[..<span class="ident">read_size</span>]);
+            <span class="kw">if</span> <span class="ident">read_size</span> <span class="op">==</span> <span class="number">0</span> {
+                <span class="self">self</span>.<span class="ident">eos</span> <span class="op">=</span> <span class="bool-val">true</span>;
+                <span class="kw">let</span> <span class="ident">trailer</span> <span class="op">=</span> <span class="ident">Trailer</span>::<span class="ident">read_from</span>(<span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">as_inner_mut</span>())<span class="question-mark">?</span>;
+                <span class="kw">if</span> <span class="ident">trailer</span>.<span class="ident">crc32</span> <span class="op">!=</span> <span class="self">self</span>.<span class="ident">crc32</span>.<span class="ident">value</span>() {
+                    <span class="prelude-val">Err</span>(<span class="macro">invalid_data_error</span><span class="macro">!</span>(
+                        <span class="string">&quot;CRC32 mismatched: value={}, expected={}&quot;</span>,
+                        <span class="self">self</span>.<span class="ident">crc32</span>.<span class="ident">value</span>(),
+                        <span class="ident">trailer</span>.<span class="ident">crc32</span>
+                    ))
+                } <span class="kw">else</span> {
+                    <span class="prelude-val">Ok</span>(<span class="number">0</span>)
                 }
-            } <span class='kw'>else</span> {
-                <span class='prelude-val'>Ok</span>(<span class='ident'>read_size</span>)
+            } <span class="kw">else</span> {
+                <span class="prelude-val">Ok</span>(<span class="ident">read_size</span>)
             }
         }
     }
 }
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
-<span class='kw'>mod</span> <span class='ident'>test</span> {
-    <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
-    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='kw-2'>*</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">mod</span> <span class="ident">test</span> {
+    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>;
+    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>decode_all</span>(<span class='ident'>buf</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>decoder</span> <span class='op'>=</span> <span class='ident'>Decoder</span>::<span class='ident'>new</span>(<span class='ident'>io</span>::<span class='ident'>Cursor</span>::<span class='ident'>new</span>(<span class='ident'>buf</span>)).<span class='ident'>unwrap</span>();
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>buf</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>with_capacity</span>(<span class='ident'>buf</span>.<span class='ident'>len</span>());
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>io</span>::<span class='ident'>copy</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>decoder</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>buf</span>));
-        <span class='prelude-val'>Ok</span>(<span class='ident'>buf</span>)
+    <span class="kw">fn</span> <span class="ident">decode_all</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">decoder</span> <span class="op">=</span> <span class="ident">Decoder</span>::<span class="ident">new</span>(<span class="ident">buf</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">buf</span>.<span class="ident">len</span>());
+        <span class="ident">io</span>::<span class="ident">copy</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">decoder</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>)<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(<span class="ident">buf</span>)
     }
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>encode_works</span>() {
-        <span class='kw'>let</span> <span class='ident'>plain</span> <span class='op'>=</span> <span class='string'>b&quot;Hello World! Hello GZIP!!&quot;</span>;
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>encoder</span> <span class='op'>=</span> <span class='ident'>Encoder</span>::<span class='ident'>new</span>(<span class='ident'>Vec</span>::<span class='ident'>new</span>()).<span class='ident'>unwrap</span>();
-        <span class='ident'>io</span>::<span class='ident'>copy</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='kw-2'>&amp;</span><span class='ident'>plain</span>[..], <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>encoder</span>).<span class='ident'>unwrap</span>();
-        <span class='kw'>let</span> <span class='ident'>encoded</span> <span class='op'>=</span> <span class='ident'>encoder</span>.<span class='ident'>finish</span>().<span class='ident'>into_result</span>().<span class='ident'>unwrap</span>();
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>decode_all</span>(<span class='kw-2'>&amp;</span><span class='ident'>encoded</span>).<span class='ident'>unwrap</span>(), <span class='ident'>plain</span>);
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">encode_works</span>() {
+        <span class="kw">let</span> <span class="ident">plain</span> <span class="op">=</span> <span class="string">b&quot;Hello World! Hello GZIP!!&quot;</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">encoder</span> <span class="op">=</span> <span class="ident">Encoder</span>::<span class="ident">new</span>(<span class="ident">Vec</span>::<span class="ident">new</span>()).<span class="ident">unwrap</span>();
+        <span class="ident">io</span>::<span class="ident">copy</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">&amp;</span><span class="ident">plain</span>[..], <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">encoder</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">encoded</span> <span class="op">=</span> <span class="ident">encoder</span>.<span class="ident">finish</span>().<span class="ident">into_result</span>().<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">decode_all</span>(<span class="kw-2">&amp;</span><span class="ident">encoded</span>).<span class="ident">unwrap</span>(), <span class="ident">plain</span>);
     }
 }
 </pre>
@@ -1878,7 +1972,6 @@
         window.rootPath = "../../";
         window.currentCrate = "libflate";
     </script>
-    <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     <script defer src="../../search-index.js"></script>
 </body>

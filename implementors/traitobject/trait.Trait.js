@@ -1,6 +1,4 @@
 (function() {var implementors = {};
-implementors["hyper"] = [];
-implementors["reqwest"] = [];
 implementors["traitobject"] = [];
 
             if (window.register_implementors) {
