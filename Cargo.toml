@@ -9,7 +9,8 @@ categories = ["api-bindings"]
 license = "MIT"
 # Remember to also update in appveyor.yml
 version = "1.0.0"
-authors = ["nabijaczleweli <nabijaczleweli@gmail.com>"]
+authors = ["nabijaczleweli <nabijaczleweli@gmail.com>",
+           "caemor <caemor@users.noreply.github.com>"]
 exclude = ["*.enc"]
 
 
