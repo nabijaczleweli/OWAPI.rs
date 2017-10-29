@@ -6,8 +6,9 @@
         "avatar": "https://blzgdapipro-a.akamaihd.net/game/unlocks/0x0250000000000BBA.png",
         "wins": 9,
         "games": 17,
-        "comprank": 2395,
-        "losses": 8
+        "comprank": null,
+        "losses": 8,
+        "tier": null
     },
     "game_stats": {
         "objective_kills": 121.0,
