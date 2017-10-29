@@ -11,7 +11,9 @@ matrix:
     - rust: nightly
 
 before_install:
-  - openssl aes-256-cbc -K $encrypted_b1243ab99dc6_key -iv $encrypted_b1243ab99dc6_iv -in gh_rsa.enc -out gh_rsa -d
+  - if [ "$TRAVIS_SECURE_ENV_VARS" == "true" ]; then
+      openssl aes-256-cbc -K $encrypted_b1243ab99dc6_key -iv $encrypted_b1243ab99dc6_iv -in gh_rsa.enc -out gh_rsa -d;
+    fi
 
 after_success:
   - curl -SL https://keybase.io/nabijaczleweli/key.asc | gpg --import
