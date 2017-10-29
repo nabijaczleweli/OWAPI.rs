@@ -8,8 +8,6 @@ static TEST_STATS_REAL_QUICKPLAY: &'static str = include_str!("../../test_data/s
 static TEST_STATS_REAL_COMPETITIVE: &'static str = include_str!("../../test_data/stats_real_comp.json");
 
 
-
-
 #[test]
 fn deserialisation_official() {
     assert_eq!(from_str::<Statistics>(TEST_STATS_OFFICIAL).unwrap(),
