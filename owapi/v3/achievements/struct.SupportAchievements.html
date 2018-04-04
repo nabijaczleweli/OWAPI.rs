@@ -10,8 +10,11 @@
     <title>owapi::v3::achievements::SupportAchievements - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css" id="themeStyle">
+    <script src="../../../storage.js"></script>
     
 
     
@@ -28,10 +31,18 @@
     
 
     <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
         
-        <p class='location'>Struct SupportAchievements</p><div class="block items"><ul><li><a href="#fields">Fields</a></li><li><a href="#implementations">Trait Implementations</a></li></ul></div><p class='location'><a href='../../index.html'>owapi</a>::<wbr><a href='../index.html'>v3</a>::<wbr><a href='index.html'>achievements</a></p><script>window.sidebarCurrent = {name: 'SupportAchievements', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'>Struct SupportAchievements</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#fields">Fields</a><div class="sidebar-links"><a href="#structfield.rapid_discord">rapid_discord</a><a href="#structfield.enabler">enabler</a><a href="#structfield.huge_rez">huge_rez</a><a href="#structfield.supersonic">supersonic</a><a href="#structfield.naptime">naptime</a><a href="#structfield.huge_success">huge_success</a><a href="#structfield.the_iris_embraces_you">the_iris_embraces_you</a><a href="#structfield.the_car_wash">the_car_wash</a><a href="#structfield.the_floor_is_lava">the_floor_is_lava</a><a href="#structfield.group_health_plan">group_health_plan</a></div><a class="sidebar-title" href="#implementations">Trait Implementations</a><div class="sidebar-links"><a href="#impl-Debug">Debug</a><a href="#impl-Copy">Copy</a><a href="#impl-Clone">Clone</a><a href="#impl-Hash">Hash</a><a href="#impl-PartialEq">PartialEq</a><a href="#impl-Eq">Eq</a></div></div><p class='location'><a href='../../index.html'>owapi</a>::<wbr><a href='../index.html'>v3</a>::<wbr><a href='index.html'>achievements</a></p><script>window.sidebarCurrent = {name: 'SupportAchievements', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -62,65 +73,65 @@
     pub group_health_plan: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>,
 }</pre><div class='docblock'><p>Achievements for heroes classified by Blizzard as &quot;support&quot;.</p>
 </div><h2 id='fields' class='fields small-section-header'>
-                       Fields<a href='#fields' class='anchor'></a></h2><span id='structfield.rapid_discord' class="structfield">
-                           <span id='rapid_discord.v' class='invisible'>
+                       Fields<a href='#fields' class='anchor'></a></h2><span id="structfield.rapid_discord" class="structfield small-section-header">
+                           <a href="#structfield.rapid_discord" class="anchor field"></a>
+                           <span id="rapid_discord.v" class='invisible'>
                            <code>rapid_discord: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code>
                            </span></span><div class='docblock'><p>Rapid Discord achievement.</p>
-
-<p>Get 4 kills or assists with Zenyatta&#39;s Orb of Discord within 6 seconds.</p>
-</div><span id='structfield.enabler' class="structfield">
-                           <span id='enabler.v' class='invisible'>
+<p>Get 4 kills or assists with Zenyatta's Orb of Discord within 6 seconds.</p>
+</div><span id="structfield.enabler" class="structfield small-section-header">
+                           <a href="#structfield.enabler" class="anchor field"></a>
+                           <span id="enabler.v" class='invisible'>
                            <code>enabler: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code>
                            </span></span><div class='docblock'><p>Enabler achievement.</p>
-
-<p>Get 4 kills or assists with a single use of Ana&#39;s Nano Boost.</p>
-</div><span id='structfield.huge_rez' class="structfield">
-                           <span id='huge_rez.v' class='invisible'>
+<p>Get 4 kills or assists with a single use of Ana's Nano Boost.</p>
+</div><span id="structfield.huge_rez" class="structfield small-section-header">
+                           <a href="#structfield.huge_rez" class="anchor field"></a>
+                           <span id="huge_rez.v" class='invisible'>
                            <code>huge_rez: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code>
                            </span></span><div class='docblock'><p>Huge Rez achievement.</p>
-
 <p>Resurrect 4 players at once with Mercy.</p>
-</div><span id='structfield.supersonic' class="structfield">
-                           <span id='supersonic.v' class='invisible'>
+</div><span id="structfield.supersonic" class="structfield small-section-header">
+                           <a href="#structfield.supersonic" class="anchor field"></a>
+                           <span id="supersonic.v" class='invisible'>
                            <code>supersonic: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code>
                            </span></span><div class='docblock'><p>Supersonic achievement.</p>
-
-<p>Block 1000 damage with a single use of Lúcio&#39;s Sound Barrier.</p>
-</div><span id='structfield.naptime' class="structfield">
-                           <span id='naptime.v' class='invisible'>
+<p>Block 1000 damage with a single use of Lúcio's Sound Barrier.</p>
+</div><span id="structfield.naptime" class="structfield small-section-header">
+                           <a href="#structfield.naptime" class="anchor field"></a>
+                           <span id="naptime.v" class='invisible'>
                            <code>naptime: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code>
                            </span></span><div class='docblock'><p>Naptime achievement.</p>
-
-<p>Interrupt an enemy ultimate ability with Ana&#39;s Sleep Dart.</p>
-</div><span id='structfield.huge_success' class="structfield">
-                           <span id='huge_success.v' class='invisible'>
+<p>Interrupt an enemy ultimate ability with Ana's Sleep Dart.</p>
+</div><span id="structfield.huge_success" class="structfield small-section-header">
+                           <a href="#structfield.huge_success" class="anchor field"></a>
+                           <span id="huge_success.v" class='invisible'>
                            <code>huge_success: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code>
                            </span></span><div class='docblock'><p>Huge Success achievement.</p>
-
 <p>Teleport 20 players in a single game as Symmetra.</p>
-</div><span id='structfield.the_iris_embraces_you' class="structfield">
-                           <span id='the_iris_embraces_you.v' class='invisible'>
+</div><span id="structfield.the_iris_embraces_you" class="structfield small-section-header">
+                           <a href="#structfield.the_iris_embraces_you" class="anchor field"></a>
+                           <span id="the_iris_embraces_you.v" class='invisible'>
                            <code>the_iris_embraces_you: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code>
                            </span></span><div class='docblock'><p>The Iris Embraces You achievement.</p>
-
-<p>Restore 1500 health with a single use of Zenyatta&#39;s Transcendence.</p>
-</div><span id='structfield.the_car_wash' class="structfield">
-                           <span id='the_car_wash.v' class='invisible'>
+<p>Restore 1500 health with a single use of Zenyatta's Transcendence.</p>
+</div><span id="structfield.the_car_wash" class="structfield small-section-header">
+                           <a href="#structfield.the_car_wash" class="anchor field"></a>
+                           <span id="the_car_wash.v" class='invisible'>
                            <code>the_car_wash: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code>
                            </span></span><div class='docblock'><p>The Car Wash achievement.</p>
-
 <p>Hit an enemy with 6 beams simultaneously as Symmetra.</p>
-</div><span id='structfield.the_floor_is_lava' class="structfield">
-                           <span id='the_floor_is_lava.v' class='invisible'>
+</div><span id="structfield.the_floor_is_lava" class="structfield small-section-header">
+                           <a href="#structfield.the_floor_is_lava" class="anchor field"></a>
+                           <span id="the_floor_is_lava.v" class='invisible'>
                            <code>the_floor_is_lava: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code>
                            </span></span><div class='docblock'><p>The Floor is Lava achievement.</p>
-
 <p>Get 3 killing blows while wall riding as Lúcio without dying.</p>
-</div><span id='structfield.group_health_plan' class="structfield">
-                           <span id='group_health_plan.v' class='invisible'>
+</div><span id="structfield.group_health_plan" class="structfield small-section-header">
+                           <a href="#structfield.group_health_plan" class="anchor field"></a>
+                           <span id="group_health_plan.v" class='invisible'>
                            <code>group_health_plan: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code>
                            </span></span><div class='docblock'><p>Group Health Plan achievement.</p>
-
 <p>Restore 200 health for 5 players without dying as Mercy.</p>
 </div>
             <h2 id='implementations' class='small-section-header'>
@@ -128,7 +139,7 @@
             </h2>
         <h3 id='impl-Debug' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="struct" href="../../../owapi/v3/achievements/struct.SupportAchievements.html" title="struct owapi::v3::achievements::SupportAchievements">SupportAchievements</a></code><a href='#impl-Debug' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/owapi/v3/achievements.rs.html#138' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/owapi/v3/achievements.rs.html#138' title='goto source code'>[src]</a></span></h4>
-<div class='docblock'><p>Formats the value using the given formatter.</p>
+<div class='docblock'><p>Formats the value using the given formatter. <a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt">Read more</a></p>
 </div></div><h3 id='impl-Copy' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Copy.html" title="trait core::marker::Copy">Copy</a> for <a class="struct" href="../../../owapi/v3/achievements/struct.SupportAchievements.html" title="struct owapi::v3::achievements::SupportAchievements">SupportAchievements</a></code><a href='#impl-Copy' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/owapi/v3/achievements.rs.html#138' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'></div><h3 id='impl-Clone' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="struct" href="../../../owapi/v3/achievements/struct.SupportAchievements.html" title="struct owapi::v3::achievements::SupportAchievements">SupportAchievements</a></code><a href='#impl-Clone' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/owapi/v3/achievements.rs.html#138' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.clone' class="method"><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class="struct" href="../../../owapi/v3/achievements/struct.SupportAchievements.html" title="struct owapi::v3::achievements::SupportAchievements">SupportAchievements</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/owapi/v3/achievements.rs.html#138' title='goto source code'>[src]</a></span></h4>
@@ -159,18 +170,22 @@
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>↹</kbd></dt>
+                    <dd>Switch tab</dd>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

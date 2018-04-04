@@ -10,8 +10,11 @@
     <title>owapi::v3::achievements::TankAchievements - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css" id="themeStyle">
+    <script src="../../../storage.js"></script>
     
 
     
@@ -28,10 +31,18 @@
     
 
     <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
         
-        <p class='location'>Struct TankAchievements</p><div class="block items"><ul><li><a href="#fields">Fields</a></li><li><a href="#implementations">Trait Implementations</a></li></ul></div><p class='location'><a href='../../index.html'>owapi</a>::<wbr><a href='../index.html'>v3</a>::<wbr><a href='index.html'>achievements</a></p><script>window.sidebarCurrent = {name: 'TankAchievements', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'>Struct TankAchievements</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#fields">Fields</a><div class="sidebar-links"><a href="#structfield.halt_state">halt_state</a><a href="#structfield.overclocked">overclocked</a><a href="#structfield.i_am_your_shield">i_am_your_shield</a><a href="#structfield.mine_sweeper">mine_sweeper</a><a href="#structfield.storm_earth_and_fire">storm_earth_and_fire</a><a href="#structfield.giving_you_the_hook">giving_you_the_hook</a><a href="#structfield.power_overwhelming">power_overwhelming</a><a href="#structfield.anger_management">anger_management</a><a href="#structfield.hog_wild">hog_wild</a><a href="#structfield.the_power_of_attraction">the_power_of_attraction</a><a href="#structfield.shot_down">shot_down</a><a href="#structfield.game_over">game_over</a></div><a class="sidebar-title" href="#implementations">Trait Implementations</a><div class="sidebar-links"><a href="#impl-Debug">Debug</a><a href="#impl-Copy">Copy</a><a href="#impl-Clone">Clone</a><a href="#impl-Hash">Hash</a><a href="#impl-PartialEq">PartialEq</a><a href="#impl-Eq">Eq</a></div></div><p class='location'><a href='../../index.html'>owapi</a>::<wbr><a href='../index.html'>v3</a>::<wbr><a href='index.html'>achievements</a></p><script>window.sidebarCurrent = {name: 'TankAchievements', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -64,85 +75,85 @@
     pub game_over: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>,
 }</pre><div class='docblock'><p>Achievements for heroes classified by Blizzard as &quot;tank&quot;.</p>
 </div><h2 id='fields' class='fields small-section-header'>
-                       Fields<a href='#fields' class='anchor'></a></h2><span id='structfield.halt_state' class="structfield">
-                           <span id='halt_state.v' class='invisible'>
+                       Fields<a href='#fields' class='anchor'></a></h2><span id="structfield.halt_state" class="structfield small-section-header">
+                           <a href="#structfield.halt_state" class="anchor field"></a>
+                           <span id="halt_state.v" class='invisible'>
                            <code>halt_state: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code>
                            </span></span><div class='docblock'><p>Halt State achievement.</p>
-
-<p>Pull enemies into 1000 damage with a single use of Orisa&#39;s Halt! in quick or competitive play.</p>
-</div><span id='structfield.overclocked' class="structfield">
-                           <span id='overclocked.v' class='invisible'>
+<p>Pull enemies into 1000 damage with a single use of Orisa's Halt! in quick or competitive play.</p>
+</div><span id="structfield.overclocked" class="structfield small-section-header">
+                           <a href="#structfield.overclocked" class="anchor field"></a>
+                           <span id="overclocked.v" class='invisible'>
                            <code>overclocked: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code>
                            </span></span><div class='docblock'><p>Overclocked achievement.</p>
-
-<p>Amplify 900 damage with a single use of Orisa&#39;s Supercharger in quick or competitive play.</p>
-</div><span id='structfield.i_am_your_shield' class="structfield">
-                           <span id='i_am_your_shield.v' class='invisible'>
+<p>Amplify 900 damage with a single use of Orisa's Supercharger in quick or competitive play.</p>
+</div><span id="structfield.i_am_your_shield" class="structfield small-section-header">
+                           <a href="#structfield.i_am_your_shield" class="anchor field"></a>
+                           <span id="i_am_your_shield.v" class='invisible'>
                            <code>i_am_your_shield: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code>
                            </span></span><div class='docblock'><p>I Am Your Shield achievement.</p>
-
-<p>Block 8000 damage with Reinhardt&#39;s Barrier Field without dying.</p>
-</div><span id='structfield.mine_sweeper' class="structfield">
-                           <span id='mine_sweeper.v' class='invisible'>
+<p>Block 8000 damage with Reinhardt's Barrier Field without dying.</p>
+</div><span id="structfield.mine_sweeper" class="structfield small-section-header">
+                           <a href="#structfield.mine_sweeper" class="anchor field"></a>
+                           <span id="mine_sweeper.v" class='invisible'>
                            <code>mine_sweeper: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code>
                            </span></span><div class='docblock'><p>Mine Sweeper achievement.</p>
-
-<p>Destroy 10 Turrets or Traps using Winston&#39;s Tesla Cannon without dying.</p>
-</div><span id='structfield.storm_earth_and_fire' class="structfield">
-                           <span id='storm_earth_and_fire.v' class='invisible'>
+<p>Destroy 10 Turrets or Traps using Winston's Tesla Cannon without dying.</p>
+</div><span id="structfield.storm_earth_and_fire" class="structfield small-section-header">
+                           <a href="#structfield.storm_earth_and_fire" class="anchor field"></a>
+                           <span id="storm_earth_and_fire.v" class='invisible'>
                            <code>storm_earth_and_fire: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code>
                            </span></span><div class='docblock'><p>Storm, Earth and Fire achievement.</p>
-
-<p>Land Reinhardt&#39;s Fire Strike and Charge after an Earthshatter Stun.</p>
-</div><span id='structfield.giving_you_the_hook' class="structfield">
-                           <span id='giving_you_the_hook.v' class='invisible'>
+<p>Land Reinhardt's Fire Strike and Charge after an Earthshatter Stun.</p>
+</div><span id="structfield.giving_you_the_hook" class="structfield small-section-header">
+                           <a href="#structfield.giving_you_the_hook" class="anchor field"></a>
+                           <span id="giving_you_the_hook.v" class='invisible'>
                            <code>giving_you_the_hook: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code>
                            </span></span><div class='docblock'><p>Giving You The Hook achievement.</p>
-
-<p>Interrupt an enemy ultimate ability with Roadhog&#39;s Chain Hook.</p>
-</div><span id='structfield.power_overwhelming' class="structfield">
-                           <span id='power_overwhelming.v' class='invisible'>
+<p>Interrupt an enemy ultimate ability with Roadhog's Chain Hook.</p>
+</div><span id="structfield.power_overwhelming" class="structfield small-section-header">
+                           <a href="#structfield.power_overwhelming" class="anchor field"></a>
+                           <span id="power_overwhelming.v" class='invisible'>
                            <code>power_overwhelming: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code>
                            </span></span><div class='docblock'><p>Power Overwhelming achievement.</p>
-
-<p>Keep Zarya&#39;s Particle Cannon above 70 Energy for 60 seconds.</p>
-</div><span id='structfield.anger_management' class="structfield">
-                           <span id='anger_management.v' class='invisible'>
+<p>Keep Zarya's Particle Cannon above 70 Energy for 60 seconds.</p>
+</div><span id="structfield.anger_management" class="structfield small-section-header">
+                           <a href="#structfield.anger_management" class="anchor field"></a>
+                           <span id="anger_management.v" class='invisible'>
                            <code>anger_management: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code>
                            </span></span><div class='docblock'><p>Anger Management achievement.</p>
-
-<p>Damage 6 enemies a single use of Winston&#39;s Primal Rage.</p>
-</div><span id='structfield.hog_wild' class="structfield">
-                           <span id='hog_wild.v' class='invisible'>
+<p>Damage 6 enemies a single use of Winston's Primal Rage.</p>
+</div><span id="structfield.hog_wild" class="structfield small-section-header">
+                           <a href="#structfield.hog_wild" class="anchor field"></a>
+                           <span id="hog_wild.v" class='invisible'>
                            <code>hog_wild: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code>
                            </span></span><div class='docblock'><p>Hog Wild achievement.</p>
-
-<p>Knock 2 enemies to their deaths with one use of Roadhog&#39;s Whole Hog.</p>
-</div><span id='structfield.the_power_of_attraction' class="structfield">
-                           <span id='the_power_of_attraction.v' class='invisible'>
+<p>Knock 2 enemies to their deaths with one use of Roadhog's Whole Hog.</p>
+</div><span id="structfield.the_power_of_attraction" class="structfield small-section-header">
+                           <a href="#structfield.the_power_of_attraction" class="anchor field"></a>
+                           <span id="the_power_of_attraction.v" class='invisible'>
                            <code>the_power_of_attraction: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code>
                            </span></span><div class='docblock'><p>The Power of Attraction achievement.</p>
-
-<p>Capture 5 enemies in a single use of Zarya&#39;s Graviton Surge.</p>
-</div><span id='structfield.shot_down' class="structfield">
-                           <span id='shot_down.v' class='invisible'>
+<p>Capture 5 enemies in a single use of Zarya's Graviton Surge.</p>
+</div><span id="structfield.shot_down" class="structfield small-section-header">
+                           <a href="#structfield.shot_down" class="anchor field"></a>
+                           <span id="shot_down.v" class='invisible'>
                            <code>shot_down: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code>
                            </span></span><div class='docblock'><p>Shot Down achievement.</p>
-
-<p>Prevent 1500 damage with a single use of D.Va&#39;s Defense Matrix.</p>
-</div><span id='structfield.game_over' class="structfield">
-                           <span id='game_over.v' class='invisible'>
+<p>Prevent 1500 damage with a single use of D.Va's Defense Matrix.</p>
+</div><span id="structfield.game_over" class="structfield small-section-header">
+                           <a href="#structfield.game_over" class="anchor field"></a>
+                           <span id="game_over.v" class='invisible'>
                            <code>game_over: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code>
                            </span></span><div class='docblock'><p>Game Over achievement.</p>
-
-<p>Kill 4 enemies with a single use of D.Va&#39;s Self-Destruct.</p>
+<p>Kill 4 enemies with a single use of D.Va's Self-Destruct.</p>
 </div>
             <h2 id='implementations' class='small-section-header'>
               Trait Implementations<a href='#implementations' class='anchor'></a>
             </h2>
         <h3 id='impl-Debug' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="struct" href="../../../owapi/v3/achievements/struct.TankAchievements.html" title="struct owapi::v3::achievements::TankAchievements">TankAchievements</a></code><a href='#impl-Debug' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/owapi/v3/achievements.rs.html#232' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/owapi/v3/achievements.rs.html#232' title='goto source code'>[src]</a></span></h4>
-<div class='docblock'><p>Formats the value using the given formatter.</p>
+<div class='docblock'><p>Formats the value using the given formatter. <a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt">Read more</a></p>
 </div></div><h3 id='impl-Copy' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Copy.html" title="trait core::marker::Copy">Copy</a> for <a class="struct" href="../../../owapi/v3/achievements/struct.TankAchievements.html" title="struct owapi::v3::achievements::TankAchievements">TankAchievements</a></code><a href='#impl-Copy' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/owapi/v3/achievements.rs.html#232' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'></div><h3 id='impl-Clone' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="struct" href="../../../owapi/v3/achievements/struct.TankAchievements.html" title="struct owapi::v3::achievements::TankAchievements">TankAchievements</a></code><a href='#impl-Clone' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/owapi/v3/achievements.rs.html#232' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.clone' class="method"><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class="struct" href="../../../owapi/v3/achievements/struct.TankAchievements.html" title="struct owapi::v3::achievements::TankAchievements">TankAchievements</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/owapi/v3/achievements.rs.html#232' title='goto source code'>[src]</a></span></h4>
@@ -173,18 +184,22 @@
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>↹</kbd></dt>
+                    <dd>Switch tab</dd>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

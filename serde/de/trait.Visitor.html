@@ -10,8 +10,11 @@
     <title>serde::de::Visitor - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <script src="../../storage.js"></script>
     
 
     
@@ -28,10 +31,18 @@
     
 
     <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
         
-        <p class='location'>Trait Visitor</p><div class="block items"><ul><li><a href="#associated-types">Associated Types</a></li><li><a href="#required-methods">Required Methods</a></li><li><a href="#provided-methods">Provided Methods</a></li><li><a href="#implementors">Implementors</a></li></ul></div><p class='location'><a href='../index.html'>serde</a>::<wbr><a href='index.html'>de</a></p><script>window.sidebarCurrent = {name: 'Visitor', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'>Trait Visitor</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#associated-types">Associated Types</a><div class="sidebar-links"><a href="#associatedtype.Value">Value</a></div><a class="sidebar-title" href="#required-methods">Required Methods</a><div class="sidebar-links"><a href="#tymethod.expecting">expecting</a></div><a class="sidebar-title" href="#provided-methods">Provided Methods</a><div class="sidebar-links"><a href="#method.visit_bool">visit_bool</a><a href="#method.visit_i8">visit_i8</a><a href="#method.visit_i16">visit_i16</a><a href="#method.visit_i32">visit_i32</a><a href="#method.visit_i64">visit_i64</a><a href="#method.visit_u8">visit_u8</a><a href="#method.visit_u16">visit_u16</a><a href="#method.visit_u32">visit_u32</a><a href="#method.visit_u64">visit_u64</a><a href="#method.visit_f32">visit_f32</a><a href="#method.visit_f64">visit_f64</a><a href="#method.visit_char">visit_char</a><a href="#method.visit_str">visit_str</a><a href="#method.visit_string">visit_string</a><a href="#method.visit_unit">visit_unit</a><a href="#method.visit_none">visit_none</a><a href="#method.visit_some">visit_some</a><a href="#method.visit_newtype_struct">visit_newtype_struct</a><a href="#method.visit_seq">visit_seq</a><a href="#method.visit_map">visit_map</a><a href="#method.visit_enum">visit_enum</a><a href="#method.visit_bytes">visit_bytes</a><a href="#method.visit_byte_buf">visit_byte_buf</a></div><a class="sidebar-title" href="#implementors">Implementors</a></div><p class='location'><a href='../index.html'>serde</a>::<wbr><a href='index.html'>de</a></p><script>window.sidebarCurrent = {name: 'Visitor', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -137,7 +148,6 @@
             </h2>
             <div class='methods'>
         <h3 id='tymethod.expecting' class='method'><span id='expecting.v' class='invisible'><code>fn <a href='#tymethod.expecting' class='fnname'>expecting</a>(&amp;self, formatter: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h3><div class='docblock'><p>Format a message stating what data this Visitor expects to receive.</p>
-
 <p>This is used in error messages. The message should complete the sentence
 &quot;This Visitor expects to receive ...&quot;, for example the message could be
 &quot;an integer between 0 and 64&quot;. The message should not be capitalized and
@@ -165,27 +175,22 @@ should not end with a period.</p>
 </div><h3 id='method.visit_f64' class='method'><span id='visit_f64.v' class='invisible'><code>fn <a href='#method.visit_f64' class='fnname'>visit_f64</a>&lt;E&gt;(self, v: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self::<a class="type" href="../../serde/de/trait.Visitor.html#associatedtype.Value" title="type serde::de::Visitor::Value">Value</a>, E&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;E: <a class="trait" href="../../serde/de/trait.Error.html" title="trait serde::de::Error">Error</a>,&nbsp;</span></code></span></h3><div class='docblock'><p>Deserialize a <code>f64</code> into a <code>Value</code>.</p>
 </div><h3 id='method.visit_char' class='method'><span id='visit_char.v' class='invisible'><code>fn <a href='#method.visit_char' class='fnname'>visit_char</a>&lt;E&gt;(self, v: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.char.html">char</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self::<a class="type" href="../../serde/de/trait.Visitor.html#associatedtype.Value" title="type serde::de::Visitor::Value">Value</a>, E&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;E: <a class="trait" href="../../serde/de/trait.Error.html" title="trait serde::de::Error">Error</a>,&nbsp;</span></code></span></h3><div class='docblock'><p>Deserialize a <code>char</code> into a <code>Value</code>.</p>
 </div><h3 id='method.visit_str' class='method'><span id='visit_str.v' class='invisible'><code>fn <a href='#method.visit_str' class='fnname'>visit_str</a>&lt;E&gt;(self, v: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self::<a class="type" href="../../serde/de/trait.Visitor.html#associatedtype.Value" title="type serde::de::Visitor::Value">Value</a>, E&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;E: <a class="trait" href="../../serde/de/trait.Error.html" title="trait serde::de::Error">Error</a>,&nbsp;</span></code></span></h3><div class='docblock'><p>Deserialize a <code>&amp;str</code> into a <code>Value</code>.</p>
-
 <p>This method allows the <code>Deserializer</code> to avoid a copy by retaining
 ownership of any buffered data. <code>Deserialize</code> implementations that do
 not benefit from taking ownership of <code>String</code> data should indicate that
 to the deserializer by using <code>Deserializer::deserialize_str</code> rather than
 <code>Deserializer::deserialize_string</code>.</p>
-
 <p>It is never correct to implement <code>visit_string</code> without implementing
 <code>visit_str</code>. Implement neither, both, or just <code>visit_str</code>.</p>
 </div><h3 id='method.visit_string' class='method'><span id='visit_string.v' class='invisible'><code>fn <a href='#method.visit_string' class='fnname'>visit_string</a>&lt;E&gt;(self, v: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self::<a class="type" href="../../serde/de/trait.Visitor.html#associatedtype.Value" title="type serde::de::Visitor::Value">Value</a>, E&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;E: <a class="trait" href="../../serde/de/trait.Error.html" title="trait serde::de::Error">Error</a>,&nbsp;</span></code></span></h3><div class='docblock'><p>Deserialize a <code>String</code> into a <code>Value</code>.</p>
-
 <p>This method allows the <code>Visitor</code> to avoid a copy by taking ownership of
 a string created by the <code>Deserializer</code>. <code>Deserialize</code> implementations
 that benefit from taking ownership of <code>String</code> data should indicate that
 to the deserializer by using <code>Deserializer::deserialize_string</code> rather
 than <code>Deserializer::deserialize_str</code>, although not every deserializer
 will honor such a request.</p>
-
 <p>It is never correct to implement <code>visit_string</code> without implementing
 <code>visit_str</code>. Implement neither, both, or just <code>visit_str</code>.</p>
-
 <p>The default implementation forwards to <code>visit_str</code> and then drops the
 <code>String</code>.</p>
 </div><h3 id='method.visit_unit' class='method'><span id='visit_unit.v' class='invisible'><code>fn <a href='#method.visit_unit' class='fnname'>visit_unit</a>&lt;E&gt;(self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self::<a class="type" href="../../serde/de/trait.Visitor.html#associatedtype.Value" title="type serde::de::Visitor::Value">Value</a>, E&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;E: <a class="trait" href="../../serde/de/trait.Error.html" title="trait serde::de::Error">Error</a>,&nbsp;</span></code></span></h3><div class='docblock'><p>Deserialize a <code>()</code> into a <code>Value</code>.</p>
@@ -196,17 +201,14 @@ will honor such a request.</p>
 </div><h3 id='method.visit_map' class='method'><span id='visit_map.v' class='invisible'><code>fn <a href='#method.visit_map' class='fnname'>visit_map</a>&lt;V&gt;(self, visitor: V) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self::<a class="type" href="../../serde/de/trait.Visitor.html#associatedtype.Value" title="type serde::de::Visitor::Value">Value</a>, V::<a class="type" href="../../serde/de/trait.MapVisitor.html#associatedtype.Error" title="type serde::de::MapVisitor::Error">Error</a>&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;V: <a class="trait" href="../../serde/de/trait.MapVisitor.html" title="trait serde::de::MapVisitor">MapVisitor</a>,&nbsp;</span></code></span></h3><div class='docblock'><p>Deserialize <code>Value</code> as a key-value map.</p>
 </div><h3 id='method.visit_enum' class='method'><span id='visit_enum.v' class='invisible'><code>fn <a href='#method.visit_enum' class='fnname'>visit_enum</a>&lt;V&gt;(self, visitor: V) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self::<a class="type" href="../../serde/de/trait.Visitor.html#associatedtype.Value" title="type serde::de::Visitor::Value">Value</a>, V::<a class="type" href="../../serde/de/trait.EnumVisitor.html#associatedtype.Error" title="type serde::de::EnumVisitor::Error">Error</a>&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;V: <a class="trait" href="../../serde/de/trait.EnumVisitor.html" title="trait serde::de::EnumVisitor">EnumVisitor</a>,&nbsp;</span></code></span></h3><div class='docblock'><p>Deserialize <code>Value</code> as an enum.</p>
 </div><h3 id='method.visit_bytes' class='method'><span id='visit_bytes.v' class='invisible'><code>fn <a href='#method.visit_bytes' class='fnname'>visit_bytes</a>&lt;E&gt;(self, v: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self::<a class="type" href="../../serde/de/trait.Visitor.html#associatedtype.Value" title="type serde::de::Visitor::Value">Value</a>, E&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;E: <a class="trait" href="../../serde/de/trait.Error.html" title="trait serde::de::Error">Error</a>,&nbsp;</span></code></span></h3><div class='docblock'><p>Deserialize a <code>&amp;[u8]</code> into a <code>Value</code>.</p>
-
 <p>This method allows the <code>Deserializer</code> to avoid a copy by retaining
 ownership of any buffered data. <code>Deserialize</code> implementations that do
 not benefit from taking ownership of <code>Vec&lt;u8&gt;</code> data should indicate that
 to the deserializer by using <code>Deserializer::deserialize_bytes</code> rather
 than <code>Deserializer::deserialize_byte_buf</code>.</p>
-
 <p>It is never correct to implement <code>visit_byte_buf</code> without implementing
 <code>visit_bytes</code>. Implement neither, both, or just <code>visit_bytes</code>.</p>
 </div><h3 id='method.visit_byte_buf' class='method'><span id='visit_byte_buf.v' class='invisible'><code>fn <a href='#method.visit_byte_buf' class='fnname'>visit_byte_buf</a>&lt;E&gt;(self, v: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt;) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self::<a class="type" href="../../serde/de/trait.Visitor.html#associatedtype.Value" title="type serde::de::Visitor::Value">Value</a>, E&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;E: <a class="trait" href="../../serde/de/trait.Error.html" title="trait serde::de::Error">Error</a>,&nbsp;</span></code></span></h3><div class='docblock'><p>Deserialize a <code>Vec&lt;u8&gt;</code> into a <code>Value</code>.</p>
-
 <p>This method allows the <code>Visitor</code> to avoid a copy by taking ownership of
 a byte buffer created by the <code>Deserializer</code>. <code>Deserialize</code>
 implementations that benefit from taking ownership of <code>Vec&lt;u8&gt;</code> data
@@ -214,10 +216,8 @@ should indicate that to the deserializer by using
 <code>Deserializer::deserialize_byte_buf</code> rather than
 <code>Deserializer::deserialize_bytes</code>, although not every deserializer will
 honor such a request.</p>
-
 <p>It is never correct to implement <code>visit_byte_buf</code> without implementing
 <code>visit_bytes</code>. Implement neither, both, or just <code>visit_bytes</code>.</p>
-
 <p>The default implementation forwards to <code>visit_bytes</code> and then drops the
 <code>Vec&lt;u8&gt;</code>.</p>
 </div></div>
@@ -240,18 +240,22 @@ honor such a request.</p>
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>↹</kbd></dt>
+                    <dd>Switch tab</dd>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

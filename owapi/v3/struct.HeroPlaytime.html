@@ -10,8 +10,11 @@
     <title>owapi::v3::HeroPlaytime - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <script src="../../storage.js"></script>
     
 
     
@@ -28,10 +31,18 @@
     
 
     <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
         
-        <p class='location'>Struct HeroPlaytime</p><div class="block items"><ul><li><a href="#fields">Fields</a></li><li><a href="#implementations">Trait Implementations</a></li></ul></div><p class='location'><a href='../index.html'>owapi</a>::<wbr><a href='index.html'>v3</a></p><script>window.sidebarCurrent = {name: 'HeroPlaytime', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'>Struct HeroPlaytime</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#fields">Fields</a><div class="sidebar-links"><a href="#structfield.junkrat">junkrat</a><a href="#structfield.roadhog">roadhog</a><a href="#structfield.orisa">orisa</a><a href="#structfield.genji">genji</a><a href="#structfield.zenyatta">zenyatta</a><a href="#structfield.tracer">tracer</a><a href="#structfield.symmetra">symmetra</a><a href="#structfield.lucio">lucio</a><a href="#structfield.dva">dva</a><a href="#structfield.pharah">pharah</a><a href="#structfield.mei">mei</a><a href="#structfield.soldier76">soldier76</a><a href="#structfield.torbjorn">torbjorn</a><a href="#structfield.zarya">zarya</a><a href="#structfield.bastion">bastion</a><a href="#structfield.ana">ana</a><a href="#structfield.reaper">reaper</a><a href="#structfield.winston">winston</a><a href="#structfield.hanzo">hanzo</a><a href="#structfield.sombra">sombra</a><a href="#structfield.widowmaker">widowmaker</a><a href="#structfield.reinhardt">reinhardt</a><a href="#structfield.mercy">mercy</a><a href="#structfield.mccree">mccree</a><a href="#structfield.doomfist">doomfist</a></div><a class="sidebar-title" href="#implementations">Trait Implementations</a><div class="sidebar-links"><a href="#impl-Debug">Debug</a><a href="#impl-Clone">Clone</a><a href="#impl-PartialEq">PartialEq</a></div></div><p class='location'><a href='../index.html'>owapi</a>::<wbr><a href='index.html'>v3</a></p><script>window.sidebarCurrent = {name: 'HeroPlaytime', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -77,104 +88,129 @@
     pub doomfist: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>,
 }</pre><div class='docblock'><p>Time dedicated to playing each hero.</p>
 </div><h2 id='fields' class='fields small-section-header'>
-                       Fields<a href='#fields' class='anchor'></a></h2><span id='structfield.junkrat' class="structfield">
-                           <span id='junkrat.v' class='invisible'>
+                       Fields<a href='#fields' class='anchor'></a></h2><span id="structfield.junkrat" class="structfield small-section-header">
+                           <a href="#structfield.junkrat" class="anchor field"></a>
+                           <span id="junkrat.v" class='invisible'>
                            <code>junkrat: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code>
                            </span></span><div class='docblock'><p>Hours spent playing Junkrat.</p>
-</div><span id='structfield.roadhog' class="structfield">
-                           <span id='roadhog.v' class='invisible'>
+</div><span id="structfield.roadhog" class="structfield small-section-header">
+                           <a href="#structfield.roadhog" class="anchor field"></a>
+                           <span id="roadhog.v" class='invisible'>
                            <code>roadhog: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code>
                            </span></span><div class='docblock'><p>Hours spent playing Roadhog.</p>
-</div><span id='structfield.orisa' class="structfield">
-                           <span id='orisa.v' class='invisible'>
+</div><span id="structfield.orisa" class="structfield small-section-header">
+                           <a href="#structfield.orisa" class="anchor field"></a>
+                           <span id="orisa.v" class='invisible'>
                            <code>orisa: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code>
                            </span></span><div class='docblock'><p>Hours spent playing OR15A.</p>
-</div><span id='structfield.genji' class="structfield">
-                           <span id='genji.v' class='invisible'>
+</div><span id="structfield.genji" class="structfield small-section-header">
+                           <a href="#structfield.genji" class="anchor field"></a>
+                           <span id="genji.v" class='invisible'>
                            <code>genji: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code>
                            </span></span><div class='docblock'><p>Hours spent playing Genji.</p>
-</div><span id='structfield.zenyatta' class="structfield">
-                           <span id='zenyatta.v' class='invisible'>
+</div><span id="structfield.zenyatta" class="structfield small-section-header">
+                           <a href="#structfield.zenyatta" class="anchor field"></a>
+                           <span id="zenyatta.v" class='invisible'>
                            <code>zenyatta: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code>
                            </span></span><div class='docblock'><p>Hours spent playing Zenyatta.</p>
-</div><span id='structfield.tracer' class="structfield">
-                           <span id='tracer.v' class='invisible'>
+</div><span id="structfield.tracer" class="structfield small-section-header">
+                           <a href="#structfield.tracer" class="anchor field"></a>
+                           <span id="tracer.v" class='invisible'>
                            <code>tracer: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code>
                            </span></span><div class='docblock'><p>Hours spent playing Tracer.</p>
-</div><span id='structfield.symmetra' class="structfield">
-                           <span id='symmetra.v' class='invisible'>
+</div><span id="structfield.symmetra" class="structfield small-section-header">
+                           <a href="#structfield.symmetra" class="anchor field"></a>
+                           <span id="symmetra.v" class='invisible'>
                            <code>symmetra: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code>
                            </span></span><div class='docblock'><p>Hours spent playing Symmetra.</p>
-</div><span id='structfield.lucio' class="structfield">
-                           <span id='lucio.v' class='invisible'>
+</div><span id="structfield.lucio" class="structfield small-section-header">
+                           <a href="#structfield.lucio" class="anchor field"></a>
+                           <span id="lucio.v" class='invisible'>
                            <code>lucio: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code>
                            </span></span><div class='docblock'><p>Hours spent playing Lúcio.</p>
-</div><span id='structfield.dva' class="structfield">
-                           <span id='dva.v' class='invisible'>
+</div><span id="structfield.dva" class="structfield small-section-header">
+                           <a href="#structfield.dva" class="anchor field"></a>
+                           <span id="dva.v" class='invisible'>
                            <code>dva: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code>
                            </span></span><div class='docblock'><p>Hours spent playing D.VA.</p>
-</div><span id='structfield.pharah' class="structfield">
-                           <span id='pharah.v' class='invisible'>
+</div><span id="structfield.pharah" class="structfield small-section-header">
+                           <a href="#structfield.pharah" class="anchor field"></a>
+                           <span id="pharah.v" class='invisible'>
                            <code>pharah: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code>
                            </span></span><div class='docblock'><p>Hours spent playing Pharah.</p>
-</div><span id='structfield.mei' class="structfield">
-                           <span id='mei.v' class='invisible'>
+</div><span id="structfield.mei" class="structfield small-section-header">
+                           <a href="#structfield.mei" class="anchor field"></a>
+                           <span id="mei.v" class='invisible'>
                            <code>mei: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code>
                            </span></span><div class='docblock'><p>Hours spent playing Mei.</p>
-</div><span id='structfield.soldier76' class="structfield">
-                           <span id='soldier76.v' class='invisible'>
+</div><span id="structfield.soldier76" class="structfield small-section-header">
+                           <a href="#structfield.soldier76" class="anchor field"></a>
+                           <span id="soldier76.v" class='invisible'>
                            <code>soldier76: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code>
                            </span></span><div class='docblock'><p>Hours spent playing Soldier: 76.</p>
-</div><span id='structfield.torbjorn' class="structfield">
-                           <span id='torbjorn.v' class='invisible'>
+</div><span id="structfield.torbjorn" class="structfield small-section-header">
+                           <a href="#structfield.torbjorn" class="anchor field"></a>
+                           <span id="torbjorn.v" class='invisible'>
                            <code>torbjorn: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code>
                            </span></span><div class='docblock'><p>Hours spent playing Torbjörn.</p>
-</div><span id='structfield.zarya' class="structfield">
-                           <span id='zarya.v' class='invisible'>
+</div><span id="structfield.zarya" class="structfield small-section-header">
+                           <a href="#structfield.zarya" class="anchor field"></a>
+                           <span id="zarya.v" class='invisible'>
                            <code>zarya: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code>
                            </span></span><div class='docblock'><p>Hours spent playing Zarya.</p>
-</div><span id='structfield.bastion' class="structfield">
-                           <span id='bastion.v' class='invisible'>
+</div><span id="structfield.bastion" class="structfield small-section-header">
+                           <a href="#structfield.bastion" class="anchor field"></a>
+                           <span id="bastion.v" class='invisible'>
                            <code>bastion: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code>
                            </span></span><div class='docblock'><p>Hours spent playing Bastion.</p>
-</div><span id='structfield.ana' class="structfield">
-                           <span id='ana.v' class='invisible'>
+</div><span id="structfield.ana" class="structfield small-section-header">
+                           <a href="#structfield.ana" class="anchor field"></a>
+                           <span id="ana.v" class='invisible'>
                            <code>ana: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code>
                            </span></span><div class='docblock'><p>Hours spent playing Ana.</p>
-</div><span id='structfield.reaper' class="structfield">
-                           <span id='reaper.v' class='invisible'>
+</div><span id="structfield.reaper" class="structfield small-section-header">
+                           <a href="#structfield.reaper" class="anchor field"></a>
+                           <span id="reaper.v" class='invisible'>
                            <code>reaper: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code>
                            </span></span><div class='docblock'><p>Hours spent playing Reaper.</p>
-</div><span id='structfield.winston' class="structfield">
-                           <span id='winston.v' class='invisible'>
+</div><span id="structfield.winston" class="structfield small-section-header">
+                           <a href="#structfield.winston" class="anchor field"></a>
+                           <span id="winston.v" class='invisible'>
                            <code>winston: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code>
                            </span></span><div class='docblock'><p>Hours spent playing Winston.</p>
-</div><span id='structfield.hanzo' class="structfield">
-                           <span id='hanzo.v' class='invisible'>
+</div><span id="structfield.hanzo" class="structfield small-section-header">
+                           <a href="#structfield.hanzo" class="anchor field"></a>
+                           <span id="hanzo.v" class='invisible'>
                            <code>hanzo: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code>
                            </span></span><div class='docblock'><p>Hours spent playing Hanzo.</p>
-</div><span id='structfield.sombra' class="structfield">
-                           <span id='sombra.v' class='invisible'>
+</div><span id="structfield.sombra" class="structfield small-section-header">
+                           <a href="#structfield.sombra" class="anchor field"></a>
+                           <span id="sombra.v" class='invisible'>
                            <code>sombra: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code>
                            </span></span><div class='docblock'><p>Hours spent playing Sombra.</p>
-</div><span id='structfield.widowmaker' class="structfield">
-                           <span id='widowmaker.v' class='invisible'>
+</div><span id="structfield.widowmaker" class="structfield small-section-header">
+                           <a href="#structfield.widowmaker" class="anchor field"></a>
+                           <span id="widowmaker.v" class='invisible'>
                            <code>widowmaker: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code>
                            </span></span><div class='docblock'><p>Hours spent playing Widowmaker.</p>
-</div><span id='structfield.reinhardt' class="structfield">
-                           <span id='reinhardt.v' class='invisible'>
+</div><span id="structfield.reinhardt" class="structfield small-section-header">
+                           <a href="#structfield.reinhardt" class="anchor field"></a>
+                           <span id="reinhardt.v" class='invisible'>
                            <code>reinhardt: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code>
                            </span></span><div class='docblock'><p>Hours spent playing Reinhardt.</p>
-</div><span id='structfield.mercy' class="structfield">
-                           <span id='mercy.v' class='invisible'>
+</div><span id="structfield.mercy" class="structfield small-section-header">
+                           <a href="#structfield.mercy" class="anchor field"></a>
+                           <span id="mercy.v" class='invisible'>
                            <code>mercy: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code>
                            </span></span><div class='docblock'><p>Hours spent playing Mercy.</p>
-</div><span id='structfield.mccree' class="structfield">
-                           <span id='mccree.v' class='invisible'>
+</div><span id="structfield.mccree" class="structfield small-section-header">
+                           <a href="#structfield.mccree" class="anchor field"></a>
+                           <span id="mccree.v" class='invisible'>
                            <code>mccree: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code>
                            </span></span><div class='docblock'><p>Hours spent playing McCree.</p>
-</div><span id='structfield.doomfist' class="structfield">
-                           <span id='doomfist.v' class='invisible'>
+</div><span id="structfield.doomfist" class="structfield small-section-header">
+                           <a href="#structfield.doomfist" class="anchor field"></a>
+                           <span id="doomfist.v" class='invisible'>
                            <code>doomfist: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code>
                            </span></span><div class='docblock'><p>Hours spent playing Doomfist.</p>
 </div>
@@ -183,7 +219,7 @@
             </h2>
         <h3 id='impl-Debug' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="struct" href="../../owapi/v3/struct.HeroPlaytime.html" title="struct owapi::v3::HeroPlaytime">HeroPlaytime</a></code><a href='#impl-Debug' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/owapi/v3/mod.rs.html#30' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/owapi/v3/mod.rs.html#30' title='goto source code'>[src]</a></span></h4>
-<div class='docblock'><p>Formats the value using the given formatter.</p>
+<div class='docblock'><p>Formats the value using the given formatter. <a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt">Read more</a></p>
 </div></div><h3 id='impl-Clone' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="struct" href="../../owapi/v3/struct.HeroPlaytime.html" title="struct owapi::v3::HeroPlaytime">HeroPlaytime</a></code><a href='#impl-Clone' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/owapi/v3/mod.rs.html#30' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.clone' class="method"><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class="struct" href="../../owapi/v3/struct.HeroPlaytime.html" title="struct owapi::v3::HeroPlaytime">HeroPlaytime</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/owapi/v3/mod.rs.html#30' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
@@ -207,18 +243,22 @@
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>↹</kbd></dt>
+                    <dd>Switch tab</dd>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

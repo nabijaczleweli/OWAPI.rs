@@ -10,8 +10,11 @@
     <title>hyper_native_tls::NativeTlsServer - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../main.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../dark.css">
+    <link rel="stylesheet" type="text/css" href="../main.css" id="themeStyle">
+    <script src="../storage.js"></script>
     
 
     
@@ -28,10 +31,18 @@
     
 
     <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
         
-        <p class='location'>Struct NativeTlsServer</p><div class="block items"><ul><li><a href="#methods">Methods</a></li><li><a href="#implementations">Trait Implementations</a></li></ul></div><p class='location'><a href='index.html'>hyper_native_tls</a></p><script>window.sidebarCurrent = {name: 'NativeTlsServer', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'>Struct NativeTlsServer</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#methods">Methods</a><div class="sidebar-links"><a href="#method.new">new</a></div><a class="sidebar-title" href="#implementations">Trait Implementations</a><div class="sidebar-links"><a href="#impl-Clone">Clone</a><a href="#impl-From%3CTlsAcceptor%3E">From&lt;TlsAcceptor&gt;</a><a href="#impl-SslServer%3CT%3E">SslServer&lt;T&gt;</a></div></div><p class='location'><a href='index.html'>hyper_native_tls</a></p><script>window.sidebarCurrent = {name: 'NativeTlsServer', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -55,11 +66,10 @@
                       Methods<a href='#methods' class='anchor'></a>
                     </h2>
                 <h3 id='impl' class='impl'><span class='in-band'><code>impl <a class="struct" href="../hyper_native_tls/struct.NativeTlsServer.html" title="struct hyper_native_tls::NativeTlsServer">NativeTlsServer</a></code><a href='#impl' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/hyper_native_tls/lib.rs.html#189-208' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>&lt;P&gt;(identity: P, password: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="../hyper_native_tls/struct.NativeTlsServer.html" title="struct hyper_native_tls::NativeTlsServer">NativeTlsServer</a>, <a class="enum" href="../hyper_native_tls/enum.ServerError.html" title="enum hyper_native_tls::ServerError">ServerError</a>&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;P: <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/std/path/struct.Path.html" title="struct std::path::Path">Path</a>&gt;,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/hyper_native_tls/lib.rs.html#194-207' title='goto source code'>[src]</a></span></h4>
+<div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><code>pub fn <a href='#method.new' class='fnname'>new</a>&lt;P&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;identity: P, <br>&nbsp;&nbsp;&nbsp;&nbsp;password: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a><br>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="../hyper_native_tls/struct.NativeTlsServer.html" title="struct hyper_native_tls::NativeTlsServer">NativeTlsServer</a>, <a class="enum" href="../hyper_native_tls/enum.ServerError.html" title="enum hyper_native_tls::ServerError">ServerError</a>&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;P: <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/std/path/struct.Path.html" title="struct std::path::Path">Path</a>&gt;,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/hyper_native_tls/lib.rs.html#194-207' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Returns a <code>NativeTlsServer</code> with a default configuration.</p>
-
 <p>To customize the configuration, build a <code>TlsAcceptor</code> and then use
-<code>NativeTlsServer</code>&#39;s <code>From</code> implementation.</p>
+<code>NativeTlsServer</code>'s <code>From</code> implementation.</p>
 </div></div>
             <h2 id='implementations' class='small-section-header'>
               Trait Implementations<a href='#implementations' class='anchor'></a>
@@ -69,10 +79,10 @@
 <div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
 </div><h4 id='method.clone_from' class="method"><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>Self)</code></span><span class='out-of-band'><div class='ghost'></div><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div><a class='srclink' href='https://doc.rust-lang.org/nightly/src/core/clone.rs.html#112-114' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
-</div></div><h3 id='impl-From&lt;TlsAcceptor&gt;' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;<a class="struct" href="../native_tls/struct.TlsAcceptor.html" title="struct native_tls::TlsAcceptor">TlsAcceptor</a>&gt; for <a class="struct" href="../hyper_native_tls/struct.NativeTlsServer.html" title="struct hyper_native_tls::NativeTlsServer">NativeTlsServer</a></code><a href='#impl-From&lt;TlsAcceptor&gt;' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/hyper_native_tls/lib.rs.html#210-214' title='goto source code'>[src]</a></span></h3>
+</div></div><h3 id='impl-From%3CTlsAcceptor%3E' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;<a class="struct" href="../native_tls/struct.TlsAcceptor.html" title="struct native_tls::TlsAcceptor">TlsAcceptor</a>&gt; for <a class="struct" href="../hyper_native_tls/struct.NativeTlsServer.html" title="struct hyper_native_tls::NativeTlsServer">NativeTlsServer</a></code><a href='#impl-From%3CTlsAcceptor%3E' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/hyper_native_tls/lib.rs.html#210-214' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.from' class="method"><span id='from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/convert/trait.From.html#tymethod.from' class='fnname'>from</a>(t: <a class="struct" href="../native_tls/struct.TlsAcceptor.html" title="struct native_tls::TlsAcceptor">TlsAcceptor</a>) -&gt; <a class="struct" href="../hyper_native_tls/struct.NativeTlsServer.html" title="struct hyper_native_tls::NativeTlsServer">NativeTlsServer</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/hyper_native_tls/lib.rs.html#211-213' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Performs the conversion.</p>
-</div></div><h3 id='impl-SslServer&lt;T&gt;' class='impl'><span class='in-band'><code>impl&lt;T&gt; <a class="trait" href="../hyper/net/trait.SslServer.html" title="trait hyper::net::SslServer">SslServer</a>&lt;T&gt; for <a class="struct" href="../hyper_native_tls/struct.NativeTlsServer.html" title="struct hyper_native_tls::NativeTlsServer">NativeTlsServer</a> <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: <a class="trait" href="../hyper/net/trait.NetworkStream.html" title="trait hyper::net::NetworkStream">NetworkStream</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,&nbsp;</span></code><a href='#impl-SslServer&lt;T&gt;' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/hyper_native_tls/lib.rs.html#216-227' title='goto source code'>[src]</a></span></h3>
+</div></div><h3 id='impl-SslServer%3CT%3E' class='impl'><span class='in-band'><code>impl&lt;T&gt; <a class="trait" href="../hyper/net/trait.SslServer.html" title="trait hyper::net::SslServer">SslServer</a>&lt;T&gt; for <a class="struct" href="../hyper_native_tls/struct.NativeTlsServer.html" title="struct hyper_native_tls::NativeTlsServer">NativeTlsServer</a> <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: <a class="trait" href="../hyper/net/trait.NetworkStream.html" title="trait hyper::net::NetworkStream">NetworkStream</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,&nbsp;</span></code><a href='#impl-SslServer%3CT%3E' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/hyper_native_tls/lib.rs.html#216-227' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='associatedtype.Stream' class="type"><span id='Stream.t' class='invisible'><code>type <a href='../hyper/net/trait.SslServer.html#associatedtype.Stream' class="type">Stream</a> = <a class="struct" href="../hyper_native_tls/struct.TlsStream.html" title="struct hyper_native_tls::TlsStream">TlsStream</a>&lt;T&gt;</code></span></h4>
 <div class='docblock'><p>The protected stream.</p>
 </div><h4 id='method.wrap_server' class="method"><span id='wrap_server.v' class='invisible'><code>fn <a href='../hyper/net/trait.SslServer.html#tymethod.wrap_server' class='fnname'>wrap_server</a>(&amp;self, stream: T) -&gt; <a class="type" href="../hyper/error/type.Result.html" title="type hyper::error::Result">Result</a>&lt;<a class="struct" href="../hyper_native_tls/struct.TlsStream.html" title="struct hyper_native_tls::TlsStream">TlsStream</a>&lt;T&gt;&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/hyper_native_tls/lib.rs.html#221-226' title='goto source code'>[src]</a></span></h4>
@@ -90,18 +100,22 @@
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>↹</kbd></dt>
+                    <dd>Switch tab</dd>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

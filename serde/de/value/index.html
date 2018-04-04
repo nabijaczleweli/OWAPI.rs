@@ -10,8 +10,11 @@
     <title>serde::de::value - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css" id="themeStyle">
+    <script src="../../../storage.js"></script>
     
 
     
@@ -28,10 +31,18 @@
     
 
     <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
         
-        <p class='location'>Module value</p><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#traits">Traits</a></li></ul></div><p class='location'><a href='../../index.html'>serde</a>::<wbr><a href='../index.html'>de</a></p><script>window.sidebarCurrent = {name: 'value', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
+        <p class='location'>Module value</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#traits">Traits</a></li></ul></div><p class='location'><a href='../../index.html'>serde</a>::<wbr><a href='../index.html'>de</a></p><script>window.sidebarCurrent = {name: 'value', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -57,6 +68,7 @@
                                   title='struct serde::de::value::BoolDeserializer'>BoolDeserializer</a></td>
                            <td class='docblock-short'>
                                 <p>A helper deserializer that deserializes a number.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -64,6 +76,7 @@
                                   title='struct serde::de::value::ByteBufDeserializer'>ByteBufDeserializer</a></td>
                            <td class='docblock-short'>
                                 <p>A helper deserializer that deserializes a <code>Vec&lt;u8&gt;</code>.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -71,6 +84,7 @@
                                   title='struct serde::de::value::BytesDeserializer'>BytesDeserializer</a></td>
                            <td class='docblock-short'>
                                 <p>A helper deserializer that deserializes a <code>&amp;[u8]</code>.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -78,6 +92,7 @@
                                   title='struct serde::de::value::CharDeserializer'>CharDeserializer</a></td>
                            <td class='docblock-short'>
                                 <p>A helper deserializer that deserializes a number.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -85,6 +100,7 @@
                                   title='struct serde::de::value::CowStrDeserializer'>CowStrDeserializer</a></td>
                            <td class='docblock-short'>
                                 <p>A helper deserializer that deserializes a <code>String</code>.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -92,6 +108,7 @@
                                   title='struct serde::de::value::Error'>Error</a></td>
                            <td class='docblock-short'>
                                 <p>This represents all the possible errors that can occur using the <code>ValueDeserializer</code>.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -99,6 +116,7 @@
                                   title='struct serde::de::value::F32Deserializer'>F32Deserializer</a></td>
                            <td class='docblock-short'>
                                 <p>A helper deserializer that deserializes a number.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -106,6 +124,7 @@
                                   title='struct serde::de::value::F64Deserializer'>F64Deserializer</a></td>
                            <td class='docblock-short'>
                                 <p>A helper deserializer that deserializes a number.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -113,6 +132,7 @@
                                   title='struct serde::de::value::I16Deserializer'>I16Deserializer</a></td>
                            <td class='docblock-short'>
                                 <p>A helper deserializer that deserializes a number.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -120,6 +140,7 @@
                                   title='struct serde::de::value::I32Deserializer'>I32Deserializer</a></td>
                            <td class='docblock-short'>
                                 <p>A helper deserializer that deserializes a number.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -127,6 +148,7 @@
                                   title='struct serde::de::value::I64Deserializer'>I64Deserializer</a></td>
                            <td class='docblock-short'>
                                 <p>A helper deserializer that deserializes a number.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -134,6 +156,7 @@
                                   title='struct serde::de::value::I8Deserializer'>I8Deserializer</a></td>
                            <td class='docblock-short'>
                                 <p>A helper deserializer that deserializes a number.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -141,6 +164,7 @@
                                   title='struct serde::de::value::IsizeDeserializer'>IsizeDeserializer</a></td>
                            <td class='docblock-short'>
                                 <p>A helper deserializer that deserializes a number.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -148,6 +172,7 @@
                                   title='struct serde::de::value::MapDeserializer'>MapDeserializer</a></td>
                            <td class='docblock-short'>
                                 <p>A helper deserializer that deserializes a map.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -155,6 +180,7 @@
                                   title='struct serde::de::value::MapVisitorDeserializer'>MapVisitorDeserializer</a></td>
                            <td class='docblock-short'>
                                 <p>A helper deserializer that deserializes a map using a <code>MapVisitor</code>.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -162,6 +188,7 @@
                                   title='struct serde::de::value::SeqDeserializer'>SeqDeserializer</a></td>
                            <td class='docblock-short'>
                                 <p>A helper deserializer that deserializes a sequence.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -169,6 +196,7 @@
                                   title='struct serde::de::value::SeqVisitorDeserializer'>SeqVisitorDeserializer</a></td>
                            <td class='docblock-short'>
                                 <p>A helper deserializer that deserializes a sequence using a <code>SeqVisitor</code>.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -176,6 +204,7 @@
                                   title='struct serde::de::value::StrDeserializer'>StrDeserializer</a></td>
                            <td class='docblock-short'>
                                 <p>A helper deserializer that deserializes a <code>&amp;str</code>.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -183,6 +212,7 @@
                                   title='struct serde::de::value::StringDeserializer'>StringDeserializer</a></td>
                            <td class='docblock-short'>
                                 <p>A helper deserializer that deserializes a <code>String</code>.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -190,6 +220,7 @@
                                   title='struct serde::de::value::U16Deserializer'>U16Deserializer</a></td>
                            <td class='docblock-short'>
                                 <p>A helper deserializer that deserializes a number.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -197,6 +228,7 @@
                                   title='struct serde::de::value::U32Deserializer'>U32Deserializer</a></td>
                            <td class='docblock-short'>
                                 <p>A helper deserializer that deserializes a number.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -204,6 +236,7 @@
                                   title='struct serde::de::value::U64Deserializer'>U64Deserializer</a></td>
                            <td class='docblock-short'>
                                 <p>A helper deserializer that deserializes a number.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -211,6 +244,7 @@
                                   title='struct serde::de::value::U8Deserializer'>U8Deserializer</a></td>
                            <td class='docblock-short'>
                                 <p>A helper deserializer that deserializes a number.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -218,6 +252,7 @@
                                   title='struct serde::de::value::UnitDeserializer'>UnitDeserializer</a></td>
                            <td class='docblock-short'>
                                 <p>A helper deserializer that deserializes a <code>()</code>.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -225,6 +260,7 @@
                                   title='struct serde::de::value::UsizeDeserializer'>UsizeDeserializer</a></td>
                            <td class='docblock-short'>
                                 <p>A helper deserializer that deserializes a number.</p>
+
                            </td>
                        </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
 <table>
@@ -233,6 +269,7 @@
                                   title='trait serde::de::value::ValueDeserializer'>ValueDeserializer</a></td>
                            <td class='docblock-short'>
                                 <p>This trait converts primitive types into a deserializer.</p>
+
                            </td>
                        </tr></table></section>
     <section id='search' class="content hidden"></section>
@@ -247,18 +284,22 @@
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>↹</kbd></dt>
+                    <dd>Switch tab</dd>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

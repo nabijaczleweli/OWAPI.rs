@@ -10,8 +10,11 @@
     <title>owapi::v3::blob::RegionalData - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css" id="themeStyle">
+    <script src="../../../storage.js"></script>
     
 
     
@@ -28,10 +31,18 @@
     
 
     <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
         
-        <p class='location'>Struct RegionalData</p><div class="block items"><ul><li><a href="#fields">Fields</a></li><li><a href="#implementations">Trait Implementations</a></li></ul></div><p class='location'><a href='../../index.html'>owapi</a>::<wbr><a href='../index.html'>v3</a>::<wbr><a href='index.html'>blob</a></p><script>window.sidebarCurrent = {name: 'RegionalData', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'>Struct RegionalData</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#fields">Fields</a><div class="sidebar-links"><a href="#structfield.stats">stats</a><a href="#structfield.achievements">achievements</a><a href="#structfield.heroes">heroes</a></div><a class="sidebar-title" href="#implementations">Trait Implementations</a><div class="sidebar-links"><a href="#impl-Debug">Debug</a><a href="#impl-Clone">Clone</a><a href="#impl-PartialEq">PartialEq</a><a href="#impl-Deserialize">Deserialize</a></div></div><p class='location'><a href='../../index.html'>owapi</a>::<wbr><a href='../index.html'>v3</a>::<wbr><a href='index.html'>blob</a></p><script>window.sidebarCurrent = {name: 'RegionalData', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -55,16 +66,19 @@
     pub heroes: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../../owapi/v3/blob/struct.HeroesContainer.html" title="struct owapi::v3::blob::HeroesContainer">HeroesContainer</a>&gt;,
 }</pre><div class='docblock'><p>Data for a single region.</p>
 </div><h2 id='fields' class='fields small-section-header'>
-                       Fields<a href='#fields' class='anchor'></a></h2><span id='structfield.stats' class="structfield">
-                           <span id='stats.v' class='invisible'>
+                       Fields<a href='#fields' class='anchor'></a></h2><span id="structfield.stats" class="structfield small-section-header">
+                           <a href="#structfield.stats" class="anchor field"></a>
+                           <span id="stats.v" class='invisible'>
                            <code>stats: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../../owapi/v3/blob/struct.BiMode.html" title="struct owapi::v3::blob::BiMode">BiMode</a>&lt;<a class="struct" href="../../../owapi/v3/stats/struct.Statistics.html" title="struct owapi::v3::stats::Statistics">Statistics</a>&gt;&gt;</code>
                            </span></span><div class='docblock'><p>User statistics.</p>
-</div><span id='structfield.achievements' class="structfield">
-                           <span id='achievements.v' class='invisible'>
+</div><span id="structfield.achievements" class="structfield small-section-header">
+                           <a href="#structfield.achievements" class="anchor field"></a>
+                           <span id="achievements.v" class='invisible'>
                            <code>achievements: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../../owapi/v3/achievements/struct.Achievements.html" title="struct owapi::v3::achievements::Achievements">Achievements</a>&gt;</code>
                            </span></span><div class='docblock'><p>Achievements achieved by user.</p>
-</div><span id='structfield.heroes' class="structfield">
-                           <span id='heroes.v' class='invisible'>
+</div><span id="structfield.heroes" class="structfield small-section-header">
+                           <a href="#structfield.heroes" class="anchor field"></a>
+                           <span id="heroes.v" class='invisible'>
                            <code>heroes: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../../owapi/v3/blob/struct.HeroesContainer.html" title="struct owapi::v3::blob::HeroesContainer">HeroesContainer</a>&gt;</code>
                            </span></span><div class='docblock'><p>Hero data.</p>
 </div>
@@ -73,7 +87,7 @@
             </h2>
         <h3 id='impl-Debug' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="struct" href="../../../owapi/v3/blob/struct.RegionalData.html" title="struct owapi::v3::blob::RegionalData">RegionalData</a></code><a href='#impl-Debug' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/owapi/v3/blob.rs.html#27' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/owapi/v3/blob.rs.html#27' title='goto source code'>[src]</a></span></h4>
-<div class='docblock'><p>Formats the value using the given formatter.</p>
+<div class='docblock'><p>Formats the value using the given formatter. <a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt">Read more</a></p>
 </div></div><h3 id='impl-Clone' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="struct" href="../../../owapi/v3/blob/struct.RegionalData.html" title="struct owapi::v3::blob::RegionalData">RegionalData</a></code><a href='#impl-Clone' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/owapi/v3/blob.rs.html#27' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.clone' class="method"><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class="struct" href="../../../owapi/v3/blob/struct.RegionalData.html" title="struct owapi::v3::blob::RegionalData">RegionalData</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/owapi/v3/blob.rs.html#27' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
@@ -100,18 +114,22 @@
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>↹</kbd></dt>
+                    <dd>Switch tab</dd>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 
